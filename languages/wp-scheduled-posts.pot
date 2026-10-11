@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-20T07:33:35+00:00\n"
+"POT-Creation-Date: 2026-10-11T05:21:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.13.0-alpha-16cc7a8\n"
 "X-Domain: wp-scheduled-posts\n"
@@ -129,9 +129,9 @@ msgstr ""
 #: includes/Admin.php:508
 #: includes/Admin.php:510
 #: includes/Admin.php:519
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:400
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:516
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:401
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:415
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:517
 msgid "Update"
 msgstr ""
 
@@ -154,8 +154,7 @@ msgstr ""
 #: includes/Admin.php:594
 #: includes/Admin.php:602
 #: includes/Admin.php:609
-#: includes/Admin.php:1133
-#: includes/Social/InstantShare.php:355
+#: includes/Social/Platforms.php:255
 msgid "PRO"
 msgstr ""
 
@@ -626,7 +625,7 @@ msgid "For details on Threads configuration, check out this <a href=\"%1$s\" tar
 msgstr ""
 
 #: includes/Admin/Settings.php:762
-#: includes/Social/Platforms.php:229
+#: includes/Social/Platforms.php:273
 msgid "Google Business Profile"
 msgstr ""
 
@@ -1458,7 +1457,7 @@ msgid "Sharing was skipped for this profile. Check the post's social share setti
 msgstr ""
 
 #: includes/Social/InstantShare.php:69
-#: src/components/Content/SocialShare.js:390
+#: src/components/Content/SocialShare.js:425
 msgid "Disable Social Share"
 msgstr ""
 
@@ -1537,7 +1536,21 @@ msgstr ""
 msgid "Your post has been successfully shared!"
 msgstr ""
 
-#: includes/Social/Platforms.php:230
+#: includes/Social/Platforms.php:243
+msgid "UPDATE"
+msgstr ""
+
+#. translators: %s: minimum required SchedulePress Pro version
+#: includes/Social/Platforms.php:246
+#, php-format
+msgid "Update SchedulePress Pro to %s or newer to share here."
+msgstr ""
+
+#: includes/Social/Platforms.php:256
+msgid "Upgrade to SchedulePress Pro to share here."
+msgstr ""
+
+#: includes/Social/Platforms.php:274
 msgid "Share your posts to Google Business Profile automatically."
 msgstr ""
 
@@ -1663,47 +1676,55 @@ msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/Modals/PlatformProfileList.jsx:42
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "There are no profiles found on this account"
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/Modals/PlatformProfileList.jsx:52
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 #: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:137
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:532
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:138
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:415
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:533
 msgid "Save"
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/Profiles/PlatformProfile.jsx:53
 #: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:95
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Add New"
 msgstr ""
 
 #. translators: %s: minimum required SchedulePress Pro version
 #: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:32
+#: includes/Admin/Settings/assets/js/admin.js:2
 #, js-format
 msgid "Update SchedulePress Pro to %s or newer to use this platform."
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/ProSocialPlatform.jsx:65
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Pro feature"
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:119
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Are you sure?"
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:120
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Enabling this profile will deactivate other profile automatically."
 msgstr ""
 
 #: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:129
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Yes, Enable it!"
 msgstr ""
 
@@ -2148,7 +2169,7 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:346
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:347
 msgid "Saving..."
 msgstr ""
 
@@ -2209,63 +2230,59 @@ msgstr ""
 msgid "Please check your access token and try again."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Please update to the latest version of <strong>SchedulePress Pro</strong> to connect with <strong>Google Business Profile</strong>."
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Please check your handle and App Password and try again."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Please check your instance URL and access token and try again."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Hide API key"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Show API key"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "API key added"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "No API key added"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Get your OpenAI API key"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Connection successful."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Connection failed."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Connection failed. Please try again."
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Testing…"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Test Connection"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Clear API Key"
 msgstr ""
 
-#: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Your API key is stored securely on your website. It is strictly used to generate captions for your social posts and nothing else."
 msgstr ""
 
@@ -2282,61 +2299,61 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:379
+#: src/components/Content/SocialShare.js:414
 msgid "Social Share Settings"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:398
+#: src/components/Content/SocialShare.js:433
 msgid "The featured image will be used by default"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:407
+#: src/components/Content/SocialShare.js:442
 msgid "Remove Social Banner?"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:408
+#: src/components/Content/SocialShare.js:443
 msgid "Delete this banner image? The featured image will be used when sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:410
+#: src/components/Content/SocialShare.js:445
 #: src/components/modals/socialTemplates/AICaptionDrawer.js:698
 msgid "Cancel"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:411
+#: src/components/Content/SocialShare.js:446
 msgid "Yes, Remove"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:415
+#: src/components/Content/SocialShare.js:450
 msgid "Update Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:416
+#: src/components/Content/SocialShare.js:451
 msgid "Remove Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:421
+#: src/components/Content/SocialShare.js:456
 msgid "Add message for target platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:425
-#: src/components/Content/SocialShare.js:475
+#: src/components/Content/SocialShare.js:460
+#: src/components/Content/SocialShare.js:510
 msgid "Manage Social Sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:429
+#: src/components/Content/SocialShare.js:464
 msgid "Selected Social Platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:432
+#: src/components/Content/SocialShare.js:467
 msgid "Loading selected profiles..."
 msgstr ""
 
-#: src/components/Content/SocialShare.js:492
+#: src/components/Content/SocialShare.js:527
 msgid "Social sharing is disabled"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:493
+#: src/components/Content/SocialShare.js:528
 msgid "Enable it to manage platforms."
 msgstr ""
 
@@ -2490,105 +2507,105 @@ msgstr ""
 msgid "Generate Captions"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:288
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:289
 msgid "Today"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:289
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:290
 msgid "Tomorrow"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:290
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:291
 msgid "Next week"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:291
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:292
 msgid "Next month"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:292
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
 msgid "In __ days"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:294
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:303
 msgid "Choose a custom date..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:297
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:298
 msgid "Same day as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:298
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:299
 msgid "The day after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:299
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:300
 msgid "A week after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:300
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:301
 msgid "A month after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:301
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
 msgid "__ days after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:312
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:313
 msgid "In one hour"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:313
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:314
 msgid "In three hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:314
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:315
 msgid "In five hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:315
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:316
 msgid "In __ hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:316
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:325
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:317
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:326
 msgid "Choose a custom time..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:320
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:321
 msgid "Same time as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:321
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:322
 msgid "One hour after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:322
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:323
 msgid "Three hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:323
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:324
 msgid "Five hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:324
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:325
 msgid "__ hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:346
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:347
 msgid "Updating..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:397
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:398
 msgid "Updated Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:397
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:398
 msgid "Saved Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:413
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
 msgid "Save Failed"
 msgstr ""
 
