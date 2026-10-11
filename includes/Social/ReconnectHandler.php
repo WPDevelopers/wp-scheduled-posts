@@ -955,6 +955,9 @@ class ReconnectHandler
         return $parsed ? $parsed : null;
     }
 
+    /**
+     * @deprecated Nothing calls this since reconnects moved to renew(); kept for back-compat.
+     */
     public static function instagramReconnect($data)
     {
         if (!is_array($data)) {
@@ -1063,6 +1066,7 @@ class ReconnectHandler
      * database write failed" are the same answer. Callers gate a success message
      * on this, so the difference matters.
      *
+     * @deprecated Only instagramReconnect() calls this; kept for back-compat.
      * @return true|\WP_Error
      */
     public static function update_access_token($profile_list_key, $profile_id, $new_access_token = '', $new_long_lived_token = '', $expires_at = '') {
@@ -1153,23 +1157,6 @@ class ReconnectHandler
         return new \WP_Error(
             'reconnect_save_failed',
             __('The refreshed token could not be saved.', 'wp-scheduled-posts')
-        );
-    }
-
-    private static function saveReconnectedProfile($data)
-    {
-        // Logic to save the updated $data to your database.
-        // Example:
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'instagram_profiles';
-
-        $wpdb->update(
-            $table_name,
-            [
-                'long_lived_access_token' => $data['long_lived_access_token'],
-                'expires_at'              => $data['expires_at'],
-            ],
-            [ 'id' => $data['id'] ]
         );
     }
 }
