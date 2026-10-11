@@ -481,4 +481,10 @@ namespace {
 			return true;
 		}
 	}
+
+	if ( ! function_exists( 'admin_url' ) ) {
+		function admin_url( $path = '' ) {
+			return 'https://example.test/wp-admin/' . ltrim( $path, '/' );
+		}
+	}
 }

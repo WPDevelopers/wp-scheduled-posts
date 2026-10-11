@@ -352,7 +352,7 @@ class InstantShare
                         <li class="<?php echo esc_attr($lockedSlug); ?> wpsp-locked-platform">
                             <label style="margin-bottom: 10px;">
                                 <input type="checkbox" disabled /> <?php echo esc_html($lockedPlatform['label']); ?>
-                                <a class="wpsp-locked-platform__badge" target="_blank" rel="noopener" href="https://schedulepress.com/#pricing"><?php esc_html_e('PRO', 'wp-scheduled-posts'); ?></a>
+                                <a class="wpsp-locked-platform__badge" target="_blank" rel="noopener" href="<?php echo esc_url($lockedPlatform['cta_url']); ?>" title="<?php echo esc_attr($lockedPlatform['cta_text']); ?>"><?php echo esc_html($lockedPlatform['cta_label']); ?></a>
                             </label>
                         </li>
                     <?php endforeach; ?>

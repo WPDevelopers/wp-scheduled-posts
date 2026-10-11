@@ -145,6 +145,40 @@ class SocialPlatformsRegistryTest extends TestCase {
 		$this->assertSame( 1500, $live['google_business']['limit'] );
 	}
 
+	/**
+	 * A locked card shown to someone with no Pro at all is a sale.
+	 */
+	public function test_a_locked_card_sells_pro_when_no_pro_is_installed() {
+		$cta = Platforms::upsell_cta( null );
+
+		$this->assertFalse( $cta['needs_update'] );
+		$this->assertSame( 'PRO', $cta['label'] );
+		$this->assertStringContainsString( 'schedulepress.com', $cta['url'] );
+		$this->assertStringContainsString( 'Upgrade', $cta['text'] );
+	}
+
+	/**
+	 * Pro is installed but too old to serve the platform. Asking that person to
+	 * buy what they already own is the bug; they need an update.
+	 */
+	public function test_a_locked_card_asks_for_an_update_when_pro_is_installed() {
+		$cta = Platforms::upsell_cta( '5.3.3' );
+
+		$this->assertTrue( $cta['needs_update'] );
+		$this->assertSame( 'UPDATE', $cta['label'] );
+		$this->assertStringNotContainsString( 'schedulepress.com', $cta['url'] );
+		$this->assertStringContainsString( 'Update', $cta['text'] );
+	}
+
+	public function test_locked_cards_carry_the_call_to_action() {
+		$locked = Platforms::locked_for_js();
+
+		$this->assertArrayHasKey( 'cta_label', $locked['google_business'] );
+		$this->assertArrayHasKey( 'cta_text', $locked['google_business'] );
+		$this->assertArrayHasKey( 'cta_url', $locked['google_business'] );
+		$this->assertNotSame( '', $locked['google_business']['cta_text'] );
+	}
+
 	public function test_a_definition_without_a_limit_reports_zero() {
 		$definition = $this->valid_definition();
 		unset( $definition['char_limit'] );

@@ -118,6 +118,7 @@ const WPSPCustomTemplateModal = ({
         bgColor: definition.color || '',
         label: definition.label,
         locked: Boolean(definition.locked),
+        ctaText: definition.cta_text || '',
       })
     ),
   ];

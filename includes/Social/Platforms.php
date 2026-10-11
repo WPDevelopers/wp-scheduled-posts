@@ -189,6 +189,7 @@ class Platforms
     {
         $locked  = array();
         $strings = self::upsell_strings();
+        $cta     = self::upsell_cta();
 
         foreach (self::PRO_UPSELL as $slug => $marketing) {
             if (self::is_registered($slug)) {
@@ -208,10 +209,53 @@ class Platforms
                 'doc'        => $marketing['doc'],
                 'automatic_connect' => false,
                 'locked'     => true,
+                'cta_label'  => $cta['label'],
+                'cta_text'   => $cta['text'],
+                'cta_url'    => $cta['url'],
+                'needs_update' => $cta['needs_update'],
             );
         }
 
         return $locked;
+    }
+
+    /**
+     * What a locked surface should ask the user for.
+     *
+     * Pro absent means the feature is still for sale. Pro present but not
+     * serving the slug means it predates the release that owns the platform,
+     * so asking for money again is wrong — ask for an update instead.
+     *
+     * @param string|null $pro_version Defaults to the running Pro, null when absent.
+     * @return array{needs_update:bool,label:string,text:string,url:string}
+     */
+    public static function upsell_cta($pro_version = null)
+    {
+        if (null === $pro_version) {
+            $pro_version = defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : null;
+        }
+
+        if (!empty($pro_version)) {
+            $minimum = defined('WPSP_MIN_PRO_VERSION') ? WPSP_MIN_PRO_VERSION : '';
+
+            return array(
+                'needs_update' => true,
+                'label'        => __('UPDATE', 'wp-scheduled-posts'),
+                'text'         => sprintf(
+                    /* translators: %s: minimum required SchedulePress Pro version */
+                    __('Update SchedulePress Pro to %s or newer to share here.', 'wp-scheduled-posts'),
+                    $minimum
+                ),
+                'url'          => admin_url('plugins.php'),
+            );
+        }
+
+        return array(
+            'needs_update' => false,
+            'label'        => __('PRO', 'wp-scheduled-posts'),
+            'text'         => __('Upgrade to SchedulePress Pro to share here.', 'wp-scheduled-posts'),
+            'url'          => 'https://schedulepress.com/#pricing',
+        );
     }
 
     /**

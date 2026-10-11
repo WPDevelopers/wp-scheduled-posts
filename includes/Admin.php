@@ -1129,8 +1129,8 @@ class Admin
                             <div class="wpsp-el-accordion-header">
                                 <img src="<?php echo esc_url($lockedPlatform['icon_bg_url']) ?>" width="25" alt="">
                                 <span><?php echo esc_html($lockedPlatform['label']) ?></span>
-                                <label for="">
-                                    <span><span><?php echo esc_html__('PRO', 'wp-scheduled-posts') ?></span></span>
+                                <label for="" title="<?php echo esc_attr($lockedPlatform['cta_text']) ?>">
+                                    <span><span><?php echo esc_html($lockedPlatform['cta_label']) ?></span></span>
                                 </label>
                             </div>
                         </div>

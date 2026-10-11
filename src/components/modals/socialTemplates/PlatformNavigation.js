@@ -11,7 +11,7 @@ const PlatformNavigation = ({
 
     return (
         <div className="wpsp-platform-icons">
-            {platforms.map(({ platform, icon, bgColor, locked, label }) => {
+            {platforms.map(({ platform, icon, bgColor, locked, label, ctaText }) => {
                 const isActive = selectedPlatform === platform;
                 // A locked platform is sold, not connected: it never counts as
                 // enabled, and clicking it asks for an upgrade rather than a
@@ -31,7 +31,8 @@ const PlatformNavigation = ({
                             {locked ? (
                                 <div className="wpsp-tooltip">
                                     {label} is a PRO feature. <br/>
-                                    <span>Upgrade to SchedulePress Pro <br/> to share here.</span>
+                                    {/* Asks for an update instead of a sale when Pro is already installed. */}
+                                    <span>{ctaText || 'Upgrade to SchedulePress Pro to share here.'}</span>
                                 </div>
                             ) : isDisabled && (
                                 <div className="wpsp-tooltip">
