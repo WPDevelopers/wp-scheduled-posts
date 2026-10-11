@@ -795,6 +795,9 @@ class ReconnectHandler
                 continue;
             }
 
+            // Boards of one account share a token, so renew each account once.
+            $attempted = [];
+
             foreach ($settings[$key] as $profile) {
                 $profile = (array) $profile;
                 // A profile the author switched off is not sharing anything, so
@@ -804,6 +807,12 @@ class ReconnectHandler
                 }
 
                 $report['checked']++;
+
+                $renewal_key = self::renewal_key($profile);
+                if (isset($attempted[$renewal_key])) {
+                    $report['skipped']++;
+                    continue;
+                }
 
                 if (!self::needs_renewal($platform, $profile, $lead_time)) {
                     $report['skipped']++;
@@ -819,6 +828,7 @@ class ReconnectHandler
                     continue;
                 }
 
+                $attempted[$renewal_key] = true;
                 $result = self::renew($platform, $profile);
 
                 if (!empty($result['reconnected'])) {
@@ -841,6 +851,21 @@ class ReconnectHandler
         }
 
         return $report;
+    }
+
+    /**
+     * Identify the entries one renewal writes to, as update_profile_fields() does.
+     *
+     * @param array $profile
+     * @return string
+     */
+    private static function renewal_key($profile)
+    {
+        if (isset($profile['__id']) && (string) $profile['__id'] !== '') {
+            return '__id:' . $profile['__id'];
+        }
+
+        return 'id:' . (isset($profile['id']) ? $profile['id'] : '');
     }
 
     /**
