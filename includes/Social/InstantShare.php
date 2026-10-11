@@ -631,7 +631,19 @@ class InstantShare
             $markup .= esc_html__("Failed!, You didn't select any social media.", 'wp-scheduled-posts');
         }
 
-        wp_send_json(array('markup' => $markup, 'profile' => \WPSP\API\Settings::without_secrets($allProfile)));
+        // The custom-board selects above are named after md5(access_token), which
+        // the browser can no longer compute once the token is stripped. Send that
+        // key itself; it is already in the markup, so it reveals nothing new.
+        $publicProfile = \WPSP\API\Settings::without_secrets($allProfile);
+        if (!empty($allProfile['pinterest']) && is_array($allProfile['pinterest'])) {
+            foreach ($allProfile['pinterest'] as $key => $profile) {
+                if (isset($publicProfile['pinterest'][$key]) && is_object($publicProfile['pinterest'][$key]) && !empty($profile->access_token)) {
+                    $publicProfile['pinterest'][$key]->board_key = md5($profile->access_token);
+                }
+            }
+        }
+
+        wp_send_json(array('markup' => $markup, 'profile' => $publicProfile));
         wp_die();
     }
 

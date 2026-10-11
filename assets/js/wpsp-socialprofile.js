@@ -82,9 +82,10 @@ jQuery(document).ready(function ($) {
                             pinterest_board_type: pinterestBoardType,
                         }
                         if(profile === 'pinterest' && pinterestBoardType === 'custom'){
-                            var access_token = md5(profileKey[key].access_token);
-                            data.pinterest_custom_board_name = jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val();
-                            data.pinterest_custom_section_name = jQuery("[name='wpscppro-pinterest-section-name[" + access_token + "]']").val();
+                            // The server sends board_key; tokens are no longer in the response.
+                            var board_key = profileKey[key].board_key || md5(profileKey[key].access_token);
+                            data.pinterest_custom_board_name = jQuery("[name='wpscppro-pinterest-board-name[" + board_key + "]']").val();
+                            data.pinterest_custom_section_name = jQuery("[name='wpscppro-pinterest-section-name[" + board_key + "]']").val();
                         }
                         jQuery.get(ajaxurl, data, function (response, status) {
                             WpScp_Social_single_profile_share_response_markup(
