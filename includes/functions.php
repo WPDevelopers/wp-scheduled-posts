@@ -252,7 +252,8 @@ add_action('init', 'wpscp_submit_box_future_post');
 
 
 function wpscp_rest_prepare($response, $post, $request){
-	if(!empty($request['meta']['prevent_future_post'])){
+	// Runs on any REST read, so publishing early needs publish rights.
+	if(!empty($request['meta']['prevent_future_post']) && current_user_can('publish_post', $post->ID)){
 		update_post_meta( $post->ID, 'prevent_future_post', $post->post_date );
 		$data = $response->get_data();
 		if( !empty( $data['status'] ) && $data['status'] == 'future' ) {

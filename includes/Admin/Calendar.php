@@ -71,7 +71,15 @@ class Calendar
     public function edit_permission_callback($request) {
         $id = $request->get_param('ID');
         if(!empty($id)){
-            return current_user_can('edit_post', $id);
+            if (!current_user_can('edit_post', $id)) {
+                return false;
+            }
+            // Every other type schedules the post, which needs publish rights.
+            $draft_types = ['newDraft', 'editDraft', 'draftDrop', 'trashDrop'];
+            if (!in_array($request->get_param('type'), $draft_types, true)) {
+                return current_user_can('publish_post', $id);
+            }
+            return true;
         }
         return current_user_can('publish_posts');
     }

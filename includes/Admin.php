@@ -1303,6 +1303,18 @@ class Admin
                 'wpsp_el_pinterest_board' => [],
             ]);
 
+            // The nonce is not tied to a post, so check the user may publish this one.
+            if (!empty($args['id']) && (!current_user_can('edit_post', absint($args['id'])) || !current_user_can('publish_post', absint($args['id'])))) {
+                wp_send_json_error([
+                    'msg' => __('You do not have permission to publish this post.', 'wp-scheduled-posts')
+                ], 403);
+            }
+
+            // The modal only schedules or publishes; ignore any other posted status.
+            if (!in_array($args['post_status'], ['future', 'publish'], true)) {
+                $args['post_status'] = 'future';
+            }
+
             do_action('wpsp_el_action_before', $args);
 
             // @todo moved to pro, will be removed in next version...
