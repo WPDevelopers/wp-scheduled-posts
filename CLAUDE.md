@@ -8,6 +8,23 @@ SchedulePress (plugin slug `wp-scheduled-posts`) is a WordPress plugin by WPDeve
 
 PHP namespace root: `WPSP\` → `includes/` (PSR-4 autoload via Composer; see [composer.json](composer.json)). Global procedural helpers live in [includes/functions.php](includes/functions.php) (`wpsp_*` / `wpscp_*` prefixes).
 
+## Branching
+
+`dev` is the integration branch. `master` holds released code only — it moves at
+release time and at no other time.
+
+- Branch from `dev`, and open the pull request against `dev`. Never open one
+  against `master`.
+- Name the branch after the task it closes (`84488`, `fix/84488-token-renewal`)
+  so the work stays traceable.
+- A release is cut from `dev` as `release/<task>-<yyyymmdd>`. When it ships it
+  merges into `master` **and** back into `dev`, so the two never drift.
+- The same flow applies to the Pro plugin (`wp-scheduled-posts-pro`); a change
+  that spans both repos needs a branch of the same name in each.
+- Push one named ref at a time (`git push origin <branch>`). Never `--all`,
+  `--tags`, `--mirror` or `--prune` — this repo's release tooling is
+  tag-triggered. Creating tags is a human step, done from `master`.
+
 ## Commands
 
 JS/asset builds use `@wordpress/scripts` (wp-scripts). See [package.json](package.json):
