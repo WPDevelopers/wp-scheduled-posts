@@ -73,4 +73,42 @@ class SettingsMergeTest extends TestCase {
 	public function test_empty_stored_settings_take_the_form_as_sent() {
 		$this->assertSame( array( 'a' => 1 ), Settings::merge_settings( array(), array( 'a' => 1 ) ) );
 	}
+
+	private function linkedin_person( $token, $expiry ) {
+		return array( 'id' => 'li1', 'name' => 'Person', 'type' => 'person', 'status' => true, 'access_token' => $token, 'refresh_token' => $token . '-rt', 'expires_in' => $expiry );
+	}
+
+	public function test_a_fresh_linkedin_authorisation_in_the_form_replaces_the_stored_token() {
+		// Adding a LinkedIn page re-authorises the person, and the form copies the new
+		// token and its later expiry onto the existing person profile.
+		$stored = array( 'linkedin_profile_list' => array( $this->linkedin_person( 'OLD', 1800000000 ) ) );
+		$form   = array( $this->linkedin_person( 'NEW', 1805000000 ), array( 'id' => 'page1', 'type' => 'organization', 'status' => true, 'access_token' => 'NEW', 'expires_in' => 1805000000 ) );
+
+		$merged = Settings::merge_settings( $stored, array( 'linkedin_profile_list' => $form ) );
+
+		$this->assertSame( 'NEW', $merged['linkedin_profile_list'][0]['access_token'] );
+		$this->assertSame( 'NEW-rt', $merged['linkedin_profile_list'][0]['refresh_token'] );
+		$this->assertSame( 1805000000, $merged['linkedin_profile_list'][0]['expires_in'] );
+	}
+
+	public function test_a_stale_tab_cannot_revert_a_token_renewed_on_the_server() {
+		// The renewal cron stored a later token after this tab loaded.
+		$stored = array( 'linkedin_profile_list' => array( $this->linkedin_person( 'RENEWED', 1805000000 ) ) );
+		$form   = array( $this->linkedin_person( 'OLD', 1800000000 ) );
+
+		$merged = Settings::merge_settings( $stored, array( 'linkedin_profile_list' => $form ) );
+
+		$this->assertSame( 'RENEWED', $merged['linkedin_profile_list'][0]['access_token'] );
+		$this->assertSame( 1805000000, $merged['linkedin_profile_list'][0]['expires_in'] );
+	}
+
+	public function test_an_expiry_stored_as_a_duration_keeps_the_stored_credentials() {
+		// Threads keeps expires_in as seconds-to-live, which cannot say which copy is newer.
+		$stored = array( 'threads_profile_list' => array( array( 'id' => 'th1', 'status' => true, 'access_token' => 'stored', 'expires_in' => 5184000 ) ) );
+		$form   = array( array( 'id' => 'th1', 'status' => true, 'access_token' => 'form', 'expires_in' => 5184001 ) );
+
+		$merged = Settings::merge_settings( $stored, array( 'threads_profile_list' => $form ) );
+
+		$this->assertSame( 'stored', $merged['threads_profile_list'][0]['access_token'] );
+	}
 }

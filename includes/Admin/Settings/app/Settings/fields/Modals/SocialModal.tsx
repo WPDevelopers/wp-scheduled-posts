@@ -122,16 +122,24 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     item.status = profileStatus;
                     // Update access token
                     if( type == 'linkedin' ) {
+                        // The new authorisation also renews the matching profile. Copy its
+                        // expiry with the token: the server keeps stored credentials unless
+                        // the form's copy expires later.
+                        const linkedinCredentials = (source) => Object.fromEntries(
+                            ['access_token', 'refresh_token', 'expires_in', 'rt_expires_in']
+                                .filter((field) => source?.[field] !== undefined && source?.[field] !== null && source?.[field] !== '')
+                                .map((field) => [field, source[field]])
+                        );
                         // Find the matching item in savedProfile and update its access_token
                         let updatedSavedProfile = savedProfile.map(savedItem => {
                             if( item.type == 'person' ) {
                                 if (savedItem.profile_id === item.id) {
-                                    return { ...savedItem, access_token: item.access_token };
+                                    return { ...savedItem, ...linkedinCredentials(item) };
                                 }
                                 return savedItem;
                             }else{
                                 if (savedItem.id === item.profile_id) {
-                                    return { ...savedItem, access_token: item.access_token };
+                                    return { ...savedItem, ...linkedinCredentials(item) };
                                 }
                                 return savedItem;
                             }

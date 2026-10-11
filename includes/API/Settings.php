@@ -571,6 +571,12 @@ class Settings
                 if (!is_array($profile) || !isset($profile['id'], $saved[(string) $profile['id']])) {
                     continue;
                 }
+                // A token the form got from a fresh authorisation in this tab (the
+                // LinkedIn add-page flow updates the person profile) expires later
+                // than the stored one, so it wins. A stale tab's copy never does.
+                if (self::has_newer_credentials($profile, $saved[(string) $profile['id']])) {
+                    continue;
+                }
                 $list[$i] = array_merge(
                     array_diff_key($profile, self::credentials($profile)),
                     self::credentials($saved[(string) $profile['id']])
@@ -579,6 +585,28 @@ class Settings
             $incoming[$key] = $list;
         }
         return array_merge($stored, $incoming);
+    }
+
+    /**
+     * Whether the form's copy of a profile carries credentials newer than the stored ones.
+     *
+     * Only compares absolute expiry timestamps: some platforms store expires_in as a
+     * duration, which says nothing about which copy is newer, so those keep the stored
+     * credentials.
+     *
+     * @param array $incoming Profile from the form.
+     * @param array $stored   Same profile as saved.
+     * @return bool
+     */
+    private static function has_newer_credentials(array $incoming, array $stored) {
+        $absolute = 1000000000; // 2001-09-09: anything smaller is a duration, not a timestamp.
+        if (!isset($incoming['expires_in'], $stored['expires_in'])
+            || !is_numeric($incoming['expires_in']) || !is_numeric($stored['expires_in'])) {
+            return false;
+        }
+        $incoming_expiry = (int) $incoming['expires_in'];
+        $stored_expiry   = (int) $stored['expires_in'];
+        return $incoming_expiry >= $absolute && $stored_expiry >= $absolute && $incoming_expiry > $stored_expiry;
     }
 
     /**
