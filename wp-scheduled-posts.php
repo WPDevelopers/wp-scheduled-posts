@@ -5,6 +5,8 @@
  * Version: 5.4.0
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
+ * License: GPLv3 or later
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain: wp-scheduled-posts
  */
 

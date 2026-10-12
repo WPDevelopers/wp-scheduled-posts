@@ -55,6 +55,7 @@ includes/Admin/Settings/**/admin.js.LICENSE.txt
 assets/sass
 .prettierignore
 .prettierrc.json
+.npmrc
 vendor/abraham/twitteroauth/.github
 vendor/abraham/twitteroauth/tests
 vendor/wpdevelopers/pinterest-api-php/demo

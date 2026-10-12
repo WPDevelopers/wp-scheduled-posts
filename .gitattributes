@@ -55,6 +55,7 @@ includes/Admin/Settings/**/admin.js.LICENSE.txt     export-ignore
 assets/sass                                export-ignore
 .prettierignore                            export-ignore
 .prettierrc.json                           export-ignore
+.npmrc                                     export-ignore
 vendor/abraham/twitteroauth/.github        export-ignore
 vendor/abraham/twitteroauth/tests          export-ignore
 vendor/dirkgroenen/pinterest-api-php/demo  export-ignore

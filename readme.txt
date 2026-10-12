@@ -32,7 +32,7 @@ https://youtu.be/oBD7MbtWvcQ
 ### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCE AND POST AUTOMATICALLY ON SOCIAL PLATFORMS:
 
 -   Revamp the entire content writing experience with SchedulePress
--   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Google Business Profile
+-   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Google Business Profile [PRO]
 -   Customize social-share per platform or global template in the editor & auto‑share with one click.
 -   Schedule hundreds of posts using the editorial calendar
 -   Manage multiple authors from one place
