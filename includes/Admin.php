@@ -364,7 +364,7 @@ class Admin
     {
         $this->insights = new Admin\WPDev\PluginUsageTracker(
             WPSP_PLUGIN_FILE,
-            'http://app.wpdeveloper.com',
+            'https://app.wpdeveloper.com',
             array(),
             true,
             true,
