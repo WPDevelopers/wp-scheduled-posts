@@ -442,3 +442,121 @@ namespace {
 		}
 	}
 }
+
+namespace WPSP\Tests\Stubs {
+
+	/**
+	 * In-memory stand-in for the WP-Cron event list.
+	 */
+	class CronStore {
+
+		/** @var array<int,array{timestamp:int,hook:string,args:array}> */
+		public static $events = array();
+
+		/** @var bool What wp_doing_cron() reports. */
+		public static $doingCron = false;
+
+		/**
+		 * Every do_action_ref_array() call, the way wp-cron.php runs an event.
+		 *
+		 * @var array<int,array{hook:string,args:array,queued:bool}> `queued` is
+		 *      whether the event was still scheduled when its hook ran.
+		 */
+		public static $ran = array();
+
+		public static function reset() {
+			self::$events    = array();
+			self::$doingCron = false;
+			self::$ran       = array();
+		}
+
+		/**
+		 * @param int    $timestamp
+		 * @param string $hook
+		 * @param array  $args
+		 */
+		public static function schedule( $timestamp, $hook, array $args = array() ) {
+			self::$events[] = array(
+				'timestamp' => (int) $timestamp,
+				'hook'      => $hook,
+				'args'      => $args,
+			);
+		}
+
+		/**
+		 * @param string $hook
+		 * @param array  $args
+		 * @return bool
+		 */
+		public static function is_queued( $hook, array $args = array() ) {
+			return false !== \wp_next_scheduled( $hook, $args );
+		}
+	}
+
+	/**
+	 * Values tests force through apply_filters(), keyed by hook name.
+	 */
+	class FilterStore {
+
+		/** @var array<string,callable> */
+		public static $filters = array();
+
+		public static function reset() {
+			self::$filters = array();
+		}
+	}
+}
+
+namespace {
+
+	if ( ! function_exists( 'wp_next_scheduled' ) ) {
+		function wp_next_scheduled( $hook, $args = array() ) {
+			$next = false;
+			foreach ( \WPSP\Tests\Stubs\CronStore::$events as $event ) {
+				// Real WP-Cron matches args by md5( serialize() ), so types matter.
+				if ( $event['hook'] === $hook && $event['args'] === $args
+					&& ( false === $next || $event['timestamp'] < $next ) ) {
+					$next = $event['timestamp'];
+				}
+			}
+			return $next;
+		}
+	}
+
+	if ( ! function_exists( 'wp_unschedule_event' ) ) {
+		function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = false ) {
+			foreach ( \WPSP\Tests\Stubs\CronStore::$events as $i => $event ) {
+				if ( $event['timestamp'] === (int) $timestamp && $event['hook'] === $hook && $event['args'] === $args ) {
+					unset( \WPSP\Tests\Stubs\CronStore::$events[ $i ] );
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	if ( ! function_exists( 'wp_doing_cron' ) ) {
+		function wp_doing_cron() {
+			return \WPSP\Tests\Stubs\CronStore::$doingCron;
+		}
+	}
+
+	if ( ! function_exists( 'apply_filters' ) ) {
+		function apply_filters( $hook, $value, ...$args ) {
+			if ( isset( \WPSP\Tests\Stubs\FilterStore::$filters[ $hook ] ) ) {
+				return call_user_func( \WPSP\Tests\Stubs\FilterStore::$filters[ $hook ], $value, ...$args );
+			}
+			return $value;
+		}
+	}
+
+	if ( ! function_exists( 'do_action_ref_array' ) ) {
+		function do_action_ref_array( $hook, $args ) {
+			\WPSP\Tests\Stubs\CronStore::$ran[] = array(
+				'hook'   => $hook,
+				'args'   => $args,
+				'queued' => \WPSP\Tests\Stubs\CronStore::is_queued( $hook, $args ),
+			);
+		}
+	}
+}
