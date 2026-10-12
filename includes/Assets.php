@@ -75,6 +75,7 @@ class Assets
                 'current_post_url' => $post_id ? get_permalink($post_id) : '',
                 'current_post_featured_image' => $featured_img_url ? $featured_img_url : '',
                 'is_pro' => class_exists('WPSP_PRO') ? true : false,
+                'social_profile_limit' => Helper::social_profile_limit(),
                 'currentTime' => array(
                     'date' => current_time('mysql'),
                     'date_gmt' => current_time('mysql', 1),
@@ -158,6 +159,7 @@ class Assets
             'current_post_url' => get_permalink(get_the_ID()),
             'current_post_featured_image' => $featured_img_url ? $featured_img_url : '',
             'is_pro' => class_exists('WPSP_PRO') ? true : false,
+            'social_profile_limit' => Helper::social_profile_limit(),
             'currentTime' => array(
                 'date' => current_time('mysql'),
                 'date_gmt' => current_time('mysql', 1),

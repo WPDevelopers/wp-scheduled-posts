@@ -23,7 +23,7 @@ class SocialProfile
         add_action('social_profile_fetch_pinterest_section', array($this, 'social_profile_fetch_pinterest_section'));
         add_filter('wpsp_instagram_data', [ $this, 'wpsp_format_instagram_profile_data' ], 10, 2);
 
-        $this->multiProfileErrorMessage = '<p>' . esc_html__('Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro.', 'wp-scheduled-posts') . '</p><a target="_blank" href="https://schedulepress.com/#pricing">Upgrade to Pro</a>';
+        $this->multiProfileErrorMessage = '<p>' . esc_html__('SchedulePress connects one profile per network. Remove the connected profile to add a different one.', 'wp-scheduled-posts') . '</p>';
 
 
 		$allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
@@ -106,28 +106,11 @@ class SocialProfile
 
     public function social_single_profile_checkpoint($platform)
     {
-        if ($platform == 'pinterest') {
-            $social_profile = \WPSP\Helper::get_settings('pinterest_profile_list');
-            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
-                return false;
-            }
-        } else if ($platform == 'facebook') {
-            $social_profile = \WPSP\Helper::get_settings('facebook_profile_list');
-            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
-                return false;
-            }
-        } else if ($platform == 'twitter') {
-            $social_profile = \WPSP\Helper::get_settings('twitter_profile_list');
-            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
-                return false;
-            }
-        } else if ($platform == 'linkedin') {
-            $social_profile = \WPSP\Helper::get_settings('linkedin_profile_list');
-            if (!empty($social_profile) && \count($social_profile) >= 1 && !class_exists('WPSP_PRO')) {
-                return false;
-            }
+        if (!in_array($platform, ['pinterest', 'facebook', 'twitter', 'linkedin'], true)) {
+            return true;
         }
-        return true;
+        $social_profile = \WPSP\Helper::get_settings($platform . '_profile_list');
+        return empty($social_profile) || \count($social_profile) < \WPSP\Helper::social_profile_limit();
     }
 
 

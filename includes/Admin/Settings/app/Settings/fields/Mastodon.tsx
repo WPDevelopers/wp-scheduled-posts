@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg, SweetAlertToaster } from '../ToasterMsg';
-import { fetchDataFromAPI } from '../helper/helper';
+import { fetchDataFromAPI, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import MainProfile from './utils/MainProfile';
-import ProAlert from './utils/ProAlert';
+import ProfileLimitNotice from './utils/ProfileLimitNotice';
 import SelectedProfile from './utils/SelectedProfile';
 import ViewMore from './utils/ViewMore';
 
@@ -88,8 +88,7 @@ const Mastodon = (props) => {
         setSelectedProfile(changeProfileStatus);
     };
 
-    // @ts-ignore
-    const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+    const is_multi_profile = allowsMultipleProfiles();
     // Open and Close API credentials modal
     const openApiCredentialsModal = (accountType) => {
         localStorage.setItem('account_type', accountType);
@@ -105,13 +104,13 @@ const Mastodon = (props) => {
         setProfileStatus(true);
         }
         setCashedStatus((prevStatus) => {
-        if( is_pro ) {
+        if( is_multi_profile ) {
             return { ...prevStatus, [item.id]: event.target.checked };
         }else{
             return { [item.id]: event.target.checked };
         }
         });
-        if ( is_pro ) {
+        if ( is_multi_profile ) {
         const updatedData = selectedProfile.map((selectedItem) => {
             if (selectedItem.id === item.id) {
             return {
@@ -221,9 +220,7 @@ const Mastodon = (props) => {
 
     const addMastodonProfile = (event, profileInfo) => {
         if( event.target.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!is_multi_profile) {
                 // @ts-ignore
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
@@ -351,7 +348,7 @@ const Mastodon = (props) => {
                 </div>
                 <div className={`wpsp-modal-social-platform wpsp-modal-social-${platform}`}>
                 {isErrorMessage && (
-                    <ProAlert />
+                    <ProfileLimitNotice />
                 )}
                 { profileInfo ?
                     <ul>

@@ -285,11 +285,11 @@ const SocialShare = () => {
                         }
                     } else {
                         // No saved selection (new post): default to enabled platforms with
-                        // their enabled profiles. On the free plan only the first enabled
-                        // profile per platform is allowed — mirroring Helper::get_social_profile()
-                        // so the UI honestly reflects what will actually be shared.
+                        // their enabled profiles, up to the per-network profile limit —
+                        // mirroring Helper::get_social_profile() so the UI honestly reflects
+                        // what will actually be shared.
                         const socialEnabled = window.WPSchedulePostsFree?.social_media_enabled || {};
-                        const isPro = !!window.WPSchedulePostsFree?.is_pro;
+                        const profileLimit = Number(window.WPSchedulePostsFree?.social_profile_limit) || 1;
                         const defaultData = {};
 
                         platformOrder().forEach((platform) => {
@@ -302,7 +302,7 @@ const SocialShare = () => {
                             if (!enabledProfiles.length) {
                                 return;
                             }
-                            defaultData[platform] = isPro ? enabledProfiles : enabledProfiles.slice(0, 1);
+                            defaultData[platform] = enabledProfiles.slice(0, profileLimit);
                         });
 
                         if (isMounted) {

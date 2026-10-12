@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { SweetAlertDeleteMsg, SweetAlertProMsg } from '../ToasterMsg';
-import { socialProfileRequestHandler } from '../helper/helper';
+import { SweetAlertDeleteMsg } from '../ToasterMsg';
+import { socialProfileRequestHandler, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
@@ -32,8 +32,7 @@ const Linkedin = (props) => {
 
   localStorage.setItem('linkedin',JSON.stringify(cachedStatus));
 
-  // @ts-ignore 
-  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  const is_multi_profile = allowsMultipleProfiles();
   // prepare appId and appSecret
   let appInfo = [];
   if( props?.value ) {
@@ -96,21 +95,24 @@ const Linkedin = (props) => {
 
   // Handle selected profile status changing 
   const handleSelectedProfileStatusChange = (item, event) => {
-    if( !is_pro && item?.type === 'organization' ){
-      SweetAlertProMsg();
+    if( !is_multi_profile && item?.type === 'organization' ){
+      Swal.fire({
+        icon: 'info',
+        text: __('Sharing to LinkedIn Pages is not included in the free version.', 'wp-scheduled-posts'),
+      });
       return;
     }
     if (event.target.checked) {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      if( is_pro ) {
+      if( is_multi_profile ) {
         return { ...prevStatus, [item.id]: event.target.checked };
       }else{
         return { [item.id]: event.target.checked };
       }
     });
-    if ( is_pro ) {
+    if ( is_multi_profile ) {
       const updatedData = selectedProfile.map((selectedItem) => {
         if (selectedItem.id === item.id) {
           return {

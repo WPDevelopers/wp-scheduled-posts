@@ -70,7 +70,7 @@ From one place, you can easily get an overview of your blog posts and when each 
 
 **◾ Notify WordPress Users With Email:** Send email alerts to authors or users when a post is published, trashed, or has been scheduled. It will let our users be aware of the status of their current blog posts.
 
-**◾ Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, LinkedIn profiles, LinkedIn pages, Instagram, Medium, Threads and Google Business Profile.
+**◾ Auto Share Posts On Social Media:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to one profile on each of Facebook (page or group), Twitter, Pinterest, LinkedIn, Instagram, Medium and Threads. Multiple profiles per network, LinkedIn pages and Google Business Profile come with [PRO].
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
 

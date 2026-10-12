@@ -64,6 +64,7 @@ class Assets
                 'admin_ajax'       => admin_url( 'admin-ajax.php' ),
                 'pro_version'      => (defined('WPSP_PRO_VERSION') ? WPSP_PRO_VERSION : ''),
                 'min_pro_version'  => (defined('WPSP_MIN_PRO_VERSION') ? WPSP_MIN_PRO_VERSION : ''),
+                'social_profile_limit' => \WPSP\Helper::social_profile_limit(),
                 'social_platforms' => \WPSP\Social\Platforms::for_js(),
                 'locked_platforms' => \WPSP\Social\Platforms::locked_for_js(),
             )));

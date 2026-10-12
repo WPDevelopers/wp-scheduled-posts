@@ -437,14 +437,27 @@ class Helper
                 return in_array( $single_name, $includes );
             } );
         }
-        $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);
-        if (class_exists('WPSP_PRO') && $is_pro_wpscp === true) {
+        $limit = self::social_profile_limit();
+        // Without a limit every profile comes back; the sharers skip disabled ones themselves.
+        if ($limit === PHP_INT_MAX) {
             return $profile;
         }
         $profile = array_filter( $profile, function($single_profile){
             return $single_profile->status == true;
         } );
-        return  array_slice($profile, 0, 1);
+        return  array_slice($profile, 0, $limit);
+    }
+
+    /**
+     * Profiles shared to per network: one, unless an add-on raises it.
+     *
+     * @return int
+     */
+    public static function social_profile_limit()
+    {
+        // Pro answers the older checkpoint filter with true, so keep honouring it.
+        $limit = apply_filters('wpsp_social_profile_limit_checkpoint', false) === true ? PHP_INT_MAX : 1;
+        return max(1, (int) apply_filters('wpsp_social_profile_limit', $limit));
     }
 
 

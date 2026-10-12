@@ -674,38 +674,43 @@ class Admin
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile
+        $profile_limit = \WPSP\Helper::social_profile_limit();
+        // LinkedIn Pages come with multiple profiles.
+        $linkedin_pages = $profile_limit > 1;
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($facebookProfile)) {
-            $facebookProfile = array_slice($facebookProfile, 0, 1, true);
+        if (is_array($facebookProfile)) {
+            $facebookProfile = array_slice($facebookProfile, 0, $profile_limit, true);
         }
 
         // profile
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($instagramProfile)) {
-            $instagramProfile = array_slice($instagramProfile, 0, 1, true);
+        if (is_array($instagramProfile)) {
+            $instagramProfile = array_slice($instagramProfile, 0, $profile_limit, true);
         }
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($twitterProfile)) {
-            $twitterProfile = array_slice($twitterProfile, 0, 1, true);
+        if (is_array($twitterProfile)) {
+            $twitterProfile = array_slice($twitterProfile, 0, $profile_limit, true);
         }
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($linkedinProfile)) {
-            $linkedinProfile = array_filter($linkedinProfile, function ($single_linkedin) {
-                return $single_linkedin->type == 'person';
-            });
-            $linkedinProfile = array_slice($linkedinProfile, 0, 1, true);
+        if (is_array($linkedinProfile)) {
+            if (!$linkedin_pages) {
+                $linkedinProfile = array_filter($linkedinProfile, function ($single_linkedin) {
+                    return $single_linkedin->type == 'person';
+                });
+            }
+            $linkedinProfile = array_slice($linkedinProfile, 0, $profile_limit, true);
         }
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($pinterestProfile)) {
-            $pinterestProfile = array_slice($pinterestProfile, 0, 1, true);
+        if (is_array($pinterestProfile)) {
+            $pinterestProfile = array_slice($pinterestProfile, 0, $profile_limit, true);
         }
         $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($mediumProfile)) {
-            $mediumProfile = array_slice($mediumProfile, 0, 1, true);
+        if (is_array($mediumProfile)) {
+            $mediumProfile = array_slice($mediumProfile, 0, $profile_limit, true);
         }
         $threadsProfile = \WPSP\Helper::get_settings('threads_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($threadsProfile)) {
-            $threadsProfile = array_slice($threadsProfile, 0, 1, true);
+        if (is_array($threadsProfile)) {
+            $threadsProfile = array_slice($threadsProfile, 0, $profile_limit, true);
         }
         ?>
         <div class="el-social-share-platform">
@@ -808,14 +813,12 @@ class Admin
                                             value="wpsp-el-social-linkedin-profile"
                                             checked><?php echo esc_html__('Profile', 'wp-scheduled-posts') ?>
                                     </label>
-                                    <label for="wpsp-el-social-linkedin-page-tab"
-                                        class="<?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>">
+                                    <?php if ($linkedin_pages): ?>
+                                    <label for="wpsp-el-social-linkedin-page-tab">
                                         <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab"
-                                            name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page" <?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>><?php echo esc_html__('Page', 'wp-scheduled-posts') ?>
-                                        <?php if (!class_exists('WPSP_PRO')): ?>
-                                            <span><span><?php echo esc_html('PRO') ?></span></span>
-                                        <?php endif ?>
+                                            name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page"><?php echo esc_html__('Page', 'wp-scheduled-posts') ?>
                                     </label>
+                                    <?php endif ?>
                                 </div>
                                 <?php if (!empty($linkedinIntegation) && !empty($linkedinIntegation)): ?>
                                     <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-profile"
@@ -869,7 +872,7 @@ class Admin
                                     </div>
                                     <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-page"
                                         data-value="wpsp-el-social-linkedin-page" style="display: none;">
-                                        <?php if (count($linkedinProfile) > 0 && class_exists('WPSP_PRO')): ?>
+                                        <?php if (count($linkedinProfile) > 0 && $linkedin_pages): ?>
                                             <?php
                                             $count = 0;
                                             foreach ($linkedinProfile as $linkedin) {

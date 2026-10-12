@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
-import { socialProfileRequestHandler } from '../helper/helper';
+import { socialProfileRequestHandler, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import SelectedProfile from './utils/SelectedProfile';
@@ -42,8 +42,7 @@ const SocialPlatform = (props) => {
   localStorage.setItem(platform, JSON.stringify(cachedStatus));
 
   // Free allows one profile per network; the server enforces the same cap.
-  // @ts-ignore
-  const isPro = wpspSettingsGlobal?.pro_version ? true : false;
+  const isMultiProfile = allowsMultipleProfiles();
 
   // prepare appId and appSecret
   let appInfo = [];
@@ -85,12 +84,12 @@ const SocialPlatform = (props) => {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) =>
-      isPro
+      isMultiProfile
         ? { ...prevStatus, [item.id]: event.target.checked }
         : { [item.id]: event.target.checked }
     );
 
-    if (isPro) {
+    if (isMultiProfile) {
       setSelectedProfile(
         selectedProfile.map((selectedItem) =>
           selectedItem.id === item.id

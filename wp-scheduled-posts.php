@@ -274,10 +274,11 @@ final class WPSP
 	public function social_profile_status_handler()
 	{
 		$settings = json_decode(get_option(WPSP_SETTINGS_NAME), true);
-		$is_pro = class_exists('WPSP_PRO');
-		if( !empty($settings) && (!isset( $settings['is_pro'] ) || ( $settings['is_pro'] !== $is_pro ) )) {
-			$settings['is_pro'] = $is_pro;
-			if( $is_pro ) {
+		$multi_profile = \WPSP\Helper::social_profile_limit() > 1;
+		// The stored key keeps its old name so existing sites don't flip on update.
+		if( !empty($settings) && (!isset( $settings['is_pro'] ) || ( $settings['is_pro'] !== $multi_profile ) )) {
+			$settings['is_pro'] = $multi_profile;
+			if( $multi_profile ) {
 				$this->installer->get_social_profile_status_modified_data( $settings, 'revert');
 			}else{
 				$this->installer->get_social_profile_status_modified_data( $settings, 'convert');
