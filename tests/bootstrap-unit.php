@@ -25,5 +25,22 @@ if ( ! file_exists( $_plugin_dir . '/vendor/autoload.php' ) ) {
 
 require_once $_plugin_dir . '/vendor/autoload.php';
 
+// WordPress time constants. The reconnect lead times are class constants built
+// out of these, so they are needed before anything under test is loaded.
+foreach (
+	array(
+		'MINUTE_IN_SECONDS' => 60,
+		'HOUR_IN_SECONDS'   => 3600,
+		'DAY_IN_SECONDS'    => 86400,
+		'WEEK_IN_SECONDS'   => 604800,
+	) as $_wpsp_constant => $_wpsp_value
+) {
+	if ( ! defined( $_wpsp_constant ) ) {
+		define( $_wpsp_constant, $_wpsp_value );
+	}
+}
+unset( $_wpsp_constant, $_wpsp_value );
+
 require_once __DIR__ . '/ZeroTestsListener.php';
+require_once __DIR__ . '/stubs/HookStore.php';
 require_once __DIR__ . '/stubs/wp-functions.php';

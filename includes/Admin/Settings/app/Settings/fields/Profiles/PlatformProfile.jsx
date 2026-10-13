@@ -1,7 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import React from 'react'
 
-const GoogleBusinessProfile = ({props,
+/**
+ * Card header for any social platform: logo, label, on/off switch, Add New.
+ * Everything it draws comes from the field definition, so a network registered
+ * by an extension renders here with no changes.
+ */
+
+const PlatformProfile = ({props,
     handleProfileStatusChange,
     profileStatus,
     openApiCredentialsModal}) => {    
@@ -51,4 +57,4 @@ const GoogleBusinessProfile = ({props,
     )
 }
 
-export default GoogleBusinessProfile
+export default PlatformProfile

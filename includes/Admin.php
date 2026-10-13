@@ -364,7 +364,7 @@ class Admin
     {
         $this->insights = new Admin\WPDev\PluginUsageTracker(
             WPSP_PLUGIN_FILE,
-            'http://app.wpdeveloper.com',
+            'https://app.wpdeveloper.com',
             array(),
             true,
             true,
@@ -649,7 +649,6 @@ class Admin
         $instagramIntegation = \WPSP\Helper::get_settings('instagram_profile_status');
         $mediumIntegation = \WPSP\Helper::get_settings('medium_profile_status');
         $threadsIntegation = \WPSP\Helper::get_settings('threads_profile_status');
-        $googleBusiness = \WPSP\Helper::get_settings('google_business_profile_status');
 
         // social media share type settings 
         $facebookShareType = get_post_meta(get_the_ID(), '_facebook_share_type', true);
@@ -661,7 +660,6 @@ class Admin
         $instagramShareType = get_post_meta(get_the_ID(), '_instagram_share_type', true);
         $mediumShareType = get_post_meta(get_the_ID(), '_medium_share_type', true);
         $threadsShareType = get_post_meta(get_the_ID(), '_threads_share_type', true);
-        $googleBusinessShareType = get_post_meta(get_the_ID(), '_google_business_share_type', true);
         // get all selected social profile 
         $allSelectedSocialProfiles = Helper::get_selected_social_profiles(get_the_ID());
         $filteredSelectedProfiles = array_map([$this, 'wpsp_filter_selected_profile_object'], $allSelectedSocialProfiles);
@@ -676,42 +674,43 @@ class Admin
         $filteredSelectedProfiles = array_filter($filteredSelectedProfiles);
 
         // profile
+        $profile_limit = \WPSP\Helper::social_profile_limit();
+        // LinkedIn Pages come with multiple profiles.
+        $linkedin_pages = $profile_limit > 1;
         $facebookProfile = \WPSP\Helper::get_settings('facebook_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($facebookProfile)) {
-            $facebookProfile = array_slice($facebookProfile, 0, 1, true);
+        if (is_array($facebookProfile)) {
+            $facebookProfile = array_slice($facebookProfile, 0, $profile_limit, true);
         }
 
         // profile
         $instagramProfile = \WPSP\Helper::get_settings('instagram_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($instagramProfile)) {
-            $instagramProfile = array_slice($instagramProfile, 0, 1, true);
+        if (is_array($instagramProfile)) {
+            $instagramProfile = array_slice($instagramProfile, 0, $profile_limit, true);
         }
         $twitterProfile = \WPSP\Helper::get_settings('twitter_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($twitterProfile)) {
-            $twitterProfile = array_slice($twitterProfile, 0, 1, true);
+        if (is_array($twitterProfile)) {
+            $twitterProfile = array_slice($twitterProfile, 0, $profile_limit, true);
         }
         $linkedinProfile = \WPSP\Helper::get_settings('linkedin_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($linkedinProfile)) {
-            $linkedinProfile = array_filter($linkedinProfile, function ($single_linkedin) {
-                return $single_linkedin->type == 'person';
-            });
-            $linkedinProfile = array_slice($linkedinProfile, 0, 1, true);
+        if (is_array($linkedinProfile)) {
+            if (!$linkedin_pages) {
+                $linkedinProfile = array_filter($linkedinProfile, function ($single_linkedin) {
+                    return $single_linkedin->type == 'person';
+                });
+            }
+            $linkedinProfile = array_slice($linkedinProfile, 0, $profile_limit, true);
         }
         $pinterestProfile = \WPSP\Helper::get_settings('pinterest_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($pinterestProfile)) {
-            $pinterestProfile = array_slice($pinterestProfile, 0, 1, true);
+        if (is_array($pinterestProfile)) {
+            $pinterestProfile = array_slice($pinterestProfile, 0, $profile_limit, true);
         }
         $mediumProfile = \WPSP\Helper::get_settings('medium_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($mediumProfile)) {
-            $mediumProfile = array_slice($mediumProfile, 0, 1, true);
+        if (is_array($mediumProfile)) {
+            $mediumProfile = array_slice($mediumProfile, 0, $profile_limit, true);
         }
         $threadsProfile = \WPSP\Helper::get_settings('threads_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($threadsProfile)) {
-            $threadsProfile = array_slice($threadsProfile, 0, 1, true);
-        }
-        $googleBusinessProfile = \WPSP\Helper::get_settings('google_business_profile_list');
-        if (!class_exists('WPSP_PRO') && is_array($googleBusinessProfile)) {
-            $googleBusinessProfile = array_slice($googleBusinessProfile, 0, 1, true);
+        if (is_array($threadsProfile)) {
+            $threadsProfile = array_slice($threadsProfile, 0, $profile_limit, true);
         }
         ?>
         <div class="el-social-share-platform">
@@ -814,14 +813,12 @@ class Admin
                                             value="wpsp-el-social-linkedin-profile"
                                             checked><?php echo esc_html__('Profile', 'wp-scheduled-posts') ?>
                                     </label>
-                                    <label for="wpsp-el-social-linkedin-page-tab"
-                                        class="<?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>">
+                                    <?php if ($linkedin_pages): ?>
+                                    <label for="wpsp-el-social-linkedin-page-tab">
                                         <input type="radio" data-platform="linkedin-tab" id="wpsp-el-social-linkedin-page-tab"
-                                            name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page" <?php echo !class_exists('WPSP_PRO') ? 'disabled' : '' ?>><?php echo esc_html__('Page', 'wp-scheduled-posts') ?>
-                                        <?php if (!class_exists('WPSP_PRO')): ?>
-                                            <span><span><?php echo esc_html('PRO') ?></span></span>
-                                        <?php endif ?>
+                                            name="wpsp-el-content-linkedin-tab" value="wpsp-el-social-linkedin-page"><?php echo esc_html__('Page', 'wp-scheduled-posts') ?>
                                     </label>
+                                    <?php endif ?>
                                 </div>
                                 <?php if (!empty($linkedinIntegation) && !empty($linkedinIntegation)): ?>
                                     <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-profile"
@@ -875,7 +872,7 @@ class Admin
                                     </div>
                                     <div class="wpsp-el-content wpsp-el-content-linkedin wpsp-el-social-linkedin-page"
                                         data-value="wpsp-el-social-linkedin-page" style="display: none;">
-                                        <?php if (count($linkedinProfile) > 0 && class_exists('WPSP_PRO')): ?>
+                                        <?php if (count($linkedinProfile) > 0 && $linkedin_pages): ?>
                                             <?php
                                             $count = 0;
                                             foreach ($linkedinProfile as $linkedin) {
@@ -1120,60 +1117,27 @@ class Admin
                             <?php endif ?>
                         </div>
                     </div>
-                    <div
-                        class="wpsp-el-accordion-item wpsp-el-accordion-item-google-business <?php echo class_exists('WPSP_PRO') ? '' : 'wpsp-pro-fields' ?>">
-                        <div class="wpsp-el-accordion-header">
-                            <img src="<?php echo esc_url(WPSP_ASSETS_URI . '/images/google-my-business-logo.svg') ?>" width="25"
-                                alt=""><span><?php echo esc_html('Google Business Profile') ?></span>
-                            <?php if (!class_exists('WPSP_PRO')): ?>
-                                <label for="">
-                                    <span><span><?php echo __('PRO', 'wp-scheduled-posts') ?></span></span>
+                    <?php
+                    /**
+                     * Render the per-platform block for anything an extension registered.
+                     *
+                     * @param array $filteredSelectedProfiles Profile names already chosen for this post.
+                     * @param int   $post_id
+                     */
+                    do_action('wpsp_el_modal_social_platform_fields', $filteredSelectedProfiles, get_the_ID());
+                    ?>
+
+                    <?php foreach (\WPSP\Social\Platforms::locked_for_js() as $lockedSlug => $lockedPlatform) : ?>
+                        <div class="wpsp-el-accordion-item wpsp-el-accordion-item-<?php echo esc_attr(str_replace('_', '-', $lockedSlug)) ?> wpsp-pro-fields">
+                            <div class="wpsp-el-accordion-header">
+                                <img src="<?php echo esc_url($lockedPlatform['icon_bg_url']) ?>" width="25" alt="">
+                                <span><?php echo esc_html($lockedPlatform['label']) ?></span>
+                                <label for="" title="<?php echo esc_attr($lockedPlatform['cta_text']) ?>">
+                                    <span><span><?php echo esc_html($lockedPlatform['cta_label']) ?></span></span>
                                 </label>
-                            <?php endif ?>
-                        </div>
-                        <?php if (class_exists('WPSP_PRO')): ?>
-                            <div class="wpsp-el-accordion-content">
-                                <?php if (!empty($googleBusiness) && !empty($googleBusinessProfile)): ?>
-                                    <div class="wpsp-el-container">
-                                        <label><input type="radio" data-platform="google-business"
-                                                name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-default"
-                                                <?php echo ((!empty($googleBusinessShareType) && $googleBusinessShareType == 'default') || empty($googleBusinessShareType)) ? 'checked' : '' ?>><?php echo esc_html__('Default', 'wp-scheduled-posts') ?></label>
-                                        <label><input type="radio" data-platform="google-business"
-                                                name="wpsp-el-content-google-business" value="wpsp-el-social-google-business-custom"
-                                                <?php echo !empty($googleBusinessShareType) && $googleBusinessShareType == 'custom' ? 'checked' : '' ?>><?php echo esc_html__('Custom', 'wp-scheduled-posts') ?></label>
-                                    </div>
-                                    <div class="wpsp-el-content wpsp-el-content-google-business"
-                                        data-value="wpsp-el-social-google-business-custom"
-                                        style="<?php echo !empty($googleBusinessShareType) && $googleBusinessShareType == 'custom' ? 'display: block;' : 'display: none;' ?>">
-                                        <?php if (count($googleBusinessProfile) > 0): ?>
-                                            <?php foreach ($googleBusinessProfile as $googleBusinessSingleProfile): ?>
-                                                <div class="google-business-profile social-profile">
-                                                    <input type="checkbox"
-                                                        value="<?php echo !empty($googleBusinessSingleProfile->name) ? $googleBusinessSingleProfile->name : '' ?>"
-                                                        name="wpsp_el_social_google_business[]" <?php echo in_array($googleBusinessSingleProfile->name, $filteredSelectedProfiles) ? 'checked' : '' ?>>
-                                                    <h3><?php echo !empty($googleBusinessSingleProfile->name) ? $googleBusinessSingleProfile->name : '' ?>
-                                                        (
-                                                        <?php echo $googleBusinessSingleProfile->type ? $googleBusinessSingleProfile->type : '' ?>
-                                                        )
-                                                    </h3>
-                                                </div>
-                                            <?php endforeach ?>
-                                        <?php endif ?>
-                                    </div>
-                                <?php else: ?>
-                                    <div class="wpsp-el-empty-profile-message">
-                                        <?php
-                                        echo sprintf(
-                                            /* translators: %1$s: URL to the SchedulePress social profile settings page */
-                                            __('It seems you haven\'t connected any profile/page in your <a href="%1$s">SchedulePress settings</a>.', 'wp-scheduled-posts'),
-                                            admin_url('admin.php?page=schedulepress&tab=social-profile')
-                                        );
-                                        ?>
-                                    </div>
-                                <?php endif ?>
                             </div>
-                        <?php endif ?>
-                    </div>
+                        </div>
+                    <?php endforeach ?>
 
                 </div>
             </div>

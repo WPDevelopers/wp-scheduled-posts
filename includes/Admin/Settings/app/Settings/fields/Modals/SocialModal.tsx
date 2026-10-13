@@ -1,14 +1,14 @@
 import { __ } from "@wordpress/i18n";
 import React, { useEffect, useState } from 'react';
 import Modal from "react-modal";
-import { generateTabURL, getPinterestBoardSection, getProfileData } from "../../helper/helper";
-import ProAlert from "../utils/ProAlert";
+import { generateTabURL, getPinterestBoardSection, getProfileData, allowsMultipleProfiles } from "../../helper/helper";
+import ProfileLimitNotice from "../utils/ProfileLimitNotice";
 import Facebook from "./Facebook";
 import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
-import GoogleBusiness from "./GoogleBusiness";
+import PlatformProfileList from "./PlatformProfileList";
 
 import {
     useBuilderContext,
@@ -25,7 +25,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [error, setError] = useState("");
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
-    const [googleProfiles, setGoogleProfiles] = useState([]);
+    // Any platform that returns a plain profile list, including ones an
+    // extension registered.
+    const [extensionProfiles, setExtensionProfiles] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [threadsProfiles, setThreadsProfiles] = useState([]);
@@ -73,7 +75,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbGroup(response.group);
                         }
                         setInstagramProfiles(response.profiles)
-                        setGoogleProfiles(response.profiles)
+                        setExtensionProfiles(response.profiles)
                         setResponseData([response.data]);
                         setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
@@ -102,9 +104,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     // Add linkedin profile
     const addProfileToggle = (item, index, e) => {
         if( e.target.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!allowsMultipleProfiles()) {
                 // @ts-ignore
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
@@ -198,9 +198,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const addPinterestProfileToggle = (item,defaultSection,event, board) => {
         const pinterestItem = { ...item, boards : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
         if( event?.target?.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!allowsMultipleProfiles()) {
                 // @ts-ignore
                 if (!savedProfile || savedProfile === 'undefined' || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
@@ -287,7 +285,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 </div>
                 <div className="modalbody">
                     {isErrorMessage && (
-                        <ProAlert />
+                        <ProfileLimitNotice />
                     )}
                     {/* @ts-ignore */}
                     {
@@ -344,14 +342,16 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                     savedProfile={addSavedProfile}
                                 />
                               ),
-                              google_business: (
-                                <GoogleBusiness
-                                    profiles={googleProfiles}
-                                    addProfileToggle={addProfileToggle}
-                                    savedProfile={addSavedProfile}
-                                />
-                              ),
-                        }[type]
+                        }[type] ?? (
+                            // A platform registered by an extension. Its profile
+                            // list comes back in the same shape, so the generic
+                            // list is all that is needed.
+                            <PlatformProfileList
+                                profiles={extensionProfiles ?? []}
+                                addProfileToggle={addProfileToggle}
+                                savedProfile={addSavedProfile}
+                            />
+                        )
                     }
                 </div>
             </>

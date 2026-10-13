@@ -244,6 +244,43 @@ class Helper
     }
 
     /**
+     * Whether the running SchedulePress Pro is older than this release expects.
+     *
+     * Pure, so the version matrix is testable without booting WordPress.
+     *
+     * @param string|null $pro_version Null when Pro is not active.
+     * @return bool
+     */
+    public static function pro_needs_update($pro_version)
+    {
+        if (empty($pro_version) || !defined('WPSP_MIN_PRO_VERSION')) {
+            return false;
+        }
+
+        // version_compare() ranks '5.4.0-beta1' below '5.4.0', so a beta or RC
+        // of the very release being asked for would be told to update to
+        // itself. Compare the release numbers and let the pre-release pass.
+        return version_compare(self::release_version($pro_version), WPSP_MIN_PRO_VERSION, '<');
+    }
+
+    /**
+     * The numeric release part of a version, dropping any pre-release suffix.
+     *
+     * '5.4.0-beta1' and '5.4.0-RC2' both become '5.4.0'.
+     *
+     * @param string $version
+     * @return string
+     */
+    private static function release_version($version)
+    {
+        if (preg_match('/^[0-9]+(?:\.[0-9]+)*/', (string) $version, $matches)) {
+            return $matches[0];
+        }
+
+        return (string) $version;
+    }
+
+    /**
      * Per-platform caption/template character limits.
      *
      * Single source of truth used by both template validation and AI caption
@@ -264,10 +301,12 @@ class Helper
             'instagram'       => 2100,
             'medium'          => 45000,
             'threads'         => 480,
-            'google_business' => 1500,
             'bluesky'         => 300,
             'mastodon'        => 500,
         );
+
+        // Extension platforms (SchedulePress Pro) describe their own limit.
+        $defaults = array_merge($defaults, \WPSP\Social\Platforms::limits());
 
         $templates = self::get_settings('social_templates');
         if (!is_object($templates)) {
@@ -398,14 +437,27 @@ class Helper
                 return in_array( $single_name, $includes );
             } );
         }
-        $is_pro_wpscp = apply_filters('wpsp_social_profile_limit_checkpoint', $profile);
-        if (class_exists('WPSP_PRO') && $is_pro_wpscp === true) {
+        $limit = self::social_profile_limit();
+        // Without a limit every profile comes back; the sharers skip disabled ones themselves.
+        if ($limit === PHP_INT_MAX) {
             return $profile;
         }
         $profile = array_filter( $profile, function($single_profile){
             return $single_profile->status == true;
         } );
-        return  array_slice($profile, 0, 1);
+        return  array_slice($profile, 0, $limit);
+    }
+
+    /**
+     * Profiles shared to per network: one, unless an add-on raises it.
+     *
+     * @return int
+     */
+    public static function social_profile_limit()
+    {
+        // Pro answers the older checkpoint filter with true, so keep honouring it.
+        $limit = apply_filters('wpsp_social_profile_limit_checkpoint', false) === true ? PHP_INT_MAX : 1;
+        return max(1, (int) apply_filters('wpsp_social_profile_limit', $limit));
     }
 
 

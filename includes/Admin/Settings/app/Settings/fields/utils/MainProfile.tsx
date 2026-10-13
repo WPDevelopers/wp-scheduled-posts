@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from 'react';
 import Select, { components } from 'react-select';
 import { selectStyles } from '../../helper/styles';
+import { allowsMultipleProfiles } from '../../helper/helper';
 
 // Prepare options with checkbox
 const Option = (props) => {
@@ -19,8 +20,6 @@ export default function MainProfile({
   openApiCredentialsModal,
 }) {
   let options = [];
-  // @ts-ignore
-  let pageDisabled = wpspSettingsGlobal?.pro_version ? false : true;
   let currentActiveAccountType = localStorage.getItem('account_type');
 
   if (props?.type == 'facebook') {
@@ -43,13 +42,15 @@ export default function MainProfile({
         label: __('Profile', 'wp-scheduled-posts'),
         selected: currentActiveAccountType == 'profile' ? true : false,
       },
-      {
+    ];
+    // LinkedIn Pages come with multiple profiles.
+    if (allowsMultipleProfiles()) {
+      options.push({
         value: 'page',
         label: __('Page', 'wp-scheduled-posts'),
-        isDisabled: pageDisabled,
         selected: currentActiveAccountType == 'page' ? true : false,
-      },
-    ];
+      });
+    }
   }
 
   const [accountType, setAccountType] = useState(undefined);
