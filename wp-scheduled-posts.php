@@ -61,10 +61,6 @@ final class WPSP
 			$this->set_global_settings();
 		});
 
-		if(version_compare(get_option('wpsp_version'), WPSP_VERSION, '!=')){
-			$this->delete_plugin_update_transient();
-		}
-		add_action( 'upgrader_process_complete', [$this, 'upgrade_completed'], 10, 2 );
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
@@ -72,23 +68,6 @@ final class WPSP
 		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
 		add_filter('jwt_auth_whitelist', array($this, 'whitelist_API'));
-
-	    // init plugin updater with version check
-	    if ( defined( 'WPSP_PRO_VERSION' ) && version_compare( WPSP_PRO_VERSION, '5.1.3', '>=' ) && version_compare( WPSP_PRO_VERSION, '5.2.0', '<=' ) ) {
-		    add_action( 'init', [ $this, 'wpsp_init_plugin_updater' ], 99 );
-	    }
-	}
-
-	/**
-     * Initialize plugin updater
-     *
-     * @since 5.2.9
-     */
-	function wpsp_init_plugin_updater() {
-		if ( is_admin() ) {
-			$license_manager = \WPSP_PRO\Dependencies\WPDeveloper\Licensing\LicenseManager::get_instance( [] );
-			$license_manager->plugin_updater();
-		}
 	}
 
 	public static function init()
@@ -295,7 +274,6 @@ final class WPSP
 	 */
 	public function activate()
 	{
-		$this->delete_plugin_update_transient();
 		update_option('wpsp_do_activation_redirect', true);
 	}
 
@@ -307,37 +285,6 @@ final class WPSP
 	public function deactivate()
 	{
 		do_action('wpsp_run_deactivate_installer');
-	}
-
-	/**
-	 * This method is called when a plugin upgrade is completed.
-	 * It checks if the upgraded plugin is WP Scheduled Posts and deletes the plugin update transient.
-	 *
-	 * @param object $upgrader_object The upgrader object.
-	 * @param array  $options         The upgrade options.
-	 *
-	 * @return void
-	 */
-	public function upgrade_completed( $upgrader_object, $options){
-		if( isset( $options['plugins'] ) && is_array( $options['plugins'] ) && !empty( $options['action'] ) && !empty( $options['type'] ) ) {
-			if ($options['action'] == 'update' && $options['type'] == 'plugin' && in_array(WPSP_PLUGIN_BASENAME, $options['plugins'])) {
-				$this->delete_plugin_update_transient();
-			}
-		}
-	}
-
-	/**
-	 * This method deletes the plugin update transient and related options.
-	 *
-	 * @return void
-	 */
-	private function delete_plugin_update_transient() {
-		$license = get_option('wp-scheduled-posts-pro-license-key');
-		$string  = "wp-scheduled-posts-pro" . $license;
-		delete_transient('update_plugins');
-		delete_option('_site_transient_update_plugins');
-		delete_option('edd_sl_' . md5( serialize( $string ) ));
-		delete_option('edd_sl_failed_http_' . md5( 'http://api.wpdeveloper.com/' ));
 	}
 
 	public function run_migrator()
