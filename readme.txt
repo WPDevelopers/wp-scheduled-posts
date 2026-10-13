@@ -1,7 +1,7 @@
 === SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, arrasel403, mdnahidhasan
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
-Requires at least: 4.0
+Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 5.4.0
