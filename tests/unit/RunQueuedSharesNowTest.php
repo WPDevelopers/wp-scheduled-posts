@@ -14,7 +14,7 @@ namespace WPSP\Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use WPSP\Social;
 use WPSP\Tests\Stubs\CronStore;
-use WPSP\Tests\Stubs\FilterStore;
+use WPSP\Tests\Stubs\HookStore;
 
 class RunQueuedSharesNowTest extends TestCase {
 
@@ -24,7 +24,8 @@ class RunQueuedSharesNowTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		CronStore::reset();
-		FilterStore::reset();
+		HookStore::reset( 'wpsp_run_queued_shares_now' );
+		HookStore::reset( 'wpsp_share_event_hooks' );
 	}
 
 	/**
@@ -76,9 +77,9 @@ class RunQueuedSharesNowTest extends TestCase {
 	}
 
 	public function test_filter_can_run_shares_right_away_outside_cron() {
-		FilterStore::$filters['wpsp_run_queued_shares_now'] = function ( $run_now, $post_id ) {
+		add_filter( 'wpsp_run_queued_shares_now', function ( $run_now, $post_id ) {
 			return self::POST_ID === $post_id;
-		};
+		}, 10, 2 );
 		$this->queue_share( 'WpScp_Facebook_post' );
 
 		Social::run_queued_shares_now( self::POST_ID );
@@ -88,9 +89,9 @@ class RunQueuedSharesNowTest extends TestCase {
 
 	public function test_filter_can_keep_shares_queued_inside_cron() {
 		CronStore::$doingCron = true;
-		FilterStore::$filters['wpsp_run_queued_shares_now'] = function () {
+		add_filter( 'wpsp_run_queued_shares_now', function () {
 			return false;
-		};
+		}, 10, 2 );
 		$this->queue_share( 'WpScp_Facebook_post' );
 
 		Social::run_queued_shares_now( self::POST_ID );
@@ -133,10 +134,10 @@ class RunQueuedSharesNowTest extends TestCase {
 
 	public function test_filter_adds_share_hooks_from_other_plugins() {
 		CronStore::$doingCron = true;
-		FilterStore::$filters['wpsp_share_event_hooks'] = function ( $hooks ) {
+		add_filter( 'wpsp_share_event_hooks', function ( $hooks ) {
 			$hooks[] = 'acme_social_post';
 			return $hooks;
-		};
+		}, 10, 2 );
 		$this->queue_share( 'acme_social_post' );
 
 		Social::run_queued_shares_now( self::POST_ID );

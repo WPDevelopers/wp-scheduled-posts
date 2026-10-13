@@ -634,18 +634,6 @@ namespace WPSP\Tests\Stubs {
 		}
 	}
 
-	/**
-	 * Values tests force through apply_filters(), keyed by hook name.
-	 */
-	class FilterStore {
-
-		/** @var array<string,callable> */
-		public static $filters = array();
-
-		public static function reset() {
-			self::$filters = array();
-		}
-	}
 }
 
 namespace {
@@ -679,15 +667,6 @@ namespace {
 	if ( ! function_exists( 'wp_doing_cron' ) ) {
 		function wp_doing_cron() {
 			return \WPSP\Tests\Stubs\CronStore::$doingCron;
-		}
-	}
-
-	if ( ! function_exists( 'apply_filters' ) ) {
-		function apply_filters( $hook, $value, ...$args ) {
-			if ( isset( \WPSP\Tests\Stubs\FilterStore::$filters[ $hook ] ) ) {
-				return call_user_func( \WPSP\Tests\Stubs\FilterStore::$filters[ $hook ], $value, ...$args );
-			}
-			return $value;
 		}
 	}
 
