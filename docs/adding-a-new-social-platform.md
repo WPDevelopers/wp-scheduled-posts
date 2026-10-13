@@ -49,6 +49,11 @@ session on every share. This is the **credential** model below.
       $WpScp_bluesky->instance();
   }
   ```
+- Add the platform's share event hook (`wpsp_bluesky_post`) to
+  `Social::SHARE_EVENT_HOOKS`. A scheduled post publishes inside a WP-Cron run,
+  and `Social::run_queued_shares_now()` runs the share events listed there in
+  that same run. A hook missing from the list waits for the next cron run,
+  which can be up to an hour later on a site with an hourly server cron.
 
 ### 1.2 Create the share class — `includes/Social/Bluesky.php`
 
@@ -259,7 +264,7 @@ Both must compile without errors. Size/Sass deprecation warnings are expected.
 
 ## Quick checklist
 
-- [ ] `Social.php` — constants + loader + method
+- [ ] `Social.php` — constants + loader + method + `SHARE_EVENT_HOOKS` entry
 - [ ] `Social/<Platform>.php` — share class (uses `SocialHelper` trait)
 - [ ] `Social/SocialProfile.php` — connect branch in `add_social_profile()`
 - [ ] `Social/InstantShare.php` — status fetch, checkbox, meta, dispatch branch

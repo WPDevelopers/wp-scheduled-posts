@@ -10,6 +10,22 @@ use WPSP\Social\SocialReconnection;
 
 class Social
 {
+    /**
+     * The WP-Cron events each platform queues from `wpsp_publish_future_post`
+     * to do its actual share.
+     */
+    const SHARE_EVENT_HOOKS = array(
+        'WpScp_Facebook_post',
+        'wpsp_twitter_post',
+        'WpScp_linkedin_post',
+        'WpScp_pinterest_post',
+        'WpScp_Instagram_post',
+        'WpScp_Medium_post',
+        'WpScp_Threads_post',
+        'wpsp_bluesky_post',
+        'wpsp_mastodon_post',
+    );
+
     protected $social_profile;
     protected $instantShare;
     protected $reconnect_handler;
@@ -22,6 +38,66 @@ class Social
         $this->instant_social_share();
         add_action('publish_future_post', array($this, 'publish_future_post'), 30, 1);
         add_action('wpsp_custom_social_template', array($this, 'publish_future_post'), 30, 1);
+        // Last, so every platform has already queued its share event.
+        add_action('wpsp_publish_future_post', array(__CLASS__, 'run_queued_shares_now'), PHP_INT_MAX, 1);
+    }
+
+    /**
+     * Run the share events a post has just queued instead of leaving them for
+     * the next cron run.
+     *
+     * A scheduled post is published from inside a WP-Cron run, and WP-Cron only
+     * runs the events that were due when the run started. The share events the
+     * platforms queue during that run therefore waited for the next one — up
+     * to an hour on a site whose server cron fires hourly. No visitor is
+     * waiting on a cron or WP-CLI request, so the shares run right here.
+     *
+     * Each event is unscheduled before it runs, exactly as wp-cron.php does, so
+     * a run that dies part-way leaves the platforms it never reached queued for
+     * the next run rather than losing them. In a web request the events stay
+     * queued, so a page load or an editor's save never waits on social APIs.
+     *
+     * @param int|\WP_Post|object $post Post ID, or an object with an `ID`.
+     */
+    public static function run_queued_shares_now($post)
+    {
+        $post_id = (int) (is_object($post) ? $post->ID : $post);
+        if ( ! $post_id ) {
+            return;
+        }
+
+        /**
+         * Whether to share right away rather than on the next cron run.
+         *
+         * @param bool $run_now True inside a WP-Cron run or WP-CLI.
+         * @param int  $post_id
+         */
+        $run_now = (bool) apply_filters(
+            'wpsp_run_queued_shares_now',
+            wp_doing_cron() || ( defined('WP_CLI') && WP_CLI ),
+            $post_id
+        );
+        if ( ! $run_now ) {
+            return;
+        }
+
+        /**
+         * Share event hooks to run right away, for platforms added outside
+         * this plugin.
+         *
+         * @param string[] $hooks
+         * @param int      $post_id
+         */
+        $hooks = (array) apply_filters('wpsp_share_event_hooks', self::SHARE_EVENT_HOOKS, $post_id);
+        $args  = array($post_id);
+        foreach ($hooks as $hook) {
+            $timestamp = wp_next_scheduled($hook, $args);
+            if ( ! $timestamp || $timestamp > time() ) {
+                continue;
+            }
+            wp_unschedule_event($timestamp, $hook, $args);
+            do_action_ref_array($hook, $args);
+        }
     }
 
     public function publish_future_post($post_id){
