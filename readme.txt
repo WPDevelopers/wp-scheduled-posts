@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.4.0
+Stable tag: 5.3.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -264,14 +264,6 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.4.0 - 2026-09-20 =
-- Changed: Google Business Profile now ships entirely with SchedulePress Pro. It was always a Pro feature; the code simply lived here.
-- Added: extension hooks so a social network can be added without changing this plugin — `wpsp_social_platforms`, `wpsp_instant_share_{platform}`, `wpsp_social_fetch_profile_response`, `wpsp_social_profile_fields`, `wpsp_social_template_tabs`, `wpsp_el_modal_social_platform_fields`, `wpsp_calendar_delete_event`.
-- Added: an admin notice when the installed SchedulePress Pro is older than this release can hand its Pro features to.
-- Note: update SchedulePress Pro to 5.4.0 or newer at the same time. Google Business Profile is served by Pro from this release on, so an older Pro leaves it locked and pauses its scheduled shares until Pro is updated.
-- Fixed: deleting an advanced-scheduled post from the calendar was a fatal error without SchedulePress Pro.
-- Few minor bug fixes & improvements
-
 = 5.3.4 - 2026-09-15 =
 - Improved: Expired Social profile connection process.
 - Fixed: Duplicate/mistimed social shares at the wrong time relative to publication.
@@ -476,8 +468,5 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
-= 5.4.0 - 2026-09-20 =
-* Update SchedulePress Pro to 5.4.0 or newer along with this release. Google Business Profile now ships with Pro, and an older Pro leaves it locked and pauses its scheduled shares.
-
 = 4.1.3 - 2021-12-15 =
 * Few minor bug fix & improvements
