@@ -896,7 +896,7 @@ class Calendar
                  */
                 $handled = apply_filters('wpsp_calendar_delete_event', null, $postId, $status);
 
-                // SchedulePress Pro older than 5.4.0 does not answer the filter.
+                // SchedulePress Pro older than 5.3.4 does not answer the filter.
                 if ($handled === null && class_exists('\WPSP_PRO\Scheduled\Published')) {
                     $published = new \WPSP_PRO\Scheduled\Published();
                     $published->wpscp_pending_schedule_fn($postId, $status);

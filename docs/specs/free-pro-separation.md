@@ -1,6 +1,6 @@
 # Free / Pro Separation — Implementation Spec
 
-**Status:** implemented in 5.4.0 · SchedulePress 5.4.0 + SchedulePress Pro 5.4.0
+**Status:** implemented · shipped as SchedulePress 5.3.5 + SchedulePress Pro 5.3.4 (planned below as 5.4.0)
 **Repos:** `wp-scheduled-posts` (Free) · `wp-scheduled-posts-pro` (Pro)
 
 ## Summary

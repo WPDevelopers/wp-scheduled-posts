@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.4.0
+Stable tag: 5.3.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -264,7 +264,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.4.0 - 2026-10-13 =
+= 5.3.5 - 2026-10-13 =
 - Fixed: Social shares for scheduled posts now go out in the same cron run that publishes the post, instead of waiting for the next cron run.
 - Fixed: SchedulePress's editor styles broke the block editor's Pattern Chooser and other core modals.
 - Fixed: Reconnecting LinkedIn could drop the token from the new authorisation.
@@ -487,8 +487,8 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
-= 5.4.0 - 2026-10-13 =
-* Update SchedulePress Pro to 5.4.0 along with this release.
+= 5.3.5 - 2026-10-13 =
+* Update SchedulePress Pro to 5.3.4 along with this release.
 
 = 4.1.3 - 2021-12-15 =
 * Few minor bug fix & improvements
