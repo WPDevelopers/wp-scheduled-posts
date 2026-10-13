@@ -98,7 +98,7 @@ const Linkedin = (props) => {
     if( !is_multi_profile && item?.type === 'organization' ){
       Swal.fire({
         icon: 'info',
-        text: __('Sharing to LinkedIn Pages is not included in the free version.', 'wp-scheduled-posts'),
+        text: __('LinkedIn Pages can\'t be turned on with one profile per network.', 'wp-scheduled-posts'),
       });
       return;
     }
