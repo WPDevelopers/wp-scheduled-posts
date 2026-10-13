@@ -55,7 +55,7 @@
                         color: #1D2939;
                     }
                 }
-                
+
                 .schedule-on-tooltip {
                     position: relative;
                     display: inline-flex;
@@ -144,7 +144,7 @@
                     }
                   }
                 }
-                
+
             }
             .wpsp-post-items-advanced-schedule-wrapper {
                 .wpsp-advanced-scheduled-on {
@@ -311,7 +311,7 @@
                               display: none;
                             }
                           }
-                          
+
                         }
                     }
 
@@ -429,7 +429,7 @@
                     }
                 }
 
-                .wpsp-social-banner-preview-image, 
+                .wpsp-social-banner-preview-image,
                 .wpsp-upload-social-banner-preview-inner {
                     width: 100%;
                     height: auto;
@@ -477,7 +477,7 @@
                     background: #F9F8FD;
                     border-radius: 4px;
                     border: 1px solid #F2F0FA;
-                    
+
                     h3 {
                         font-size: 12px;
                         font-weight: 500;
@@ -875,11 +875,11 @@
                             &:hover {
                                 transform: translateY(0px);
                             }
-                        
+
                             svg path{
                                 fill: #fff;
                             }
-                        }  
+                        }
                     }
                     // &:hover {
                     //     .wpsp-platform-icon {
@@ -900,8 +900,8 @@
                         justify-content: center;
                         transition: ease-in-out 0.3s;
                         background: #98A2B3 !important;
-                        position: relative;  
-                        cursor: pointer;  
+                        position: relative;
+                        cursor: pointer;
 
                         &:hover {
                             transform: translateY(-2px);
@@ -930,7 +930,7 @@
                         &.google_business.active {
                             background-color: #db4437 !important;
                         }
-                               
+
 
                         &.has-data {
                             // background: #ffffff !important;
@@ -965,7 +965,7 @@
                     }
                 }
 
-                
+
                 }
             }
 
@@ -1081,13 +1081,13 @@
                 background: #F3F2FF;
             }
         }
-        
+
     }
 
     .wpsp-date-time-section {
         display: flex;
         gap: 16px;
-        
+
         select {
             font-size: 13px;
             line-height: 140%;
@@ -1431,7 +1431,7 @@
     border-radius: 50px;
     margin: 0;
     box-sizing: border-box;
-    box-shadow: none;    
+    box-shadow: none;
     -webkit-appearance: none;
     appearance: none;
     cursor: pointer;
@@ -1522,7 +1522,7 @@ h5.title {
     padding: 10px 16px;
     border-radius: 8px;
     margin-top: 20px !important;
-    
+
     &:focus {
         outline: 0;
         box-shadow: none;
@@ -1653,8 +1653,8 @@ h5.title {
 .components-button.is-secondary:focus {
   box-shadow: none;
 }
-.components-button.is-secondary:disabled:not(:focus), 
-.components-button.is-secondary[aria-disabled=true]:hover:not(:focus), 
+.components-button.is-secondary:disabled:not(:focus),
+.components-button.is-secondary[aria-disabled=true]:hover:not(:focus),
 .components-button.is-secondary[aria-disabled=true]:not(:focus) {
     box-shadow: none;
 }
@@ -2526,8 +2526,8 @@ button.components-button.wpsp-add-template-btn:disabled {
 
 .wpsp-platform-icon svg path {
   /* fill: #FFF; */
-} 
-/* 
+}
+/*
 .wpsp-platform-icon svg {
   width: 16px;
   height: 16px;
@@ -3219,7 +3219,7 @@ textarea.wpsp-template-input {
 .wpsp-preview-text img {
   max-width: 100%;
   max-height: 170px;
-  
+
   border-radius: 8px;
   margin: 8px 0;
 }
@@ -3421,7 +3421,7 @@ border-radius: 8px;
   /*.wpsp-platform-icons {
     justify-content: center;
   }*/
-  
+
   .wpsp-profile-card {
     padding: 10px;
   }
@@ -3562,7 +3562,7 @@ border-radius: 8px;
   opacity: 0;
   transition: opacity 0.2s;
   font-size: 13px;
-  font-weight: 400 !important;    
+  font-weight: 400 !important;
   box-sizing: border-box;
   box-shadow: 0px 10px 10px -5px #3341550A, 0px 20px 25px -5px #3341551A;
   pointer-events: none;
@@ -3716,7 +3716,11 @@ border-radius: 8px;
     padding: 12px;
     box-shadow: 0px -8px 12px 5px rgba(51,65,85,.0192156863),0px -20px 25px 5px rgba(51,65,85,.1019607843);
 }
-.components-modal__screen-overlay {
+// Advanced Schedule dialogs (Pro: post-panel/components/AdvancedSchedule.js).
+// Keep these scoped to the dialogs' own classes: bare .components-modal__*
+// selectors restyle every block-editor modal (Pattern Chooser, Welcome Guide…).
+// A Modal's className lands on __frame, so the overlay is reached through :has().
+.components-modal__screen-overlay:has(.wpsp-advanced-schedule-notice-modal, .wpsp-disable-confirm-modal) {
   background-color: #000000B2;
   display: flex;
   align-items: center;
@@ -3724,8 +3728,11 @@ border-radius: 8px;
   position: fixed;
   inset: 0;
   z-index: 999999;
+}
 
-  .components-modal__frame {
+.wpsp-advanced-schedule-notice-modal,
+.wpsp-disable-confirm-modal {
+  &.components-modal__frame {
     min-width: auto;
     margin: 0;
     box-shadow: none;
@@ -3756,7 +3763,7 @@ border-radius: 8px;
         top: 0;
         width: 100%;
         z-index: 10;
-        
+
         .components-modal__header-heading {
           font-size: 16px;
           font-weight: 600;
