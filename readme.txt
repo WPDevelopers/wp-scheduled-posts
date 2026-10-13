@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.4
+Stable tag: 5.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -264,6 +264,25 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.4.0 - 2026-10-13 =
+- Fixed: Social shares for scheduled posts now go out in the same cron run that publishes the post, instead of waiting for the next cron run.
+- Fixed: SchedulePress's editor styles broke the block editor's Pattern Chooser and other core modals.
+- Fixed: Reconnecting LinkedIn could drop the token from the new authorisation.
+- Fixed: Instant Share to Pinterest did not send the selected board.
+- Fixed: The share limit was not applied to Threads and Medium.
+- Fixed: Saving settings could overwrite connected social profile credentials.
+- Fixed: The Elementor schedule modal could save the wrong time in some time zones.
+- Fixed: Calendar categories and tags failed to load when no post type was selected.
+- Fixed: Deleting an advanced-scheduled post from the calendar caused a fatal error without SchedulePress Pro.
+- Fixed: "Publish immediately" now works only on scheduled posts, and the post panel refreshes after it runs.
+- Fixed: Social accounts were renewed more than once in the same maintenance run.
+- Improved: Social tokens and the OpenAI API key are no longer included in settings and profile responses.
+- Improved: Contributors can no longer publish or schedule posts through SchedulePress.
+- Improved: Nonce checks in the social share and profile handlers.
+- Improved: The plugin now checks for PHP 7.4, as the readme states.
+- Improved: The notice shown when SchedulePress Pro is out of date now asks you to update Pro.
+- Few minor bug fixes & improvements
+
 = 5.3.4 - 2026-09-15 =
 - Improved: Expired Social profile connection process.
 - Fixed: Duplicate/mistimed social shares at the wrong time relative to publication.
@@ -468,5 +487,8 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.4.0 - 2026-10-13 =
+* Update SchedulePress Pro to 5.4.0 along with this release.
+
 = 4.1.3 - 2021-12-15 =
 * Few minor bug fix & improvements
