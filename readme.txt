@@ -197,7 +197,9 @@ On the post editing screens, SchedulePress's panel loads the Inter font from Goo
 
 = Usage tracking (opt-in) =
 
-Only if you allow it in the admin notice, SchedulePress sends WPDeveloper (`app.wpdeveloper.com`) your site's address and name, your WordPress, PHP and plugin versions, language, active and inactive plugins, theme and admin email address, at most once a day.
+Only if you allow it in the admin notice, SchedulePress sends WPDeveloper (`app.wpdeveloper.com`) your site's address and name, your WordPress, PHP and plugin versions, language, active and inactive plugins, theme and admin email address, at most once a day. When an opted-in site deactivates SchedulePress, the same details are sent once more.
+
+If you haven't allowed tracking and you submit the optional feedback form when deactivating, only your answer is sent. Skipping the form sends nothing.
 
 [Terms and conditions](https://wpdeveloper.com/terms-and-conditions/), [Privacy policy](https://wpdeveloper.com/privacy-policy/).
 

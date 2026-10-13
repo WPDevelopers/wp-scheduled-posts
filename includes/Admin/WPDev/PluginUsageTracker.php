@@ -376,23 +376,47 @@ class PluginUsageTracker
      */
     public function deactivate_this_plugin()
     {
-        // Sent for every user, not just those opted in to tracking, so the
-        // deactivation reason collected by the goodbye form always reaches us.
-        $body = $this->get_data();
+        // Deactivating isn't consent: only opted-in sites send site details; others send just a submitted form answer.
+        $answer = $this->take_goodbye_answer();
+        if ($this->get_is_tracking_allowed()) {
+            $body = $this->get_data();
+        } elseif (!empty($answer)) {
+            $body = array('plugin_slug' => sanitize_text_field($this->plugin_name));
+        } else {
+            wp_clear_scheduled_hook('put_do_weekly_action');
+            return;
+        }
         $body['status'] = 'Deactivated'; // Never translated
         $body['deactivated_date'] = time();
-
-        // Add deactivation form data
-        if (false !== get_option('wpins_deactivation_reason_' . $this->plugin_name)) {
-            $body['deactivation_reason'] = get_option('wpins_deactivation_reason_' . $this->plugin_name);
-        }
-        if (false !== get_option('wpins_deactivation_details_' . $this->plugin_name)) {
-            $body['deactivation_details'] = get_option('wpins_deactivation_details_' . $this->plugin_name);
-        }
+        $body = array_merge($body, $answer);
 
         $this->send_data($body);
         // Clear scheduled update
         wp_clear_scheduled_hook('put_do_weekly_action');
+    }
+
+    /**
+     * The goodbye form answer for this deactivation, read once so an old answer never rides along.
+     *
+     * @return array
+     */
+    private function take_goodbye_answer()
+    {
+        $answer = array();
+        if (get_transient('wpins_goodbye_submitted_' . $this->plugin_name)) {
+            $reason  = get_option('wpins_deactivation_reason_' . $this->plugin_name);
+            $details = get_option('wpins_deactivation_details_' . $this->plugin_name);
+            if (false !== $reason) {
+                $answer['deactivation_reason'] = $reason;
+            }
+            if (false !== $details) {
+                $answer['deactivation_details'] = $details;
+            }
+        }
+        delete_transient('wpins_goodbye_submitted_' . $this->plugin_name);
+        delete_option('wpins_deactivation_reason_' . $this->plugin_name);
+        delete_option('wpins_deactivation_details_' . $this->plugin_name);
+        return $answer;
     }
 
     /**
@@ -1103,6 +1127,8 @@ class PluginUsageTracker
             $details = sanitize_text_field($_POST['details']);
             update_option('wpins_deactivation_details_' . $this->plugin_name, $details);
         }
+        // Marks this deactivation as one where the form was really submitted.
+        set_transient('wpins_goodbye_submitted_' . $this->plugin_name, 1, 10 * MINUTE_IN_SECONDS);
         $this->do_tracking(); // Run this straightaway
         echo 'success';
         wp_die();
