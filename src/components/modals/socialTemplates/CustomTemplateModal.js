@@ -96,8 +96,8 @@ const WPSPCustomTemplateModal = ({
   const socialBannerUrl = state?.socialShareSettings?.socialBannerUrl;
   const bannerImage = uploadSocialShareBanner || socialBannerUrl || featuredImageUrl;
   const social_media_enabled = window.WPSchedulePostsFree?.social_media_enabled || {};
-  const isPro = !!window.WPSchedulePostsFree?.is_pro;
-  
+  const profileLimit = Number(window.WPSchedulePostsFree?.social_profile_limit) || 1;
+
   const platforms = [
     { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
     { platform: 'twitter', icon: twitter_x, color: '#000000', bgColor: '#000000' },
@@ -223,17 +223,17 @@ const WPSPCustomTemplateModal = ({
   }, [selectedProfile, selectedPlatform, getProfileStorageId]);
 
   // Default profile selection for a platform on a new post: only enabled profiles
-  // (status !== false), and on the free plan capped to the first one per platform.
+  // (status !== false), up to the per-network profile limit.
   // This mirrors Helper::get_social_profile() so the UI matches what is shared.
   const getDefaultProfileIdsForPlatform = useCallback((platform) => {
     const list = (socialProfiles && socialProfiles[platform]) || [];
     const enabled = list.filter((profile) => profile.status !== false);
-    const allowed = isPro ? enabled : enabled.slice(0, 1);
+    const allowed = enabled.slice(0, profileLimit);
     const ids = allowed
       .map((profile) => getProfileStorageId(platform, profile))
       .filter(Boolean);
     return platform === 'pinterest' ? ids : Array.from(new Set(ids));
-  }, [socialProfiles, getProfileStorageId, isPro]);
+  }, [socialProfiles, getProfileStorageId, profileLimit]);
 
   // Whether this post already has a saved custom template/selection. New posts have
   // none, which is how we know to default-select everything.
