@@ -358,9 +358,9 @@ class Admin
         );
 
         // wpsp_halloween_2026 notice
-        $notice_text = "<p>🎃 <strong>Halloween Deal:</strong> Automate your content workflow with advanced scheduling and social sharing features – <strong>at a spooky low price!</strong> 👻</p>
+        $notice_text = "<p>👻 <strong>Halloween Sale:</strong> Automate your content workflow with advanced scheduling and social sharing features – now <strong>up to 35% OFF!</strong></p>
                         <div class='wpsp-notice-action-button' style='display: inline-flex;column-gap:5px;'>
-                            <a class='button button-primary' href='https://schedulepress.com/halloween2026/admin-notice' target='_blank'>Upgrade To Pro Now</a> <button class='wpsp-notice-action-dismiss dismiss-btn' data-dismiss='true'>Maybe Later</button>
+                            <a class='button button-primary' href='https://schedulepress.com/halloween2026/admin-notice' target='_blank'>Upgrade To Pro Now</a> <button class='wpsp-notice-action-dismiss dismiss-btn' data-dismiss='true'>I Don’t Want Any Discount</button>
                         </div>";
         $_wpsp_halloween_2026 = [
             'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
