@@ -389,6 +389,7 @@ a.wpsp-notice-cta {
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-thumbnail-wrapper {
     flex: 0 0 213px;
+    margin-top: 3px;
 }
 /* The logo SVG pads its artwork by ~5px; scale it so the artwork itself is 213px wide. */
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-thumbnail-wrapper img {
@@ -413,7 +414,12 @@ a.wpsp-notice-cta {
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button {
     align-items: center;
+    flex-wrap: wrap;
     column-gap: 12px !important;
+    row-gap: 8px;
+}
+#wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > * {
+    white-space: nowrap;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary,
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary:focus,
@@ -443,7 +449,7 @@ a.wpsp-notice-cta {
     margin: 0;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .notice-dismiss {
-    top: 0;
+    top: 1px;
     right: 0;
     width: 20px;
     height: 20px;
@@ -454,6 +460,19 @@ a.wpsp-notice-cta {
     font-size: 14px;
     width: 16px;
     height: 16px;
+}
+/* Below WP's mobile breakpoint the logo beside the text leaves too little room for the buttons; stack it on top. */
+@media screen and (max-width: 782px) {
+    #wpnotice-schedulepress-wpsp_halloween_2026 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        padding: 14px 40px 14px 20px;
+    }
+    #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-thumbnail-wrapper {
+        flex: none;
+        margin-top: 0;
+    }
 }
 @media screen and (max-width: 574px) {
     #wpnotice-schedulepress-wpsp_halloween_2026 {
