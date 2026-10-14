@@ -9,7 +9,7 @@ import {
   mediumWithBG,
   threadsWithBG,
 } from '../../../icons/icons';
-import { registeredPlatforms, extensionLimits } from '../../../helper/platforms';
+import { registeredPlatforms, extensionLimits, platformIconImg } from '../../../helper/platforms';
 const { __ } = wp.i18n;
 
 // Colored (badge) platform icons for the result cards. The plain icons passed
@@ -548,7 +548,7 @@ const AICaptionDrawer = ({
                 <ResultCard
                   key={key}
                   platformKey={key}
-                  icon={PLATFORM_RESULT_ICONS[key] || platformIcons[key]}
+                  icon={PLATFORM_RESULT_ICONS[key] || (registeredPlatforms()[key] ? platformIconImg(key, true) : platformIcons[key])}
                   caption={results[key]}
                   isExpanded={expandedPlatforms.includes(key)}
                   onToggle={() => toggleResultCard(key)}

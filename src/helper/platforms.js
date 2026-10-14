@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Social platforms that do not ship with the free plugin.
  *
@@ -40,10 +42,37 @@ export const extensionLimits = () =>
 
 /**
  * An <img> stands in for the inline SVGs the built-in networks use, so an
- * extension only has to supply a URL.
+ * extension only has to supply a URL. The plain icon is the white glyph the
+ * built-ins draw on their round buttons; with a background it is the small
+ * colour logo. `icon_url` is a full-size logo.
  */
 export const platformIconUrl = (slug, withBackground = false) => {
     const definition = platformDefinition(slug);
     if (!definition) return '';
-    return withBackground ? definition.icon_bg_url || definition.icon_url : definition.icon_url;
+    return withBackground
+        ? definition.icon_bg_url || definition.icon_url
+        : definition.icon_glyph_url || definition.icon_small_white_url || definition.icon_url;
+};
+
+/**
+ * The <img> for an extension icon, sized like the built-in SVGs: the 12px
+ * glyph, or the 20px round badge the `*WithBG` icons are. Without a size a
+ * logo renders at its own size, which for Google Business is 2500x2185 and
+ * covers the whole panel.
+ */
+export const platformIconImg = (slug, round = false, alt = '') => {
+    const definition = platformDefinition(slug) || {};
+    const src = round ? definition.icon_round_url || platformIconUrl(slug, true) : platformIconUrl(slug);
+    const size = round ? 20 : 12;
+    return <img src={src} alt={alt} width={size} height={size} style={{ objectFit: 'contain' }} />;
+};
+
+/**
+ * Built-in networks with the extension ones slotted in after Threads, where
+ * Google Business sat before it moved to Pro.
+ */
+export const withExtensionSlugs = (builtins, slugs = extensionSlugs()) => {
+    const extra = slugs.filter((slug) => !builtins.includes(slug));
+    const at = builtins.indexOf('threads') + 1 || builtins.length;
+    return [...builtins.slice(0, at), ...extra, ...builtins.slice(at)];
 };

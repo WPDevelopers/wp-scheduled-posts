@@ -25,6 +25,11 @@ class Platforms
             'label' => 'Google Business Profile',
             'logo'  => 'images/google-my-business-logo.svg',
             'icon'  => 'images/google_business.svg',
+            'icon_white' => 'images/icon-google_business-small-white.png',
+            // The white glyph the built-in networks draw on their round icon buttons.
+            'glyph' => 'images/icon-google_business-glyph.svg',
+            // The glyph on a round black badge, as the post panel and AI caption cards show it.
+            'round' => 'images/icon-google_business-round.svg',
             'badge' => 'images/google-business-pro.svg',
             'desc'  => 'Share your posts to Google Business Profile automatically.',
             'doc'   => 'https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/',
@@ -169,12 +174,40 @@ class Platforms
                 'color'      => isset($definition['color']) ? $definition['color'] : '',
                 'icon_url'   => isset($definition['icon_url']) ? $definition['icon_url'] : '',
                 'icon_bg_url' => isset($definition['icon_bg_url']) ? $definition['icon_bg_url'] : '',
+                'icon_small_white_url' => isset($definition['icon_small_white_url']) ? $definition['icon_small_white_url'] : '',
+                'icon_glyph_url' => self::asset_url($slug, $definition, 'icon_glyph_url', 'glyph'),
+                'icon_round_url' => self::asset_url($slug, $definition, 'icon_round_url', 'round'),
                 'automatic_connect' => !empty($definition['automatic_connect']),
                 'locked'     => false,
             );
         }
 
         return $platforms;
+    }
+
+    /**
+     * An icon URL the extension supplied, or the one shipped here for it.
+     *
+     * The glyph and round icons match the built-in networks' inline SVGs. An
+     * extension can supply its own; a platform free sells for Pro falls back to
+     * the copy in PRO_UPSELL, so Pro needs no change for it.
+     *
+     * @param string $slug
+     * @param array  $definition
+     * @param string $key        Definition key, e.g. `icon_glyph_url`.
+     * @param string $upsell_key PRO_UPSELL key holding the shipped path.
+     * @return string
+     */
+    private static function asset_url($slug, $definition, $key, $upsell_key)
+    {
+        if (!empty($definition[$key])) {
+            return $definition[$key];
+        }
+        if (!empty(self::PRO_UPSELL[$slug][$upsell_key])) {
+            return WPSP_ASSETS_URI . self::PRO_UPSELL[$slug][$upsell_key];
+        }
+
+        return '';
     }
 
     /**
@@ -205,6 +238,9 @@ class Platforms
                 'color'      => '',
                 'icon_url'   => WPSP_ASSETS_URI . $marketing['icon'],
                 'icon_bg_url' => WPSP_ASSETS_URI . $marketing['logo'],
+                'icon_small_white_url' => WPSP_ASSETS_URI . $marketing['icon_white'],
+                'icon_glyph_url' => WPSP_ASSETS_URI . $marketing['glyph'],
+                'icon_round_url' => WPSP_ASSETS_URI . $marketing['round'],
                 'badge_url'  => WPSP_ASSETS_URI . $marketing['badge'],
                 'doc'        => $marketing['doc'],
                 'automatic_connect' => false,

@@ -22,7 +22,7 @@ import {
     mastodonWithBG,
 } from '../../icons/icons';
 import ShareNowButton from './ShareNowButton';
-import { registeredPlatforms, registeredSlugs, platformIconUrl, platformListKey } from '../../helper/platforms';
+import { registeredPlatforms, registeredSlugs, platformIconImg, platformListKey, withExtensionSlugs } from '../../helper/platforms';
 const { __ } = wp.i18n;
 
 const BUILTIN_PLATFORM_CONFIG = {
@@ -60,8 +60,8 @@ const extensionPlatformConfig = () =>
             slug,
             {
                 label: definition.label || slug,
-                icon: <img src={platformIconUrl(slug)} alt="" />,
-                iconWithBG: <img src={platformIconUrl(slug, true)} alt="" />,
+                icon: platformIconImg(slug),
+                iconWithBG: platformIconImg(slug, true),
             },
         ])
     );
@@ -69,10 +69,7 @@ const extensionPlatformConfig = () =>
 /** Built-in networks plus whatever an extension is serving right now. */
 const platformConfig = () => ({ ...BUILTIN_PLATFORM_CONFIG, ...extensionPlatformConfig() });
 
-const platformOrder = () => [
-    ...BUILTIN_PLATFORM_ORDER,
-    ...registeredSlugs().filter((slug) => !BUILTIN_PLATFORM_CONFIG[slug]),
-];
+const platformOrder = () => withExtensionSlugs(BUILTIN_PLATFORM_ORDER, registeredSlugs());
 
 const processProfiles = (list) => {
     if (!Array.isArray(list)) return [];

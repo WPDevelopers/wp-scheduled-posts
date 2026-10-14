@@ -21,9 +21,12 @@ import {
   lockedPlatforms,
   registeredPlatforms,
   isLockedPlatform,
+  platformIconImg,
+  withExtensionSlugs,
 } from '../../../helper/platforms';
 
-const SOCIAL_PLATFORMS = [
+// Networks that arrive from an extension, live ones first, in Google Business's old slot.
+const SOCIAL_PLATFORMS = withExtensionSlugs([
   'facebook',
   'twitter',
   'linkedin',
@@ -33,9 +36,7 @@ const SOCIAL_PLATFORMS = [
   'threads',
   'bluesky',
   'mastodon',
-  // Networks that arrive from an extension, live ones first.
-  ...extensionSlugs(),
-];
+]);
 
 const platformLimits = {
   facebook: 63206,
@@ -98,7 +99,7 @@ const WPSPCustomTemplateModal = ({
   const social_media_enabled = window.WPSchedulePostsFree?.social_media_enabled || {};
   const profileLimit = Number(window.WPSchedulePostsFree?.social_profile_limit) || 1;
 
-  const platforms = [
+  const unorderedPlatforms = [
     { platform: 'facebook', icon: facebook, color: '#1877f2', bgColor: '#1877f2' },
     { platform: 'twitter', icon: twitter_x, color: '#000000', bgColor: '#000000' },
     { platform: 'linkedin', icon: linkedin, color: '#0077b5', bgColor: '#0077b5' },
@@ -113,7 +114,7 @@ const WPSPCustomTemplateModal = ({
     ...Object.entries({ ...registeredPlatforms(), ...lockedPlatforms() }).map(
       ([slug, definition]) => ({
         platform: slug,
-        icon: <img src={definition.icon_url} alt={definition.label} />,
+        icon: platformIconImg(slug, false, definition.label),
         color: definition.color || '',
         bgColor: definition.color || '',
         label: definition.label,
@@ -122,6 +123,9 @@ const WPSPCustomTemplateModal = ({
       })
     ),
   ];
+  const platforms = SOCIAL_PLATFORMS
+    .map((slug) => unorderedPlatforms.find(({ platform }) => platform === slug))
+    .filter(Boolean);
 
   // Filter platforms based on what's enabled. A locked platform is never
   // "enabled", so it stays out of here and only shows as a disabled tab.
