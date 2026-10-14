@@ -370,12 +370,12 @@ class Admin
             'wpsp_halloween_2026',
             $_wpsp_halloween_2026,
             [
-                'start'       => strtotime( '14th October, 2026' ),
+                'start'       => strtotime( '2026-10-14 00:00:00' ),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => WPSP_VERSION,
                 'screens'     => [ 'dashboard' ],
-                "expire"      => strtotime( '11:59:59pm 5th November, 2026' ),
+                "expire"      => strtotime( '2026-11-05 23:59:59' ),
                 'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
             ]
         );
