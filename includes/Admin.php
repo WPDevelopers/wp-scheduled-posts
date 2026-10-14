@@ -357,6 +357,29 @@ class Admin
             ]
         );
 
+        // wpsp_halloween_2026 notice
+        $notice_text = "<p>👻 <strong>Halloween Sale:</strong> Automate your content workflow with advanced scheduling and social sharing features – now <strong>up to 35% OFF!</strong></p>
+                        <div class='wpsp-notice-action-button' style='display: inline-flex;column-gap:5px;'>
+                            <a class='button button-primary' href='https://schedulepress.com/halloween2026/admin-notice' target='_blank'>Upgrade To Pro Now</a> <button class='wpsp-notice-action-dismiss dismiss-btn' data-dismiss='true'>I Don’t Want Any Discount</button>
+                        </div>";
+        $_wpsp_halloween_2026 = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
+            'html'      => $notice_text,
+        ];
+        $notices->add(
+            'wpsp_halloween_2026',
+            $_wpsp_halloween_2026,
+            [
+                'start'       => strtotime( '2026-10-14 00:00:00' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
+                'screens'     => [ 'dashboard' ],
+                "expire"      => strtotime( '2026-11-05 23:59:59' ),
+                'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+            ]
+        );
+
         self::$cache_bank->create_account( $notices );
         self::$cache_bank->calculate_deposits( $notices );
     }
