@@ -381,31 +381,54 @@ a.wpsp-notice-cta {
  * Wpsp Halloween 2026 Notice
  */
 #wpnotice-schedulepress-wpsp_halloween_2026 {
-    border-left-color: #5252DC;
-    padding: 10px 40px 10px 20px;
+    gap: 44px !important;
+    min-height: 80px;
+    box-sizing: border-box;
+    border-left: 3px solid #5252DC;
+    padding: 10px 40px 14px 41px;
+}
+#wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-thumbnail-wrapper {
+    flex: 0 0 213px;
+}
+/* The logo SVG pads its artwork by ~5px; scale it so the artwork itself is 213px wide. */
+#wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-thumbnail-wrapper img {
+    display: block;
+    width: 223px;
+    max-width: none !important;
+    margin: 0 -5px;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper {
     display: flex;
     align-items: start;
-    justify-content: space-between;
-    width: 100%;
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
+    width: 100%;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper p {
+    color: #171717;
     font-size: 14px;
-    margin-top: 0;
-    padding-top: 0;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+}
+#wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button {
+    align-items: center;
+    column-gap: 12px !important;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary,
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary:focus,
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button > a.button-primary:hover {
     background-color: #5252DC;
     color: #ffffff;
-    box-shadow: 0px 1px 0px 0px #000000;
+    box-shadow: none;
     border: none;
     border-radius: 6px;
-    padding: 2px 16px;
+    min-height: 33px;
+    height: 33px;
+    padding: 0 17px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 33px;
 }
 #wpnotice-schedulepress-wpsp_halloween_2026 .wpnotice-content-wrapper .wpsp-notice-action-button .wpsp-notice-action-dismiss {
     background: none;
@@ -418,8 +441,19 @@ a.wpsp-notice-cta {
     cursor: pointer;
     padding: 0;
     margin: 0;
-    display: inline-block;
-    margin-left: 5px;
+}
+#wpnotice-schedulepress-wpsp_halloween_2026 .notice-dismiss {
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+}
+#wpnotice-schedulepress-wpsp_halloween_2026 .notice-dismiss:before {
+    color: #171717;
+    font-size: 14px;
+    width: 16px;
+    height: 16px;
 }
 @media screen and (max-width: 574px) {
     #wpnotice-schedulepress-wpsp_halloween_2026 {
