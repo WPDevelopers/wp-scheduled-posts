@@ -264,7 +264,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.3.5 - 2026-10-14 =
+= 5.3.5 - 2026-10-15 =
 - Fixed: Social shares for scheduled posts now go out in the same cron run that publishes the post, instead of waiting for the next cron run.
 - Fixed: SchedulePress's editor styles broke the block editor's Pattern Chooser and other core modals.
 - Fixed: Reconnecting LinkedIn could drop the token from the new authorisation.
@@ -487,7 +487,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
-= 5.3.5 - 2026-10-14 =
+= 5.3.5 - 2026-10-15 =
 * Update SchedulePress Pro to 5.3.4 along with this release.
 
 = 4.1.3 - 2021-12-15 =
