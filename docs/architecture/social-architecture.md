@@ -29,7 +29,9 @@ How auto-sharing to social platforms is built inside the Free plugin. For end-to
 
 ### The publish pipeline
 
-`Social::__construct()` hooks WordPress core's `publish_future_post` (and `wpsp_custom_social_template`) and re-dispatches them through a single internal action, `do_action('wpsp_publish_future_post', $post_id)` (guarded so it fires once per post). Every enabled platform's `instance()` subscribes to `wpsp_publish_future_post`; its handler (e.g. `Facebook::WpScp_Facebook_post_event()`) verifies the post is `publish` and then schedules a **per-platform WP-Cron single event** (e.g. `WpScp_Facebook_post`) that performs the actual API call asynchronously. This keeps the publish request fast and lets each network fail independently.
+`Social::__construct()` hooks WordPress core's `publish_future_post` (and `wpsp_custom_social_template`) and re-dispatches them through a single internal action, `do_action('wpsp_publish_future_post', $post_id)` (guarded so it fires once per post). Every enabled platform's `instance()` subscribes to `wpsp_publish_future_post`; its handler (e.g. `Facebook::WpScp_Facebook_post_event()`) verifies the post is `publish` and then schedules a **per-platform WP-Cron single event** (e.g. `WpScp_Facebook_post`) that performs the actual API call. Each network runs as its own event, so one failing does not take the others down.
+
+WP-Cron only runs the events that were due when a run started, and a scheduled post is published from inside a cron run. Events queued during that run would wait for the next one, which can be an hour away on a site with an hourly server cron. So `Social::run_queued_shares_now()`, hooked last on `wpsp_publish_future_post`, runs the post's share events (`Social::SHARE_EVENT_HOOKS`) straight away when the request is a WP-Cron run or WP-CLI. Like `wp-cron.php`, it unschedules each event before running it, so a run that dies part-way leaves the networks it never reached queued. In a web request (for example Pro's missed-schedule check in `wp_head`, or publishing from the editor) the events stay queued, so a page load or a save never waits on social APIs. Filters: `wpsp_run_queued_shares_now` (bool, `$post_id`) overrides the run-now decision, and `wpsp_share_event_hooks` adds share hooks from other plugins. Google Business does not use an event: it shares directly from `wpsp_publish_future_post`.
 
 ## Per-platform classes
 
@@ -58,7 +60,7 @@ Each platform class follows the same shape:
 
 ### InstantShare (Share Now)
 
-[InstantShare.php](../../includes/Social/InstantShare.php) adds the classic-editor "Social Share Settings" metabox and its persistence, and registers the AJAX endpoints `wp_ajax_wpscp_instant_share_fetch_profile` and `wp_ajax_wpscp_instant_social_single_profile_share` (also exposed as the `wpsp_instant_social_single_profile_share` action). Each call dispatches to the relevant platform's `socialMediaInstantShare()` and returns per-profile success/failure for the status modal.
+[InstantShare.php](../../includes/Social/InstantShare.php) adds the classic-editor "Social Share Settings" metabox and its persistence, and registers the AJAX endpoints `wp_ajax_wpscp_instant_share_fetch_profile` and `wp_ajax_wpscp_instant_social_single_profile_share` (also exposed as the `wpsp_instant_social_single_profile_share` action). Each call dispatches to the relevant platform's `socialMediaInstantShare()` and returns per-profile success/failure for the status modal. `wpscp_instant_share_fetch_profile` returns each profile without its token, secret and app/client id fields (`Settings::without_secrets()`, card 84788). No 5.3.x screen calls it; the post panel shares through the `instant-social-share` REST route.
 
 ## Shared logic — the `SocialHelper` trait
 

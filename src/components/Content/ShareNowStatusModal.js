@@ -1,4 +1,5 @@
 import React, { Fragment, useMemo } from 'react';
+import { registeredPlatforms, platformIconUrl } from '../../helper/platforms';
 
 const { Modal } = wp.components;
 const { __ } = wp.i18n;
@@ -13,12 +14,16 @@ const platformLabelMap = {
     instagram: 'Instagram',
     medium: 'Medium',
     threads: 'Threads',
-    google_business: 'Google Business Profile',
+    // Networks that arrive from an extension name themselves.
+    ...Object.fromEntries(
+        Object.entries(registeredPlatforms()).map(([slug, definition]) => [slug, definition.label])
+    ),
 };
 
 const getPlatformLogo = (platform) => {
-    if (platform === 'google_business') {
-        return `${WPSchedulePostsFree?.assetsURI}images/google-my-business-logo-small.png`;
+    const extensionLogo = platformIconUrl(platform, true);
+    if (extensionLogo) {
+        return extensionLogo;
     }
     return `${WPSchedulePostsFree?.assetsURI}images/${platform}.svg`;
 };

@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
-import { socialProfileRequestHandler } from '../helper/helper';
+import { socialProfileRequestHandler, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
@@ -31,8 +31,7 @@ const Twitter = (props) => {
   const [activeStatusCount,setActiveStatusCount] = useState(0);
   localStorage.setItem('twitter',JSON.stringify(cachedStatus));
 
-  // @ts-ignore
-  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  const is_multi_profile = allowsMultipleProfiles();
   // prepare appId and appSecret
   let appInfo = [];
   if( props?.value ) {
@@ -82,13 +81,13 @@ const Twitter = (props) => {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      if( is_pro ) {
+      if( is_multi_profile ) {
         return { ...prevStatus, [item.id]: event.target.checked };
       }else{
         return { [item.id]: event.target.checked };
       }
     });
-    if ( is_pro ) {
+    if ( is_multi_profile ) {
       const updatedData = selectedProfile.map((selectedItem) => {
         if (selectedItem.id === item.id) {
           return {

@@ -587,3 +587,9 @@ export const handleImageError = (e) => {
     e.target.onerror = null; // Prevents infinite loop in case placeholder image fails
     e.target.src = placeholderImage; // Set the placeholder image
 };
+
+// One profile per network unless an add-on raises the limit (Helper::social_profile_limit()).
+export const allowsMultipleProfiles = () => {
+    // @ts-ignore
+    return Number(wpspSettingsGlobal?.social_profile_limit) > 1;
+};

@@ -46,7 +46,6 @@ jQuery(document).ready(function ($) {
         var pinterest = jQuery('#wpscppropinterestis').is(':checked')
         var medium = jQuery('#wpscppromediumis').is(':checked')
         var threads = jQuery('#wpscpprothreadsis').is(':checked')
-        var google_business = jQuery('#wpscpprogooglebusinessis').is(':checked')
         var pinterestBoardType = jQuery("input:radio[name='pinterestboardtype']:checked").val()
         var data = {
             action: 'wpscp_instant_share_fetch_profile',
@@ -59,8 +58,14 @@ jQuery(document).ready(function ($) {
             is_pinterest_share: pinterest,
             is_medium_share: medium,
             is_threads_share: threads,
-            is_google_business_share: google_business,
         }
+
+        // A network registered by an extension prints its checkbox id from its
+        // own slug, so derive both the id and the payload key from that slug
+        // rather than naming any one platform here.
+        ;(wpscpSocialProfile?.extension_platforms || []).forEach(function (slug) {
+            data['is_' + slug + '_share'] = jQuery('#wpscppro' + slug + 'is').is(':checked')
+        })
 
         jQuery.post(ajaxurl, data, function (response, status) {
             if (status == 'success') {
@@ -82,9 +87,10 @@ jQuery(document).ready(function ($) {
                             pinterest_board_type: pinterestBoardType,
                         }
                         if(profile === 'pinterest' && pinterestBoardType === 'custom'){
-                            var access_token = md5(profileKey[key].access_token);
-                            data.pinterest_custom_board_name = jQuery("[name='wpscppro-pinterest-board-name[" + access_token + "]']").val();
-                            data.pinterest_custom_section_name = jQuery("[name='wpscppro-pinterest-section-name[" + access_token + "]']").val();
+                            // The server sends board_key; tokens are no longer in the response.
+                            var board_key = profileKey[key].board_key || md5(profileKey[key].access_token);
+                            data.pinterest_custom_board_name = jQuery("[name='wpscppro-pinterest-board-name[" + board_key + "]']").val();
+                            data.pinterest_custom_section_name = jQuery("[name='wpscppro-pinterest-section-name[" + board_key + "]']").val();
                         }
                         jQuery.get(ajaxurl, data, function (response, status) {
                             WpScp_Social_single_profile_share_response_markup(

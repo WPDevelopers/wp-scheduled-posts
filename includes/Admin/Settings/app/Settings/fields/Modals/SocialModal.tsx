@@ -1,14 +1,14 @@
 import { __ } from "@wordpress/i18n";
 import React, { useEffect, useState } from 'react';
 import Modal from "react-modal";
-import { generateTabURL, getPinterestBoardSection, getProfileData } from "../../helper/helper";
-import ProAlert from "../utils/ProAlert";
+import { generateTabURL, getPinterestBoardSection, getProfileData, allowsMultipleProfiles } from "../../helper/helper";
+import ProfileLimitNotice from "../utils/ProfileLimitNotice";
 import Facebook from "./Facebook";
 import Linkedin from "./Linkedin";
 import Pinterest from "./Pinterest";
 import Twitter from "./Twitter";
 import Instagram from "./Instagram";
-import GoogleBusiness from "./GoogleBusiness";
+import PlatformProfileList from "./PlatformProfileList";
 
 import {
     useBuilderContext,
@@ -25,7 +25,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const [error, setError] = useState("");
     const [fbPage, setFbPage] = useState([]);
     const [fbGroup, setFbGroup] = useState([]);
-    const [googleProfiles, setGoogleProfiles] = useState([]);
+    // Any platform that returns a plain profile list, including ones an
+    // extension registered.
+    const [extensionProfiles, setExtensionProfiles] = useState([]);
     const [pinterestBoards, setPinterestBoards] = useState([]);
     const [instagramProfiles, setInstagramProfiles] = useState([]);
     const [threadsProfiles, setThreadsProfiles] = useState([]);
@@ -73,7 +75,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                             setFbGroup(response.group);
                         }
                         setInstagramProfiles(response.profiles)
-                        setGoogleProfiles(response.profiles)
+                        setExtensionProfiles(response.profiles)
                         setResponseData([response.data]);
                         setThreadsProfiles(response.profiles);
                         setLinkedInData(response.linkedin);
@@ -102,9 +104,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     // Add linkedin profile
     const addProfileToggle = (item, index, e) => {
         if( e.target.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!allowsMultipleProfiles()) {
                 // @ts-ignore
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
@@ -122,16 +122,24 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     item.status = profileStatus;
                     // Update access token
                     if( type == 'linkedin' ) {
+                        // The new authorisation also renews the matching profile. Copy its
+                        // expiry with the token: the server keeps stored credentials unless
+                        // the form's copy expires later.
+                        const linkedinCredentials = (source) => Object.fromEntries(
+                            ['access_token', 'refresh_token', 'expires_in', 'rt_expires_in']
+                                .filter((field) => source?.[field] !== undefined && source?.[field] !== null && source?.[field] !== '')
+                                .map((field) => [field, source[field]])
+                        );
                         // Find the matching item in savedProfile and update its access_token
                         let updatedSavedProfile = savedProfile.map(savedItem => {
                             if( item.type == 'person' ) {
                                 if (savedItem.profile_id === item.id) {
-                                    return { ...savedItem, access_token: item.access_token };
+                                    return { ...savedItem, ...linkedinCredentials(item) };
                                 }
                                 return savedItem;
                             }else{
                                 if (savedItem.id === item.profile_id) {
-                                    return { ...savedItem, access_token: item.access_token };
+                                    return { ...savedItem, ...linkedinCredentials(item) };
                                 }
                                 return savedItem;
                             }
@@ -190,9 +198,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
     const addPinterestProfileToggle = (item,defaultSection,event, board) => {
         const pinterestItem = { ...item, boards : pinterestBoards, defaultSection: defaultSection, default_board_name : board };
         if( event?.target?.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!allowsMultipleProfiles()) {
                 // @ts-ignore
                 if (!savedProfile || savedProfile === 'undefined' || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)
@@ -279,7 +285,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 </div>
                 <div className="modalbody">
                     {isErrorMessage && (
-                        <ProAlert />
+                        <ProfileLimitNotice />
                     )}
                     {/* @ts-ignore */}
                     {
@@ -336,14 +342,16 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                     savedProfile={addSavedProfile}
                                 />
                               ),
-                              google_business: (
-                                <GoogleBusiness
-                                    profiles={googleProfiles}
-                                    addProfileToggle={addProfileToggle}
-                                    savedProfile={addSavedProfile}
-                                />
-                              ),
-                        }[type]
+                        }[type] ?? (
+                            // A platform registered by an extension. Its profile
+                            // list comes back in the same shape, so the generic
+                            // list is all that is needed.
+                            <PlatformProfileList
+                                profiles={extensionProfiles ?? []}
+                                addProfileToggle={addProfileToggle}
+                                savedProfile={addSavedProfile}
+                            />
+                        )
                     }
                 </div>
             </>

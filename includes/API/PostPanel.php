@@ -69,7 +69,7 @@ class PostPanel {
         register_rest_route( $namespace, '/update-settings/(?P<post_id>\d+)', [
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => [ $this, 'publish_immediately' ],
-            'permission_callback' => [ $this, 'permission_check' ],
+            'permission_callback' => [ $this, 'publish_permission_check' ],
             'args'                => [
                 'post_id' => [
                     'required'          => true,
@@ -85,7 +85,7 @@ class PostPanel {
         register_rest_route( $namespace, '/update-settings/(?P<post_id>\d+)', [
             'methods'             => \WP_REST_Server::DELETABLE,
             'callback'            => [ $this, 'clear_publish_immediately' ],
-            'permission_callback' => [ $this, 'permission_check' ],
+            'permission_callback' => [ $this, 'publish_permission_check' ],
             'args'                => [
                 'post_id' => [
                     'required'          => true,
@@ -108,6 +108,33 @@ class PostPanel {
             return new \WP_Error(
                 'rest_forbidden',
                 __( 'You do not have permission to edit this post.', 'wp-scheduled-posts' ),
+                [ 'status' => 403 ]
+            );
+        }
+        return true;
+    }
+
+    /**
+     * Permission callback for the routes that change whether a post is live:
+     * the user must be able to edit the post and to publish it.
+     *
+     * edit_post alone lets a Contributor through for their own draft, and
+     * these routes would then publish it or put it back on the schedule.
+     *
+     * @param \WP_REST_Request $request
+     * @return bool|\WP_Error
+     */
+    public function publish_permission_check( \WP_REST_Request $request ) {
+        $can_edit = $this->permission_check( $request );
+        if ( true !== $can_edit ) {
+            return $can_edit;
+        }
+
+        $post_id = (int) $request->get_param( 'post_id' );
+        if ( ! current_user_can( 'publish_post', $post_id ) ) {
+            return new \WP_Error(
+                'rest_cannot_publish',
+                __( 'You do not have permission to publish this post.', 'wp-scheduled-posts' ),
                 [ 'status' => 403 ]
             );
         }
@@ -168,6 +195,16 @@ class PostPanel {
             ], 404 );
         }
 
+        // The route only checks edit_post, which a Contributor has for their own
+        // draft. Anything in this save that ends with the post published needs
+        // the right to publish it, or nothing is saved and Pro is not called.
+        if ( $this->requests_publishing( $request, $post_id ) && ! current_user_can( 'publish_post', $post_id ) ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => __( 'You do not have permission to publish this post.', 'wp-scheduled-posts' ),
+            ], 403 );
+        }
+
         // ── Free feature: schedule_date ───────────────────────────────────────
         if ( $is_scheduled && ! empty( $schedule_date ) ) {
             $post_date     = date( 'Y-m-d H:i:s', strtotime( $schedule_date ) );
@@ -180,6 +217,16 @@ class PostPanel {
                 'post_status'   => 'future',
                 'edit_date'     => true,
             ] );
+        }
+
+        // Pro's hook below publishes on these flags without checking the post.
+        $publish_now = $this->is_flag_set( $request->get_param( 'publish_immediately_current_date' ) )
+            || $this->is_flag_set( $request->get_param( 'publish_immediately_future_date' ) );
+        if ( $publish_now && get_post_status( $post_id ) !== 'future' ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => $this->not_scheduled_error()->get_error_message(),
+            ], 400 );
         }
 
         /**
@@ -242,7 +289,8 @@ class PostPanel {
             : $this->handle_post_publish_on_future_date( $post_id );
 
         if ( is_wp_error( $result ) ) {
-            $status = $result->get_error_code() === 'wpsp_not_future_dated' ? 400 : 500;
+            $bad_request = [ 'wpsp_not_scheduled', 'wpsp_not_future_dated' ];
+            $status      = in_array( $result->get_error_code(), $bad_request, true ) ? 400 : 500;
             return new \WP_REST_Response( [
                 'success' => false,
                 'message' => $result->get_error_message(),
@@ -269,6 +317,34 @@ class PostPanel {
      */
     private function is_flag_set( $value ) {
         return $value === true || $value === 'true' || $value === 1 || $value === '1';
+    }
+
+    /**
+     * Whether a post-panel save asks for the post to be published or scheduled.
+     *
+     * schedule_date is applied in save_settings(). The other fields go to Pro
+     * through schedulepress_after_free_settings_save, and each one publishes
+     * the post: now, ahead of its future date, or on its Republish On date.
+     * The panel sends every field on each save, so a Republish On date that is
+     * already stored is not a new request.
+     *
+     * @param \WP_REST_Request $request
+     * @param int              $post_id
+     * @return bool
+     */
+    private function requests_publishing( \WP_REST_Request $request, $post_id ) {
+        if ( $request->get_param( 'is_scheduled' ) && ! empty( $request->get_param( 'schedule_date' ) ) ) {
+            return true;
+        }
+
+        if ( $this->is_flag_set( $request->get_param( 'publish_immediately_current_date' ) )
+            || $this->is_flag_set( $request->get_param( 'publish_immediately_future_date' ) ) ) {
+            return true;
+        }
+
+        $republish_on = (string) $request->get_param( 'republish_on' );
+        return '' !== $republish_on
+            && get_post_meta( $post_id, '_wpscp_schedule_republish_date', true ) !== $republish_on;
     }
 
     /**
@@ -397,6 +473,11 @@ class PostPanel {
             );
         }
 
+        // Without this a draft gets published and a live post gets today's date.
+        if ( get_post_status( $post_id ) !== 'future' ) {
+            return $this->not_scheduled_error();
+        }
+
         // wp_update_post() returns 0 on failure unless the third argument asks
         // for a WP_Error, so without it a failed publish was indistinguishable
         // from a successful one.
@@ -434,6 +515,11 @@ class PostPanel {
                 'wpsp_missing_post',
                 __( 'Post not found.', 'wp-scheduled-posts' )
             );
+        }
+
+        // An unscheduled draft keeps its old future date, so the date check alone would publish it.
+        if ( $post->post_status !== 'future' ) {
+            return $this->not_scheduled_error();
         }
 
         // Only proceed if the post date is still in the future. This is a bad
@@ -529,6 +615,18 @@ class PostPanel {
         do_action( 'wpsp_pro_update_post', $post_id );
 
         return true;
+    }
+
+    /**
+     * Error for a "publish immediately" request on a post that is not scheduled.
+     *
+     * @return \WP_Error
+     */
+    private function not_scheduled_error() {
+        return new \WP_Error(
+            'wpsp_not_scheduled',
+            __( 'Only a scheduled post can be published immediately.', 'wp-scheduled-posts' )
+        );
     }
 
     /**

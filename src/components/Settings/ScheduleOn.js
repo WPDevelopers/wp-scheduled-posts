@@ -139,21 +139,39 @@ const ScheduleOn = () => {
     const latestEditorStatus   = useRef(postStatus);
     latestEditorStatus.current = postStatus;
 
+    const applyPanelState = (res) => {
+        setPreventFuturePost(!!res?.data?.prevent_future_post);
+        if (res?.data?.post_status) {
+            serverStatusBaseline.current = latestEditorStatus.current;
+            setServerPostStatus(res.data.post_status);
+        }
+    };
+
     useEffect(() => {
         if (!postId) return;
         let cancelled = false;
         getPostPanelSettings(postId).then((res) => {
             if (cancelled) return;
-            setPreventFuturePost(!!res?.data?.prevent_future_post);
-            if (res?.data?.post_status) {
-                serverStatusBaseline.current = latestEditorStatus.current;
-                setServerPostStatus(res.data.post_status);
-            }
+            applyPanelState(res);
         }).catch(() => {}).finally(() => {
             if (!cancelled) setPanelStateLoaded(true);
         });
         return () => { cancelled = true; };
     }, [postId]);
+
+    // Publishing immediately changes the post behind the editor's back, so read it again.
+    const handlePublished = () => getPostPanelSettings(postId).then((res) => {
+        applyPanelState(res);
+        dispatch({ type: 'SET_PUBLISH_IMMEDIATELY', payload: false });
+        if (res?.data?.post_status) {
+            syncCurrentPostStatus(res.data.post_status);
+        }
+        setStatusSyncError('');
+    }).catch((error) => {
+        const message = __('The post was published, but this editor could not refresh its state. Reload this editor before continuing.', 'wp-scheduled-posts');
+        setStatusSyncError(message);
+        console.error(message, error);
+    });
 
     const editorMovedOn = serverStatusBaseline.current !== null
         && postStatus !== ''
@@ -312,22 +330,22 @@ const ScheduleOn = () => {
                             postId={postId}
                             publishImmediatelyBtn={publishImmediatelyBtn}
                             publishFutureDateBtn={publishFutureDateBtn}
+                            onPublished={handlePublished}
                         />
                     )}
 
                     { panelStateLoaded && preventFuturePost && (
-                        <>
-                            <PublishImmediatelyActive
-                                postId={postId}
-                                onCleared={handleIntentCleared}
-                            />
-                            { statusSyncError && (
-                                <p className="sc-publish-future-notice" role="alert">
-                                    { statusSyncError }
-                                </p>
-                            ) }
-                        </>
+                        <PublishImmediatelyActive
+                            postId={postId}
+                            onCleared={handleIntentCleared}
+                        />
                     )}
+
+                    { panelStateLoaded && statusSyncError && (
+                        <p className="sc-publish-future-notice" role="alert">
+                            { statusSyncError }
+                        </p>
+                    ) }
                 </div>
             </div>
         </div>

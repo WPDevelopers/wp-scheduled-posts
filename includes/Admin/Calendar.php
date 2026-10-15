@@ -6,7 +6,6 @@ use WP;
 use WPSP\Helper;
 use WP_REST_Response;
 use WP_Error;
-use WPSP_PRO\Scheduled\Published;
 
 class Calendar
 {
@@ -71,7 +70,15 @@ class Calendar
     public function edit_permission_callback($request) {
         $id = $request->get_param('ID');
         if(!empty($id)){
-            return current_user_can('edit_post', $id);
+            if (!current_user_can('edit_post', $id)) {
+                return false;
+            }
+            // Every other type schedules the post, which needs publish rights.
+            $draft_types = ['newDraft', 'editDraft', 'draftDrop', 'trashDrop'];
+            if (!in_array($request->get_param('type'), $draft_types, true)) {
+                return current_user_can('publish_post', $id);
+            }
+            return true;
         }
         return current_user_can('publish_posts');
     }
@@ -335,7 +342,9 @@ class Calendar
     
 
     public function get_tax_terms($request){
-        $post_types       = $request->get_param('post_type');
+        // A missing or single post_type is valid: array_intersect() needs an array,
+        // and without this a request with no post_type was a fatal TypeError.
+        $post_types       = array_map('strval', (array) $request->get_param('post_type'));
         $allow_post_types = Helper::get_all_allowed_post_type();
         $allow_categories = Helper::get_settings('allow_categories');
         $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
@@ -876,8 +885,28 @@ class Calendar
             }
             
             if( 'Adv. Scheduled' == $status ) {
-                $published = new Published();
-                $published->wpscp_pending_schedule_fn($postId, $status );
+                /**
+                 * Clear an advanced schedule. Advanced Schedule is a Pro feature,
+                 * so this has to be asked for rather than called: instantiating
+                 * the Pro class directly is a fatal error without Pro installed.
+                 *
+                 * @param null|bool $handled Null means nobody handled it.
+                 * @param int       $postId
+                 * @param string    $status
+                 */
+                $handled = apply_filters('wpsp_calendar_delete_event', null, $postId, $status);
+
+                // SchedulePress Pro older than 5.3.4 does not answer the filter.
+                if ($handled === null && class_exists('\WPSP_PRO\Scheduled\Published')) {
+                    $published = new \WPSP_PRO\Scheduled\Published();
+                    $published->wpscp_pending_schedule_fn($postId, $status);
+                    $handled = true;
+                }
+
+                if ($handled === null) {
+                    return new WP_Error('wpsp_pro_required', __('Advanced Schedule needs SchedulePress Pro.', 'wp-scheduled-posts'), array('status' => 400));
+                }
+
                 $response = array('message' => 'Advanced schedule removed', 'id' => $postId, 'status' => $status );
                 return new WP_REST_Response($response, 200);
             }

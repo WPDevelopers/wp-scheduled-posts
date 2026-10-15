@@ -269,6 +269,8 @@ class Medium
                             'share_id' => (isset($response->data->id) ? $response->data->id : ''),
                             'publish_date' => time(),
                         );
+                        // Count the share, or post_share_limit never applies.
+                        $this->save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID);
                         $errorFlag = true;
                     }else if(!empty($response->errors[0]->message)){
 						$response = $response->errors[0]->message;

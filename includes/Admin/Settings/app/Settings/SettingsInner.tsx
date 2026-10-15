@@ -1,8 +1,22 @@
 import apiFetch from '@wordpress/api-fetch';
 import { FormBuilder, useBuilderContext } from "quickbuilder";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Content from "./Content";
 import { SweetAlertProMsg, SweetAlertToaster } from './ToasterMsg';
+
+// Ignores key and profile order, so a list a field re-sorts on load is not a change.
+const normalize = (value) => {
+  if (Array.isArray(value)) {
+    const items = value.map(normalize);
+    const byId = items.every((item) => item && typeof item === 'object' && 'id' in item);
+    return byId ? [...items].sort((a, b) => String(a.id).localeCompare(String(b.id))) : items;
+  }
+  if (value && typeof value === 'object') {
+    return Object.keys(value).sort().reduce((out, key) => ({ ...out, [key]: normalize(value[key]) }), {});
+  }
+  return value ?? null;
+};
+const stable = (value) => JSON.stringify(normalize(value));
 
 const SettingsInner = (props) => {
   const builderContext = useBuilderContext();
@@ -23,16 +37,39 @@ const SettingsInner = (props) => {
     } );
   }, []);
 
+  // Each setting as last saved, so only the fields the user changed are posted.
+  const saved = useRef(null);
+  const touched = useRef(false);
+
   useEffect(() => {
-      setTimeout(() => {
-        apiFetch( {
-            path  : 'wp-scheduled-posts/v1/settings',
-            method: 'POST',
-            data  : builderContext.values,
-        } ).then( ( res ) => {
-            
-        } );
+    const mark = () => { touched.current = true; };
+    const events = ['pointerdown', 'keydown', 'input', 'change'];
+    events.forEach((name) => document.addEventListener(name, mark, true));
+    return () => events.forEach((name) => document.removeEventListener(name, mark, true));
+  }, []);
+
+  useEffect(() => {
+    const values = builderContext.values || {};
+    const current = Object.keys(values).reduce((out, key) => ({ ...out, [key]: stable(values[key]) }), {});
+    // Fields settle their own values while loading; that is not a change to save.
+    if (saved.current === null || !touched.current) {
+      saved.current = current;
+      return;
+    }
+    const changed = Object.keys(current).filter((key) => current[key] !== saved.current[key]);
+    if (!changed.length) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      apiFetch( {
+          path  : 'wp-scheduled-posts/v1/settings',
+          method: 'POST',
+          data  : changed.reduce((out, key) => ({ ...out, [key]: values[key] }), {}),
+      } ).then( () => {
+          changed.forEach((key) => { saved.current[key] = current[key]; });
+      } );
     }, 100);
+    return () => clearTimeout(timer);
   }, [builderContext.values]);
 
   useEffect(() => {

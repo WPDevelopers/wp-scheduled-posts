@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg, SweetAlertToaster } from '../ToasterMsg';
-import { fetchDataFromAPI, socialProfileRequestHandler } from '../helper/helper';
+import { fetchDataFromAPI, socialProfileRequestHandler, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
@@ -88,8 +88,7 @@ const Medium = (props) => {
         setSelectedProfile(changeProfileStatus);
     };
     
-    // @ts-ignore
-    const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+    const is_multi_profile = allowsMultipleProfiles();
     // Open and Close API credentials modal
     const openApiCredentialsModal = (accountType) => {
         localStorage.setItem('account_type', accountType);
@@ -105,13 +104,13 @@ const Medium = (props) => {
         setProfileStatus(true);
         }
         setCashedStatus((prevStatus) => {
-        if( is_pro ) {
+        if( is_multi_profile ) {
             return { ...prevStatus, [item.id]: event.target.checked };
         }else{
             return { [item.id]: event.target.checked };
         }
         });
-        if ( is_pro ) {
+        if ( is_multi_profile ) {
         const updatedData = selectedProfile.map((selectedItem) => {
             if (selectedItem.id === item.id) {
             return {
@@ -221,9 +220,7 @@ const Medium = (props) => {
 
     const addMediumProfile = (event, profileInfo) => {
         if( event.target.checked ) {
-            // free
-            // @ts-ignore
-            if (!builderContext.is_pro_active) {
+            if (!is_multi_profile) {
                 // @ts-ignore
                 if (!savedProfile || (savedProfile && savedProfile.length == 0)) {
                     setIsErrorMessage(false)

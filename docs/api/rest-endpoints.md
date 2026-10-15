@@ -49,8 +49,8 @@ The settings collection path defaults to `/settings/` but is filterable via the
 | Method | Route | Callback | Response |
 | --- | --- | --- | --- |
 | `GET` | `wp-scheduled-posts/v1/settings/` | `get_value` | `{ success: true, value: <json-string> }` — the raw `wpsp_settings_v5` option (empty string when unset). |
-| `POST` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }` |
-| `PUT`/`PATCH` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }` |
+| `POST` | `wp-scheduled-posts/v1/settings/` | `update_value` | `{ success: bool, value: <params> }`. Merges the JSON body into the stored option (`Settings::merge_settings()`); keys not sent are kept. A profile already in a `*_profile_list` keeps its stored credentials (tokens, secrets, app/client ids, expiry, `renewal_failed`), which only the connect, reconnect and renewal code write. The settings screen posts only the fields the user changed, and nothing on load (card 84789). |
+| `PUT`/`PATCH` | `wp-scheduled-posts/v1/settings/` | `update_value` | Same as `POST`. |
 | `DELETE` | `wp-scheduled-posts/v1/settings/` | `delete_value` | `{ success: bool, value: "" }` |
 
 `update_value` merges defaults for `allow_post_types` / `allow_categories` /
@@ -64,10 +64,11 @@ Registered in `register_social_profile_routes`. All require `edit_posts`.
 
 | Method | Route | Callback | Notes |
 | --- | --- | --- | --- |
-| `GET` | `wp-scheduled-posts/v1/get-option-data` | `wpsp_get_options_data` | Returns the `wpsp_settings_v5` option with social profile lists normalized (default `thumbnail_url` / `name`, LinkedIn `__id`→`id`). Gated additionally by `Helper::is_user_allow()` (401 otherwise). |
+| `GET` | `wp-scheduled-posts/v1/get-option-data` | `wpsp_get_options_data` | Returns only the ten `{platform}_profile_list` keys and `post_republish_unpublish` from `wpsp_settings_v5` (`Settings::public_option_data()`), with profile lists normalized (default `thumbnail_url` / `name`, LinkedIn `__id`→`id`). Token, secret, password and app/client id fields are removed at any depth, and `openai_api_key` is never returned (card 84788). Gated additionally by `Helper::is_user_allow()` (401 otherwise). |
 | `GET` | `wp-scheduled-posts/v1/instant-social-share` | `wpsp_instant_social_share` | Fires the [`wpsp_instant_social_single_profile_share`](hooks-filters.md#actions) action with the request params. |
 | `GET` | `wp-scheduled-posts/v1/get-categories` | `wpsp_get_categories` | Paginated taxonomy terms across all allowed post types. Params: `limit` (default 10), `page` (default 1). Returns an array of `{ term_id, label, slug, taxonomy, postType, value }`. |
-| `POST` | `wp-scheduled-posts/v1/update-refresh-token` | `wpsp_update_refresh_token` | Params: `platform`, `item`. Delegates to `Social\ReconnectHandler::handleProfileReconnect()`. Success additionally requires the refreshed credential to have been persisted; `update_access_token()` returns a `WP_Error` for a missing/malformed settings option, an unknown profile id, or a failed write, and that becomes a 500. Authorization is in the `permission_callback`: no `edit_posts` is 401/403 via `rest_authorization_required_code()`, failing `Helper::is_user_allow()` is 403. A failed reconnect returns a `WP_Error` (400 for a bad request, 502 for a transport or Instagram-side failure), never a 200 carrying `success: false`. |
+| `POST` | `wp-scheduled-posts/v1/update-refresh-token` | `wpsp_update_refresh_token` | Params: `platform`, `item`. Delegates to `Social\ReconnectHandler::handleProfileReconnect()`, which reads only `item.id` / `item.__id` and renews the stored profile through `renew()`. 200 `{ success: true, reconnected: true }` only once the new token is saved; 200 `{ success: true, needs_auth: true, method }` when the provider's consent screen is needed. Errors are a `WP_Error`, never a 200 carrying `success: false`: 404 `reconnect_profile_missing` (profile not stored), 500 `reconnect_not_saved` (renewed but the settings write failed), 400 `reconnect_failed` (token service unreachable or 5xx; retried later). Authorization is in the `permission_callback`: no `edit_posts` is 401/403 via `rest_authorization_required_code()`, failing `Helper::is_user_allow()` is 403. |
+| `POST` | `wp-scheduled-posts/v1/complete-reconnect` | `wpsp_complete_reconnect` | Params: `platform`, `id`, `payload` (the accounts fetched after the consent popup). Delegates to `Social\ReconnectHandler::complete_reconnect()`, which copies the matching account's credentials onto the stored profile. 200 `{ success: true, reconnected: true }` once saved; otherwise 400 `reconnect_invalid_request`, 409 `reconnect_account_mismatch`, 502 `reconnect_no_credentials` or 500 `reconnect_not_saved`. Same `permission_callback` as `update-refresh-token`. |
 
 Two additional routes are registered in `register_routes` (both require
 `manage_options`):
