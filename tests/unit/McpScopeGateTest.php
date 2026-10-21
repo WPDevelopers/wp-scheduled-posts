@@ -104,6 +104,27 @@ class McpScopeGateTest extends TestCase {
 		$this->assertTrue( Tools::is_write_tool( 'forget-schedule' ) );
 	}
 
+	/**
+	 * The ability's `readonly` annotation wins over its name. `find-schedule-gaps`
+	 * is read-only despite lacking a get-/list- prefix, and a get-/list- named
+	 * tool annotated non-readonly is still a write.
+	 */
+	public function test_readonly_annotation_overrides_the_name() {
+		$this->assertFalse( Tools::is_write_tool( 'find-schedule-gaps', true ) );
+		$this->assertFalse( Tools::is_write_tool( 'bulk-export', true ) );
+		$this->assertTrue( Tools::is_write_tool( 'get-something', false ) );
+	}
+
+	/**
+	 * With no annotation the gate falls back to the name prefix and fails closed:
+	 * `find-schedule-gaps` is then treated as a write.
+	 */
+	public function test_missing_annotation_falls_back_to_name() {
+		$this->assertTrue( Tools::is_write_tool( 'find-schedule-gaps' ) );
+		$this->assertTrue( Tools::is_write_tool( 'find-schedule-gaps', null ) );
+		$this->assertFalse( Tools::is_write_tool( 'get-calendar' ) );
+	}
+
 	public function test_read_scope_alone_is_read_only() {
 		$this->assertTrue( OAuth::scope_is_read_only( 'read' ) );
 	}
