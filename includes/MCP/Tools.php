@@ -15,8 +15,9 @@
  * ability (see invoke()).
  *
  * Scope model: a read-only credential may only invoke read tools. An ability is
- * read-only when its name (sans prefix) starts with `get-` or `list-`;
- * everything else (schedule-*, update-*, share-*) mutates state.
+ * read-only when its `readonly` annotation says so; the `get-`/`list-` name
+ * prefix is only a fallback for when that annotation is missing, and an
+ * unprefixed name then fails closed (treated as a write).
  *
  * @package WPSP\MCP
  */
@@ -157,7 +158,7 @@ final class Tools {
 
 		// Scope enforcement: a read-only connection cannot invoke a tool that
 		// mutates state.
-		if ( self::is_write_tool( $name ) && self::is_read_only() ) {
+		if ( self::is_write_tool( $name, self::readonly_annotation( $ability ) ) && self::is_read_only() ) {
 			return new \WP_Error(
 				'wpsp_mcp_read_only',
 				sprintf(
@@ -173,19 +174,46 @@ final class Tools {
 	}
 
 	/**
-	 * Whether a tool mutates state. Read tools are `get-*` / `list-*`;
-	 * everything else is treated as write.
+	 * Whether a tool mutates state, so a read-only connection must be refused it.
 	 *
-	 * @param string $name Tool name (sans prefix).
+	 * The ability's own `readonly` annotation is the source of truth: the tool is
+	 * a write when `readonly` is false, and a read when it is true. The
+	 * `get-`/`list-` name prefix is only a fallback for when the annotation is
+	 * missing (an unregistered or malformed tool), and an unprefixed name then
+	 * fails closed — treated as a write — so a new tool is never silently handed
+	 * to read-only credentials.
+	 *
+	 * @param string    $name     Tool name (sans prefix).
+	 * @param bool|null $readonly The ability's `readonly` annotation, or null when unknown.
 	 * @return bool
 	 */
-	public static function is_write_tool( $name ) {
+	public static function is_write_tool( $name, $readonly = null ) {
+		if ( null !== $readonly ) {
+			return ! (bool) $readonly;
+		}
 		foreach ( self::READ_PREFIXES as $prefix ) {
 			if ( 0 === strpos( $name, $prefix ) ) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Read a registered ability's `readonly` annotation.
+	 *
+	 * @param object $ability A WP_Ability from the registry.
+	 * @return bool|null True/false from the annotation, or null when it is absent.
+	 */
+	private static function readonly_annotation( $ability ) {
+		if ( ! is_object( $ability ) || ! method_exists( $ability, 'get_meta_item' ) ) {
+			return null;
+		}
+		$annotations = $ability->get_meta_item( 'annotations', array() );
+		if ( is_array( $annotations ) && array_key_exists( 'readonly', $annotations ) && null !== $annotations['readonly'] ) {
+			return (bool) $annotations['readonly'];
+		}
+		return null;
 	}
 
 	/**
