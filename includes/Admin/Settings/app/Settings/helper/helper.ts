@@ -397,7 +397,8 @@ export const getProfileData = async (params) => {
         nonce : nonce,
         type: params.get("type"),
         appId: params.get("appId"),
-        appSecret: params.get("appSecret"),
+        // No appSecret: the callback URL never carries it. The server kept the
+        // one the connect step was given.
         code: params.get("code"),
         redirectURI: params.get("redirectURI"),
         access_token: params.get("access_token"),
