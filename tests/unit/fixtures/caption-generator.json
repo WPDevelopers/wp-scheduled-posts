@@ -1,0 +1,170 @@
+{
+    "messages": {
+        "editor-default": {
+            "platforms": [
+                "facebook",
+                "twitter"
+            ],
+            "opts": {
+                "prompt": "",
+                "auto_generate": true,
+                "tone": "professional",
+                "length": "auto",
+                "generate_hashtags": false,
+                "include_emojis": false
+            },
+            "post": {
+                "title": "Hello & world",
+                "excerpt": "Some post content.",
+                "permalink": "https://example.com/hello/"
+            },
+            "limits": {
+                "facebook": 63206,
+                "twitter": 280,
+                "linkedin": 1300,
+                "pinterest": 500,
+                "instagram": 2100,
+                "medium": 45000,
+                "threads": 480,
+                "google_business": 1500,
+                "bluesky": 300,
+                "mastodon": 500
+            },
+            "expected": [
+                {
+                    "role": "system",
+                    "content": "You are an expert social media copywriter. You write engaging, platform-native captions that drive engagement. You always respond with a single valid JSON object and nothing else — no markdown, no code fences, no commentary."
+                },
+                {
+                    "role": "user",
+                    "content": "Write a social media caption for each of the following platforms, tailored to each platform's style and character limit:\n- \"facebook\" (Facebook, max 63206 characters — never exceed this)\n- \"twitter\" (X (Twitter), max 280 characters — never exceed this)\n\nPost title: Hello & world\nPost content: Some post content.\nPost URL: https://example.com/hello/\n\nRequirements:\n- Tone/style: professional.\n- Length: an appropriate length for each platform.\n- Hashtags: do not include hashtags.\n- Emojis: do not use emojis.\n- Base the captions on the post title and content above.\n\nReturn a JSON object whose keys are exactly \"facebook\", \"twitter\" and whose values are the caption strings. Respect each platform's character limit."
+                }
+            ]
+        },
+        "every-option-on": {
+            "platforms": [
+                "linkedin",
+                "mastodon",
+                "threads"
+            ],
+            "opts": {
+                "prompt": "Mention the sale.",
+                "auto_generate": true,
+                "tone": "post_specific",
+                "length": "long",
+                "generate_hashtags": true,
+                "include_emojis": true
+            },
+            "post": {
+                "title": "No body",
+                "excerpt": "",
+                "permalink": ""
+            },
+            "limits": {
+                "facebook": 63206,
+                "twitter": 280,
+                "linkedin": 1300,
+                "pinterest": 500,
+                "instagram": 2100,
+                "medium": 45000,
+                "threads": 480,
+                "google_business": 1500,
+                "bluesky": 300,
+                "mastodon": 500
+            },
+            "expected": [
+                {
+                    "role": "system",
+                    "content": "You are an expert social media copywriter. You write engaging, platform-native captions that drive engagement. You always respond with a single valid JSON object and nothing else — no markdown, no code fences, no commentary."
+                },
+                {
+                    "role": "user",
+                    "content": "Write a social media caption for each of the following platforms, tailored to each platform's style and character limit:\n- \"linkedin\" (LinkedIn, max 1300 characters — never exceed this)\n- \"mastodon\" (Mastodon, max 500 characters — never exceed this)\n- \"threads\" (Threads, max 480 characters — never exceed this)\n\nPost title: No body\n\nRequirements:\n- Tone/style: analyze the tone, voice, and writing style of the post title and content above, then write each caption to match that same tone and style.\n- Length: detailed and engaging — roughly 250-500 characters (multiple sentences).\n- Hashtags: include a few relevant hashtags.\n- Emojis: use tasteful, relevant emojis.\n- Extra instructions from the user: Mention the sale.\n\nReturn a JSON object whose keys are exactly \"linkedin\", \"mastodon\", \"threads\" and whose values are the caption strings. Respect each platform's character limit."
+                }
+            ]
+        },
+        "settings-limit-unknown-length": {
+            "platforms": [
+                "twitter",
+                "bluesky"
+            ],
+            "opts": {
+                "prompt": "",
+                "auto_generate": false,
+                "tone": "witty",
+                "length": "bogus",
+                "generate_hashtags": false,
+                "include_emojis": false
+            },
+            "post": {
+                "title": "Limits",
+                "excerpt": "Short.",
+                "permalink": "https://example.com/limits/"
+            },
+            "limits": {
+                "facebook": 63206,
+                "twitter": 200,
+                "linkedin": 1300,
+                "pinterest": 500,
+                "instagram": 2100,
+                "medium": 45000,
+                "threads": 480,
+                "google_business": 1500,
+                "bluesky": 300,
+                "mastodon": 500
+            },
+            "expected": [
+                {
+                    "role": "system",
+                    "content": "You are an expert social media copywriter. You write engaging, platform-native captions that drive engagement. You always respond with a single valid JSON object and nothing else — no markdown, no code fences, no commentary."
+                },
+                {
+                    "role": "user",
+                    "content": "Write a social media caption for each of the following platforms, tailored to each platform's style and character limit:\n- \"twitter\" (X (Twitter), max 200 characters — never exceed this)\n- \"bluesky\" (Bluesky, max 300 characters — never exceed this)\n\nPost title: Limits\nPost content: Short.\nPost URL: https://example.com/limits/\n\nRequirements:\n- Tone/style: witty.\n- Length: an appropriate length for each platform.\n- Hashtags: do not include hashtags.\n- Emojis: do not use emojis.\n\nReturn a JSON object whose keys are exactly \"twitter\", \"bluesky\" and whose values are the caption strings. Respect each platform's character limit."
+                }
+            ]
+        }
+    },
+    "enforce_limit": [
+        {
+            "text": "fits as is",
+            "limit": 20,
+            "expected": "fits as is"
+        },
+        {
+            "text": "no limit at all here",
+            "limit": 0,
+            "expected": "no limit at all here"
+        },
+        {
+            "text": "one two three four five six",
+            "limit": 15,
+            "expected": "one two three"
+        },
+        {
+            "text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa tail",
+            "limit": 30,
+            "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+            "text": "ab cdefghijklmnopqrstuvwxyz",
+            "limit": 12,
+            "expected": "ab cdefghijk"
+        },
+        {
+            "text": "aaaaaaaaaaa bbbbbbbbbbbbbbbbbbbb",
+            "limit": 20,
+            "expected": "aaaaaaaaaaa bbbbbbbb"
+        },
+        {
+            "text": "emoji 🚀🚀🚀 rocket ships fly",
+            "limit": 12,
+            "expected": "emoji 🚀🚀🚀"
+        },
+        {
+            "text": "বাংলা লেখা অনেক লম্বা বাক্য",
+            "limit": 14,
+            "expected": "বাংলা লেখা"
+        }
+    ]
+}
