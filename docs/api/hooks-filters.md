@@ -32,7 +32,7 @@ should hook the `wpsp_publish_future_post` action rather than the raw core hook.
 | --- | --- | --- |
 | `wpsp_settings_before_save` | The full settings array just before it is JSON-encoded into the `wpsp_settings_v5` option ([includes/API/Settings.php:456](../../includes/API/Settings.php)). Pro uses this to persist its own settings keys. | `$settings` (array) |
 | `wpsp_rest_endpoint` | The settings REST route path (default `/settings/`) ([includes/API/Settings.php:326](../../includes/API/Settings.php)). | `'/settings/'` (string) |
-| `wpsp_openai_model` | The OpenAI model used for AI caption generation (default `gpt-4o-mini`) ([includes/API/AICaption.php:315](../../includes/API/AICaption.php)). | `'gpt-4o-mini'` (string) |
+| `wpsp_openai_model` | The OpenAI model used for AI caption generation (default `gpt-4o-mini`) ([includes/Abilities/Social/CaptionGenerator.php:57](../../includes/Abilities/Social/CaptionGenerator.php)). | `'gpt-4o-mini'` (string) |
 | `wpsp_layout_tabs` | The Settings React app's tab layout ([includes/Admin/Settings.php:146](../../includes/Admin/Settings.php)). Pro injects its tabs here. | `$tabs` (array) |
 | `wpsp_general_fields` | The General settings tab's field definitions ([includes/Admin/Settings.php:152](../../includes/Admin/Settings.php)). | `$fields` (array) |
 | `wpsp_ai_fields` | The AI settings tab's fields ([includes/Admin/Settings.php:1587](../../includes/Admin/Settings.php)). | `$fields` (array) |

@@ -63,7 +63,7 @@ const TONE_OPTIONS = [
 ];
 
 // Character ranges shown to the user double as the target the AI generates to.
-// Keep these ranges in sync with $length_guide in includes/API/AICaption.php.
+// Keep these ranges in sync with $length_guide in includes/Abilities/Social/CaptionGenerator.php.
 const LENGTH_OPTIONS = [
   { value: 'auto', label: __('Auto (Recommended)', 'wp-scheduled-posts') },
   { value: 'short', label: __('Short (Up to 280 characters - Ideal for X)', 'wp-scheduled-posts') },
