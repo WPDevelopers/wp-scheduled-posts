@@ -161,7 +161,11 @@ class Social
         $this->define('WPSCP_MEDIUM_OPTION_NAME', 'medium_profile_list');
         $this->define('WPSCP_THREADS_OPTION_NAME', 'threads_profile_list');
         // $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,publish_to_groups,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,pages_manage_engagement');
-        $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_metadata,pages_read_user_content,pages_manage_posts,business_management,');
+        // Only what sharing uses: /me/accounts lists the pages, /{page}/feed posts
+        // with the page token, and business_management reaches pages owned
+        // through a Business Manager. Apps without access to an unused scope fail
+        // the consent screen outright.
+        $this->define('WPSCP_FACEBOOK_SCOPE', 'pages_show_list,pages_read_engagement,pages_manage_posts,business_management');
         $this->define('WPSCP_INSTAGRAM_SCOPE', 'instagram_business_basic,instagram_business_content_publish,');
         // twitter
         $this->define('WPSCP_TWITTER_OPTION_NAME', 'twitter_profile_list');
