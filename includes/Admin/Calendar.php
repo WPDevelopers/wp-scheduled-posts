@@ -671,6 +671,11 @@ class Calendar
         }
 
 
+        // Scheduling turns the post `future`, and it is then published publicly.
+        if (!empty($postid) && in_array($type, ['addEvent', 'editEvent', 'eventDrop'], true) && \WPSP\Helper::is_private_post($postid)) {
+            return new WP_Error('rest_post_private', \WPSP\Helper::private_post_schedule_message(), array('status' => 400));
+        }
+
         /**
          * Post Status Change and Date modifired
          */

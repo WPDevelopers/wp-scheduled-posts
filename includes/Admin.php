@@ -1303,6 +1303,13 @@ class Admin
                 'wpsp_el_pinterest_board' => [],
             ]);
 
+            // Scheduling turns the post `future`, and it is then published publicly.
+            if (!empty($args['id']) && $args['post_status'] === 'future' && \WPSP\Helper::is_private_post(absint($args['id']))) {
+                wp_send_json_error([
+                    'msg' => \WPSP\Helper::private_post_schedule_message()
+                ]);
+            }
+
             do_action('wpsp_el_action_before', $args);
 
             // @todo moved to pro, will be removed in next version...

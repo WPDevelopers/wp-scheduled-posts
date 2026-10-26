@@ -122,7 +122,8 @@ const Footer = () => {
                 document.body.style.overflow = '';
             }
         }).catch((error) => {
-            showCustomToast('error', 'Failed to save settings.');
+            // Show the server's reason (e.g. a private post cannot be scheduled).
+            showCustomToast('error', error?.message || 'Failed to save settings.');
             console.error(error);
         }).finally(() => {
             setIsSaving(false);

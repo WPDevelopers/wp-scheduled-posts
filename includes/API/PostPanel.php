@@ -168,6 +168,14 @@ class PostPanel {
             ], 404 );
         }
 
+        // Scheduling turns the post `future`, and it is then published publicly.
+        if ( $is_scheduled && ! empty( $schedule_date ) && \WPSP\Helper::is_private_post( $post_id ) ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => \WPSP\Helper::private_post_schedule_message(),
+            ], 400 );
+        }
+
         // ── Free feature: schedule_date ───────────────────────────────────────
         if ( $is_scheduled && ! empty( $schedule_date ) ) {
             $post_date     = date( 'Y-m-d H:i:s', strtotime( $schedule_date ) );
