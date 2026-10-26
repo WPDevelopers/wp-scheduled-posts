@@ -436,6 +436,11 @@ class SocialProfile
         $expires_in    = (isset($_POST['expires_in']) ? $_POST['expires_in'] : '');
         $rt_expires_in = (isset($_POST['rt_expires_in']) ? $_POST['rt_expires_in'] : '');
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
+        // The callback URL no longer carries the secret, so take the one the
+        // connect step kept on this side.
+        if ($app_secret === '') {
+            $app_secret = self::recall_app_secret($type, $app_id);
+        }
         // user
         $current_user = wp_get_current_user();
 
@@ -868,6 +873,58 @@ class SocialProfile
     }
 
     /**
+     * How long a connect may sit on the provider's consent screen before the
+     * kept app secret is dropped.
+     */
+    const APP_SECRET_TTL = 30 * MINUTE_IN_SECONDS;
+
+    /**
+     * Keep the app secret of a connect that is about to leave for the provider.
+     *
+     * Kept per user and per network, so the callback that comes back to the
+     * same author can finish the code exchange without the secret ever being
+     * part of a URL.
+     *
+     * @param string $type
+     * @param string $app_id
+     * @param string $app_secret
+     */
+    public static function remember_app_secret($type, $app_id, $app_secret)
+    {
+        if ($type === '' || $app_secret === '') {
+            return;
+        }
+        set_transient(self::app_secret_key($type), array(
+            'app_id'     => (string) $app_id,
+            'app_secret' => (string) $app_secret,
+        ), self::APP_SECRET_TTL);
+    }
+
+    /**
+     * The app secret kept by remember_app_secret(), for the same app only.
+     *
+     * @param string $type
+     * @param string $app_id
+     * @return string
+     */
+    public static function recall_app_secret($type, $app_id)
+    {
+        if ($type === '') {
+            return '';
+        }
+        $kept = get_transient(self::app_secret_key($type));
+        if (!is_array($kept) || empty($kept['app_secret']) || (string) $kept['app_id'] !== (string) $app_id) {
+            return '';
+        }
+        return $kept['app_secret'];
+    }
+
+    private static function app_secret_key($type)
+    {
+        return 'wpsp_oauth_secret_' . get_current_user_id() . '_' . md5($type);
+    }
+
+    /**
      * Add Social Profile
      */
     public function add_social_profile()
@@ -892,6 +949,12 @@ class SocialProfile
         $redirectURI = (isset($_POST['redirectURI']) ? $_POST['redirectURI'] : '');
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
         $accountType = (isset($_POST['accountType']) ? $_POST['accountType'] : '');
+
+        // The request becomes the OAuth state, which travels in the consent URL
+        // and comes back in the callback URL. Neither the app secret nor the
+        // nonce belongs in a query string, so the secret stays on this side.
+        self::remember_app_secret($type, $app_id, $app_secret);
+        unset($request['appSecret'], $request['nonce']);
 
         if ($type == 'pinterest') {
             if (!$this->social_single_profile_checkpoint($type)) {
