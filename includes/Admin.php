@@ -1287,6 +1287,13 @@ class Admin
                 'wpsp_el_pinterest_board' => [],
             ]);
 
+            // The editor panel only loads for allowed roles; refuse the rest here too.
+            if (!Helper::is_user_allow()) {
+                wp_send_json_error([
+                    'msg' => __('Your role is not allowed to use SchedulePress.', 'wp-scheduled-posts')
+                ], 403);
+            }
+
             // The nonce is not tied to a post, so check the user may publish this one.
             if (!empty($args['id']) && (!current_user_can('edit_post', absint($args['id'])) || !current_user_can('publish_post', absint($args['id'])))) {
                 wp_send_json_error([
@@ -1328,7 +1335,7 @@ class Admin
             $selectedSocialProfiles = [];
             if (!empty($args['wpsp_el_social_facebook']) && !empty($facebookProfile) && !empty($args['wpsp-el-content-facebook'])) {
                 if ($args['wpsp-el-content-facebook'] == 'wpsp-el-social-facebook-custom') {
-                    $selectedFacebookProfile = $args['wpsp_el_social_facebook'];
+                    $selectedFacebookProfile = (array) $args['wpsp_el_social_facebook'];
                     $facebookSelectedProfile = array_filter($facebookProfile, function ($obj) use ($selectedFacebookProfile) {
                         return in_array($obj->name, $selectedFacebookProfile);
                     });
@@ -1340,7 +1347,7 @@ class Admin
             }
             if (!empty($args['wpsp_el_social_twitter']) && !empty($twitterProfile) && !empty($args['wpsp-el-content-twitter'])) {
                 if ($args['wpsp-el-content-twitter'] == 'wpsp-el-social-twitter-custom') {
-                    $selectedTwitterProfile = $args['wpsp_el_social_twitter'];
+                    $selectedTwitterProfile = (array) $args['wpsp_el_social_twitter'];
                     $twitterSelectedProfile = array_filter($twitterProfile, function ($obj) use ($selectedTwitterProfile) {
                         return in_array($obj->name, $selectedTwitterProfile);
                     });
@@ -1351,7 +1358,7 @@ class Admin
             }
             if (!empty($args['wpsp_el_social_linkedin']) && !empty($linkedinProfile)) {
                 if (((!empty($args['wpsp-el-content-linkedin-page']) && $args['wpsp-el-content-linkedin-page'] == 'wpsp-el-social-linkedin-page-custom') || (!empty($args['wpsp-el-content-linkedin-profile']) && $args['wpsp-el-content-linkedin-profile'] == 'wpsp-el-social-linkedin-profile-custom'))) {
-                    $selectedLinkedinProfile = $args['wpsp_el_social_linkedin'];
+                    $selectedLinkedinProfile = (array) $args['wpsp_el_social_linkedin'];
                     $linkedinSelectedProfile = array_filter($linkedinProfile, function ($obj) use ($selectedLinkedinProfile) {
                         return in_array($obj->name, $selectedLinkedinProfile);
                     });
@@ -1362,7 +1369,7 @@ class Admin
             }
             if (!empty($pinterestProfile) && !empty($args['wpsp-el-content-pinterest'])) {
                 if ($args['wpsp-el-content-pinterest'] == 'wpsp-el-social-pinterest-custom' && !empty($args['wpsp_el_social_pinterest'])) {
-                    $selectedPinterestProfile = $args['wpsp_el_social_pinterest'];
+                    $selectedPinterestProfile = (array) $args['wpsp_el_social_pinterest'];
                     $pinterestSelectedProfile = array_filter($pinterestProfile, function ($obj) use ($selectedPinterestProfile) {
                         return in_array($obj->default_board_name->value, $selectedPinterestProfile);
                     });
@@ -1389,7 +1396,7 @@ class Admin
             }
             if (!empty($instagramProfile) && !empty($args['wpsp-el-content-instagram'])) {
                 if ($args['wpsp-el-content-instagram'] == 'wpsp-el-social-instagram-custom' && !empty($args['wpsp_el_social_instagram'])) {
-                    $selectedInstagramProfile = $args['wpsp_el_social_instagram'];
+                    $selectedInstagramProfile = (array) $args['wpsp_el_social_instagram'];
                     $instagramSelectedProfile = array_filter($instagramProfile, function ($obj) use ($selectedInstagramProfile) {
                         return in_array($obj->name, $selectedInstagramProfile);
                     });
@@ -1400,7 +1407,7 @@ class Admin
             }
             if (!empty($mediumProfile) && !empty($args['wpsp-el-content-medium'])) {
                 if ($args['wpsp-el-content-medium'] == 'wpsp-el-social-medium-custom' && !empty($args['wpsp_el_social_medium'])) {
-                    $selectedInstagramProfile = $args['wpsp_el_social_medium'];
+                    $selectedInstagramProfile = (array) $args['wpsp_el_social_medium'];
                     $mediumSelectedProfile = array_filter($mediumProfile, function ($obj) use ($selectedInstagramProfile) {
                         return in_array($obj->name, $selectedInstagramProfile);
                     });
@@ -1412,7 +1419,7 @@ class Admin
             // Save selected threads profiles
             if (!empty($threadsProfile) && !empty($args['wpsp-el-content-threads'])) {
                 if ($args['wpsp-el-content-threads'] == 'wpsp-el-social-threads-custom' && !empty($args['wpsp_el_social_threads'])) {
-                    $selectedInstagramProfile = $args['wpsp_el_social_threads'];
+                    $selectedInstagramProfile = (array) $args['wpsp_el_social_threads'];
                     $threadsSelectedProfile = array_filter($threadsProfile, function ($obj) use ($selectedInstagramProfile) {
                         return in_array($obj->name, $selectedInstagramProfile);
                     });

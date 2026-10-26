@@ -4,6 +4,8 @@
  * who can edit a post but not publish it (a Contributor on their own draft)
  * schedule it.
  *
+ * Card 84790: a role left out of "Allow users" must not change posts from it.
+ *
  * @package WPScheduledPosts
  */
 
@@ -14,6 +16,7 @@ use ReflectionClass;
 use WPSP\Admin\Calendar;
 use WPSP\Tests\Stubs\CapStore;
 use WPSP\Tests\Stubs\FakeRequest;
+use WPSP\Tests\Stubs\UserStore;
 
 class CalendarPermissionTest extends TestCase {
 
@@ -23,6 +26,9 @@ class CalendarPermissionTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		CapStore::reset();
+		// Every role allowed, so the 84589 tests see capabilities only.
+		UserStore::login( 3, 'author' );
+		UserStore::allowRoles( 'administrator', 'editor', 'author', 'contributor' );
 		// The constructor registers hooks and reads settings; the permission
 		// callback needs neither.
 		$this->calendar = ( new ReflectionClass( Calendar::class ) )->newInstanceWithoutConstructor();
@@ -69,8 +75,24 @@ class CalendarPermissionTest extends TestCase {
 		return array(
 			'edit a draft'          => array( 'editDraft' ),
 			'drop back to drafts'   => array( 'draftDrop' ),
-			'drop on the trash'     => array( 'trashDrop' ),
 		);
+	}
+
+	public function test_trash_drop_needs_the_right_to_delete_the_post() {
+		CapStore::grant( 'edit_post' );
+		$this->assertFalse( $this->allowed( 'trashDrop' ) );
+
+		CapStore::grant( 'delete_post' );
+		$this->assertTrue( $this->allowed( 'trashDrop' ) );
+	}
+
+	public function test_delete_route_refuses_a_role_not_in_allow_users() {
+		CapStore::grant( 'delete_post' );
+		$request = new FakeRequest( array( 'ID' => 7 ) );
+		$this->assertTrue( $this->calendar->delete_permission_callback( $request ) );
+
+		UserStore::allowRoles( 'administrator' );
+		$this->assertFalse( $this->calendar->delete_permission_callback( $request ) );
 	}
 
 	public function test_user_who_cannot_edit_the_post_is_still_refused() {
@@ -84,5 +106,26 @@ class CalendarPermissionTest extends TestCase {
 
 		CapStore::grant( 'publish_posts' );
 		$this->assertTrue( $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => 'addEvent' ) ) ) );
+	}
+
+	/**
+	 * @dataProvider every_write_type
+	 */
+	public function test_role_not_in_allow_users_cannot_change_posts_from_the_calendar( $type ) {
+		CapStore::grant( 'edit_post', 'publish_post', 'publish_posts', 'delete_post' );
+		UserStore::allowRoles( 'administrator' );
+
+		$this->assertFalse( $this->allowed( $type ) );
+	}
+
+	public function every_write_type() {
+		return array_merge( $this->scheduling_types(), $this->draft_types(), array( 'drop on the trash' => array( 'trashDrop' ) ) );
+	}
+
+	public function test_role_not_in_allow_users_cannot_add_a_post_from_the_calendar() {
+		CapStore::grant( 'publish_posts' );
+		UserStore::allowRoles( 'administrator' );
+
+		$this->assertFalse( $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => 'addEvent' ) ) ) );
 	}
 }
