@@ -15,6 +15,7 @@ class Email
     public $notify_author_post_schedule_email;
     public $notify_author_schedule_post_is_publish;
     public $notify_author_post_is_publish;
+    public $sent_flag; // dedup transient of the status change being handled
     public function __construct()
     {
         $this->notify_author_is_sent_review = \WPSP\Helper::get_settings('notify_author_post_is_review');
@@ -61,7 +62,9 @@ class Email
      */
     public function notify_status_change($new_status, $old_status, $post)
     {
-        if ($old_status == $new_status ||  get_transient('wpsp_email_is_send_flag') !== false) {
+        // One flag per post and status, so one email doesn't block other posts' emails.
+        $this->sent_flag = 'wpsp_email_sent_' . (is_object($post) ? $post->ID : absint($post)) . '_' . $new_status;
+        if ($old_status == $new_status || get_transient($this->sent_flag) !== false) {
             return;
         }
 
@@ -155,8 +158,11 @@ class Email
         $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
+        // Set before sending, so a save inside wp_mail() can't send it again.
+        if ($this->sent_flag) {
+            set_transient($this->sent_flag, 'done', 10);
+        }
         wp_mail($to, $subject, $body, $headers);
-        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 
     /**
@@ -176,7 +182,10 @@ class Email
         $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
+        // Set before sending, so a save inside wp_mail() can't send it again.
+        if ($this->sent_flag) {
+            set_transient($this->sent_flag, 'done', 10);
+        }
         wp_mail($to, $subject, $body, $headers);
-        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 }
