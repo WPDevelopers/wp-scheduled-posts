@@ -4,7 +4,7 @@ Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social sha
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.5
+Stable tag: 5.3.6
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -264,6 +264,20 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.3.6 - 2026-10-26 =
+- Fixed: The "Publish future post immediately" setting was missing after upgrading from older versions.
+- Fixed: Facebook could share "h" as the og:image when the image came from the request.
+- Fixed: Saving in Elementor threw a TypeError when a custom social profile selection was sent as a single value.
+- Fixed: A rate limit while renewing a social token no longer marks a working profile as needing re-authorisation.
+- Fixed: Only the first post published within 10 seconds got its notification email.
+- Fixed: Editing a post in the Schedule Calendar made the editor its author.
+- Fixed: Sharing to Pinterest could retry the request without end when Pinterest returned an empty response.
+- Fixed: A PHP warning when sharing a post without an image to Pinterest.
+- Improved: Contributors can no longer publish or schedule posts through the Calendar, the post panel or Elementor.
+- Improved: The app secret is no longer sent in the OAuth state or callback URL.
+- Improved: The settings REST response no longer includes social tokens or app secrets.
+- Few minor bug fixes & improvements
+
 = 5.3.5 - 2026-10-18 =
 - Fixed: Social shares for scheduled posts now go out in the same cron run that publishes the post, instead of waiting for the next cron run.
 - Fixed: SchedulePress's editor styles broke the block editor's Pattern Chooser and other core modals.
@@ -487,6 +501,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.6 - 2026-10-26 =
+* Update SchedulePress Pro to 5.3.5 along with this release.
+
 = 5.3.5 - 2026-10-18 =
 * Update SchedulePress Pro to 5.3.4 along with this release.
 

@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.3.5
+ * Version: 5.3.6
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * License: GPLv3 or later
@@ -86,7 +86,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.3.5');
+		define('WPSP_VERSION', '5.3.6');
 		/**
 		 * Oldest SchedulePress Pro this release can hand its Pro-only features to.
 		 *
@@ -94,7 +94,7 @@ final class WPSP
 		 * of free. Anything older keeps working, it just cannot serve what it no
 		 * longer has the code for, which is what the admin notice explains.
 		 */
-		define('WPSP_MIN_PRO_VERSION', '5.3.4');
+		define('WPSP_MIN_PRO_VERSION', '5.3.5');
 		define('WPSP_SETTINGS_NAME_OLD', 'wpsp_settings');
 		define('WPSP_SETTINGS_NAME', 'wpsp_settings_v5');
 		define('WPSP_PLUGIN_FILE', __FILE__);
