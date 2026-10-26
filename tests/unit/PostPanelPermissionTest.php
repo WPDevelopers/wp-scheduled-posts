@@ -4,6 +4,8 @@
  * (a Contributor on their own draft) must not be able to publish or schedule
  * it through the post-panel routes.
  *
+ * Card 84790: a role left out of "Allow users" must not write through them.
+ *
  * @package WPScheduledPosts
  */
 
@@ -16,6 +18,7 @@ use WPSP\Tests\Stubs\CapStore;
 use WPSP\Tests\Stubs\FakeRequest;
 use WPSP\Tests\Stubs\MetaStore;
 use WPSP\Tests\Stubs\PostStore;
+use WPSP\Tests\Stubs\UserStore;
 
 class PostPanelPermissionTest extends TestCase {
 
@@ -32,16 +35,20 @@ class PostPanelPermissionTest extends TestCase {
 		CapStore::reset();
 		$date = gmdate( 'Y-m-d H:i:s' );
 		PostStore::seed( self::POST_ID, 'draft', $date, $date );
+		// Every role allowed, so the 84589 tests see capabilities only.
+		UserStore::allowRoles( 'administrator', 'editor', 'author', 'contributor' );
 		// The constructor only registers a hook; skip it rather than stub the
 		// whole plugin bootstrap.
 		$this->panel = ( new ReflectionClass( PostPanel::class ) )->newInstanceWithoutConstructor();
 	}
 
 	private function asContributor() {
+		UserStore::login( 2, 'contributor' );
 		CapStore::grant( 'edit_post' );
 	}
 
 	private function asPublisher() {
+		UserStore::login( 3, 'author' );
 		CapStore::grant( 'edit_post', 'publish_post' );
 	}
 
@@ -147,5 +154,49 @@ class PostPanelPermissionTest extends TestCase {
 		$this->assertSame( 200, $response->get_status() );
 		$this->assertSame( 'future', get_post_status( self::POST_ID ) );
 		$this->assertContains( self::SAVE_HOOK, PostStore::$firedActions );
+	}
+
+	// ── "Allow users" (card 84790) ──────────────────────────────────────────
+
+	public function test_panel_save_refuses_a_role_not_in_allow_users() {
+		$this->asPublisher();
+		UserStore::allowRoles( 'administrator' );
+		$result = $this->panel->write_permission_check( $this->request() );
+
+		$this->assertInstanceOf( \WP_Error::class, $result );
+		$this->assertSame( 'rest_forbidden', $result->get_error_code() );
+		$this->assertSame( array( 'status' => 403 ), $result->get_error_data() );
+	}
+
+	public function test_publish_routes_refuse_a_role_not_in_allow_users() {
+		$this->asPublisher();
+		UserStore::allowRoles( 'administrator' );
+		$result = $this->panel->publish_permission_check( $this->request() );
+
+		$this->assertInstanceOf( \WP_Error::class, $result );
+		$this->assertSame( 'rest_forbidden', $result->get_error_code() );
+	}
+
+	public function test_role_in_allow_users_can_still_save_the_panel() {
+		$this->asPublisher();
+		UserStore::allowRoles( 'administrator', 'author' );
+
+		$this->assertTrue( $this->panel->write_permission_check( $this->request() ) );
+		$this->assertTrue( $this->panel->publish_permission_check( $this->request() ) );
+	}
+
+	public function test_panel_read_is_not_gated_by_allow_users() {
+		$this->asPublisher();
+		UserStore::allowRoles( 'administrator' );
+
+		$this->assertTrue( $this->panel->permission_check( $this->request() ) );
+	}
+
+	public function test_site_admin_is_never_locked_out_by_allow_users() {
+		UserStore::login( 1, 'administrator' );
+		CapStore::grant( 'edit_post', 'publish_post', 'delete_users' );
+		UserStore::allowRoles( 'editor' );
+
+		$this->assertTrue( $this->panel->publish_permission_check( $this->request() ) );
 	}
 }
