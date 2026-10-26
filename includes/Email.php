@@ -40,8 +40,14 @@ class Email
         if (!function_exists('get_current_screen')) {
             require_once ABSPATH . '/wp-admin/includes/screen.php';
         }
+        // A save that keeps the status (an Update) is not a status change. The
+        // block editor's meta-box save posts the status the page loaded with,
+        // so check this before reading it.
+        if ($old_status === $new_status) {
+            return;
+        }
         $current_screen = \get_current_screen();
-        if (\is_object($current_screen) && \method_exists($current_screen, 'is_block_editor')) {
+        if (\is_object($current_screen) && \method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()) {
             if (isset($_POST['original_' . $post->post_type . '_status'])) {
                 $old_status = $_POST['original_' . $post->post_type . '_status'];
             }
@@ -95,7 +101,7 @@ class Email
             $this->send_mail_to_author($post, $subject, $message);
         }
         // post is publish: Published covers every publish, Scheduled post Published only a scheduled one
-        else if ($new_status == 'publish' && ($this->notify_author_post_is_publish == 1 || ($this->notify_author_schedule_post_is_publish == 1 && $old_status == 'future'))) {
+        else if ($new_status == 'publish' && in_array($post->post_type, \WPSP\Helper::get_all_allowed_post_type(), true) && ($this->notify_author_post_is_publish == 1 || ($this->notify_author_schedule_post_is_publish == 1 && $old_status == 'future'))) {
             // send mail for publish post
             $subject = 'Your post titled "%title%" is Live Now.';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
