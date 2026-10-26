@@ -564,6 +564,12 @@ class Settings
             ), 200);
         }
 
+        // The settings form never reads this route back, so credentials stay on the server.
+        $decoded = json_decode($wpsp_option, true);
+        if (is_array($decoded)) {
+            $wpsp_option = wp_json_encode(self::without_secrets($decoded));
+        }
+
         return new \WP_REST_Response(array(
             'success' => true,
             'value'   => $wpsp_option,
