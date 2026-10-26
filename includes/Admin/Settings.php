@@ -644,14 +644,14 @@ class Settings
                                     'type' => 'twitter',
                                     'label' => __('Twitter', 'wp-scheduled-posts'),
                                     'default' => [],
-                                    'logo' => WPSP_ASSETS_URI . 'images/twitter.svg',
+                                    'logo' => WPSP_ASSETS_URI . 'images/twitter-x.svg',
                                     'desc' => sprintf(
                                         /* translators: %s is the URL of the documentation page for configuring Twitter Social Profile. */
                                         __('You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'),
                                         'https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/'
                                     ),
                                     'modal' => [
-                                        'logo' => WPSP_ASSETS_URI . 'images/twitter.svg',
+                                        'logo' => WPSP_ASSETS_URI . 'images/twitter-x.svg',
                                         'redirect_url_desc' => __('Copy this and paste it in your twitter app Callback url field.', 'wp-scheduled-posts'),
                                         'desc' => sprintf(
                                             /* translators:

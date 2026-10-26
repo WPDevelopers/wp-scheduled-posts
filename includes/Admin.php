@@ -786,7 +786,7 @@ class Admin
                     </div>
                     <div class="wpsp-el-accordion-item wpsp-el-accordion-item-twitter">
                         <div class="wpsp-el-accordion-header">
-                            <img src="<?php echo esc_url(WPSP_ASSETS_URI . '/images/twitter.svg') ?>"
+                            <img src="<?php echo esc_url(WPSP_ASSETS_URI . '/images/twitter-x.svg') ?>"
                                 alt=""><span><?php echo esc_html('Twitter') ?></span>
                         </div>
                         <div class="wpsp-el-accordion-content">
