@@ -270,6 +270,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 - Fixed: Saving in Elementor threw a TypeError when a custom social profile selection was sent as a single value.
 - Fixed: A rate limit while renewing a social token no longer marks a working profile as needing re-authorisation.
 - Fixed: Only the first post published within 10 seconds got its notification email.
+- Fixed: The "Published" email now goes out for every post that is published, and only for SchedulePress's allowed post types. "Scheduled post Published" now covers only scheduled posts going live, and Advanced Schedule updates that go live still follow this setting.
+- Fixed: Clicking Update on a published post in the block editor sent the "Live Now" email again.
+- Fixed: The "Rejected" email went out when a published post, draft or scheduled post was trashed. It now goes out only for posts that were under review.
 - Fixed: Editing a post in the Schedule Calendar made the editor its author.
 - Fixed: Sharing to Pinterest could retry the request without end when Pinterest returned an empty response.
 - Fixed: A PHP warning when sharing a post without an image to Pinterest.
