@@ -15,6 +15,7 @@ class Email
     public $notify_author_post_schedule_email;
     public $notify_author_schedule_post_is_publish;
     public $notify_author_post_is_publish;
+    public $sent_flag; // dedup transient of the status change being handled
     public function __construct()
     {
         $this->notify_author_is_sent_review = \WPSP\Helper::get_settings('notify_author_post_is_review');
@@ -40,8 +41,14 @@ class Email
         if (!function_exists('get_current_screen')) {
             require_once ABSPATH . '/wp-admin/includes/screen.php';
         }
+        // A save that keeps the status (an Update) is not a status change. The
+        // block editor's meta-box save posts the status the page loaded with,
+        // so check this before reading it.
+        if ($old_status === $new_status) {
+            return;
+        }
         $current_screen = \get_current_screen();
-        if (\is_object($current_screen) && \method_exists($current_screen, 'is_block_editor')) {
+        if (\is_object($current_screen) && \method_exists($current_screen, 'is_block_editor') && $current_screen->is_block_editor()) {
             if (isset($_POST['original_' . $post->post_type . '_status'])) {
                 $old_status = $_POST['original_' . $post->post_type . '_status'];
             }
@@ -61,7 +68,9 @@ class Email
      */
     public function notify_status_change($new_status, $old_status, $post)
     {
-        if ($old_status == $new_status ||  get_transient('wpsp_email_is_send_flag') !== false) {
+        // One flag per post and status, so one email doesn't block other posts' emails.
+        $this->sent_flag = 'wpsp_email_sent_' . (is_object($post) ? $post->ID : absint($post)) . '_' . $new_status;
+        if ($old_status == $new_status || get_transient($this->sent_flag) !== false) {
             return;
         }
 
@@ -74,8 +83,8 @@ class Email
                 $this->send_mail_to_custom_users(array_values($reviewEmailList), $post, $subject, $message);
             }
         }
-        // review is rejected
-        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash') {
+        // review is rejected: only a post that was under review
+        else if ($this->notify_author_post_is_rejected == 1 && $new_status == 'trash' && $old_status == 'pending') {
             // send mail for rejected
             $subject = 'Your Post titled "%title%" has been Rejected.';
             $message = 'Hello Author, <br/>You recently submitted a new article titled "%title%". Your Article is not well standard. Please, improve it and try again.';
@@ -94,8 +103,8 @@ class Email
             $message = 'Hello Author, <br/>Your blog titled "%title%" was scheduled for "%date%"';
             $this->send_mail_to_author($post, $subject, $message);
         }
-        // post is publish
-        else if ($this->notify_author_schedule_post_is_publish == 1 && $new_status == 'publish') {
+        // post is publish: Published covers every publish, Scheduled post Published only a scheduled one
+        else if ($new_status == 'publish' && in_array($post->post_type, \WPSP\Helper::get_all_allowed_post_type(), true) && ($this->notify_author_post_is_publish == 1 || ($this->notify_author_schedule_post_is_publish == 1 && $old_status == 'future'))) {
             // send mail for publish post
             $subject = 'Your post titled "%title%" is Live Now.';
             $message = 'Hello Author, <br/>Your blog titled "%title%" was published. Here is your published blog url: %permalink%';
@@ -155,8 +164,11 @@ class Email
         $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
+        // Set before sending, so a save inside wp_mail() can't send it again.
+        if ($this->sent_flag) {
+            set_transient($this->sent_flag, 'done', 10);
+        }
         wp_mail($to, $subject, $body, $headers);
-        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 
     /**
@@ -176,7 +188,10 @@ class Email
         $subject = $this->get_formatted_subject($post_title, $subject, $post_date);
         $body = $this->get_formatted_body($post_title, get_the_permalink($post_id), $message, $post_date, $author_user_name);
         $headers = array('Content-Type: text/html; charset=UTF-8');
+        // Set before sending, so a save inside wp_mail() can't send it again.
+        if ($this->sent_flag) {
+            set_transient($this->sent_flag, 'done', 10);
+        }
         wp_mail($to, $subject, $body, $headers);
-        set_transient('wpsp_email_is_send_flag', 'done', 10);
     }
 }

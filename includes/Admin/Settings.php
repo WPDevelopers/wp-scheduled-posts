@@ -24,6 +24,7 @@ class Settings
     {
         new Settings\Assets($this->slug, $this);
         add_action('wpsp_save_settings_default_value', array($this, 'save_option_value'));
+        add_action('wpsp_backfill_missing_defaults', array($this, 'backfill_missing_defaults'));
         add_filter('wpsp_settings_before_save', [$this, 'wpsp_update_settings']);
     }
 
@@ -2110,6 +2111,28 @@ class Settings
         // wp_send_json([$defaults, $settings]);die;
 
         update_option(WPSP_SETTINGS_NAME, json_encode($defaults));
+    }
+
+    // Fill schema defaults for keys missing from the stored option, so toggles added
+    // after a site was seeded (e.g. show_publish_post_button) are not stuck reading null.
+    public function backfill_missing_defaults()
+    {
+        $stored = json_decode(get_option(WPSP_SETTINGS_NAME, '{}'), true);
+        if (!is_array($stored)) {
+            $stored = [];
+        }
+        $defaults = $this->get_field_names($this->get_settings_array()['tabs']);
+        $merged   = self::with_missing_defaults($stored, $defaults);
+        if ($merged !== $stored) {
+            update_option(WPSP_SETTINGS_NAME, json_encode($merged));
+        }
+        update_option('wpsp_defaults_backfilled_version', WPSP_VERSION);
+    }
+
+    // Add only the default keys the stored settings are missing; stored values always win.
+    public static function with_missing_defaults(array $stored, array $defaults)
+    {
+        return array_merge($stored, array_diff_key($defaults, $stored));
     }
 
 

@@ -37,7 +37,7 @@ class PostPanel {
         register_rest_route( $namespace, $route, [
             'methods'             => \WP_REST_Server::CREATABLE,
             'callback'            => [ $this, 'save_settings' ],
-            'permission_callback' => [ $this, 'permission_check' ],
+            'permission_callback' => [ $this, 'write_permission_check' ],
             'args'                => [
                 'post_id' => [
                     'required'          => true,
@@ -115,6 +115,30 @@ class PostPanel {
     }
 
     /**
+     * Permission callback for the routes that save: the user must be able to
+     * edit the post and have a role in SchedulePress's "Allow users" setting.
+     *
+     * @param \WP_REST_Request $request
+     * @return bool|\WP_Error
+     */
+    public function write_permission_check( \WP_REST_Request $request ) {
+        $can_edit = $this->permission_check( $request );
+        if ( true !== $can_edit ) {
+            return $can_edit;
+        }
+
+        // The panel only loads for allowed roles, so refuse the rest here too.
+        if ( ! \WPSP\Helper::is_user_allow() ) {
+            return new \WP_Error(
+                'rest_forbidden',
+                __( 'Your role is not allowed to use SchedulePress.', 'wp-scheduled-posts' ),
+                [ 'status' => 403 ]
+            );
+        }
+        return true;
+    }
+
+    /**
      * Permission callback for the routes that change whether a post is live:
      * the user must be able to edit the post and to publish it.
      *
@@ -125,7 +149,7 @@ class PostPanel {
      * @return bool|\WP_Error
      */
     public function publish_permission_check( \WP_REST_Request $request ) {
-        $can_edit = $this->permission_check( $request );
+        $can_edit = $this->write_permission_check( $request );
         if ( true !== $can_edit ) {
             return $can_edit;
         }

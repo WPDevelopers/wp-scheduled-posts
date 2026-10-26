@@ -109,6 +109,9 @@ class ReconnectHandler
      */
     const RENEWAL_FAILED_FIELD = 'renewal_failed';
 
+    /** Provider codes that mean "slow down", not "the grant is dead": HTTP 429 and these Meta codes. */
+    const RATE_LIMIT_CODES = [4, 17, 32, 613];
+
     /**
      * Profile-list settings keys, built-ins plus anything Pro registers.
      *
@@ -291,6 +294,10 @@ class ReconnectHandler
                 } elseif (!empty($data['error']) && is_string($data['error'])) {
                     $reason = $data['error'];
                 }
+            }
+            // A rate limit is temporary, so it must not flag the profile for re-auth.
+            if (self::is_rate_limited($status, $data)) {
+                return self::rate_limited_response($platform, $response);
             }
             return self::authRequiredResponse($platform, $item, $reason);
         }
@@ -484,6 +491,10 @@ class ReconnectHandler
         $data = json_decode(wp_remote_retrieve_body($response), true);
         if (!is_array($data) || empty($data['access_token'])) {
             $reason = is_array($data) && !empty($data['error']['message']) ? $data['error']['message'] : '';
+            // A rate limit is temporary, so it must not flag the profile for re-auth.
+            if (self::is_rate_limited($status, $data)) {
+                return self::rate_limited_response($platform, $response);
+            }
             return self::authRequiredResponse($platform, $item, $reason);
         }
 
@@ -551,6 +562,45 @@ class ReconnectHandler
             'app_secret'  => $is_automatic ? '' : $app_secret,
             'reason'      => $reason,
             'message'     => __('This connection has to be authorised again.', 'wp-scheduled-posts'),
+        ];
+    }
+
+    /**
+     * Whether a renewal response is a rate limit (HTTP 429 or a Meta rate-limit code).
+     *
+     * @param int   $status HTTP status.
+     * @param mixed $data   Decoded body.
+     * @return bool
+     */
+    private static function is_rate_limited($status, $data)
+    {
+        if ($status === 429) {
+            return true;
+        }
+        $code = (is_array($data) && isset($data['error']['code'])) ? (int) $data['error']['code'] : null;
+        return $code !== null && in_array($code, self::RATE_LIMIT_CODES, true);
+    }
+
+    /**
+     * A transient result for a rate-limited renewal, carrying Retry-After when the provider sent it.
+     *
+     * @param string $platform
+     * @param array  $response wp_remote_* response.
+     * @return array
+     */
+    private static function rate_limited_response($platform, $response)
+    {
+        $retry   = wp_remote_retrieve_header($response, 'retry-after');
+        $message = ('' !== $retry && null !== $retry)
+            /* translators: %s: seconds to wait before retrying */
+            ? sprintf(__('The token service is rate limiting (retry after %s seconds). Will try again later.', 'wp-scheduled-posts'), $retry)
+            : __('The token service is rate limiting. Will try again later.', 'wp-scheduled-posts');
+        return [
+            'success'     => false,
+            'reconnected' => false,
+            'transient'   => true,
+            'platform'    => $platform,
+            'message'     => $message,
         ];
     }
 
