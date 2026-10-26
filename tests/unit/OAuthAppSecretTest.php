@@ -9,12 +9,10 @@
 namespace WPSP\Tests\Stubs {
 
 	class TransientStore {
-		public static $values  = array();
-		public static $user_id = 1;
+		public static $values = array();
 
 		public static function reset() {
-			self::$values  = array();
-			self::$user_id = 1;
+			self::$values = array();
 		}
 	}
 }
@@ -36,9 +34,10 @@ namespace {
 		}
 	}
 
+	// Same shape as the CalendarUpdateTest stub; whichever file loads first defines it.
 	if ( ! function_exists( 'get_current_user_id' ) ) {
 		function get_current_user_id() {
-			return TransientStore::$user_id;
+			return isset( $GLOBALS['current_user']->ID ) ? (int) $GLOBALS['current_user']->ID : 0;
 		}
 	}
 }
@@ -51,8 +50,16 @@ namespace WPSP\Tests\Unit {
 
 	class OAuthAppSecretTest extends TestCase {
 
+		private $previous_user;
+
 		protected function setUp(): void {
 			TransientStore::reset();
+			$this->previous_user    = isset( $GLOBALS['current_user'] ) ? $GLOBALS['current_user'] : null;
+			$GLOBALS['current_user'] = (object) array( 'ID' => 1 );
+		}
+
+		protected function tearDown(): void {
+			$GLOBALS['current_user'] = $this->previous_user;
 		}
 
 		public function test_the_kept_secret_comes_back_for_the_same_app() {
@@ -78,7 +85,7 @@ namespace WPSP\Tests\Unit {
 		public function test_secrets_are_kept_per_user() {
 			SocialProfile::remember_app_secret( 'facebook', '1234', 's3cret' );
 
-			TransientStore::$user_id = 2;
+			$GLOBALS['current_user'] = (object) array( 'ID' => 2 );
 
 			$this->assertSame( '', SocialProfile::recall_app_secret( 'facebook', '1234' ) );
 		}
