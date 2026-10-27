@@ -737,6 +737,14 @@ class Calendar
         // moving event from calendar to calendar
         // moving event from sidebar to calendar
         else if ($type == 'eventDrop') {
+            // A draft dropped on a day: Pro's Auto/Manual Scheduler may pick the time (6823).
+            if ($request->get_param('pick_slot') && in_array(get_post_status($postid), ['draft', 'pending'], true)) {
+                $slot = apply_filters('wpsp_calendar_draft_slot', null, substr($postdateformat, 0, 10), $post_type, (int) $postid);
+                if (is_string($slot) && preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $slot)) {
+                    $postdateformat = $slot;
+                    $postdate_gmt   = get_gmt_from_date($slot);
+                }
+            }
             $change = apply_filters('wpsp_pre_eventDrop', null, $postid, $postdateformat, $postdate_gmt);
             if($change){
                 $post_id = $change;

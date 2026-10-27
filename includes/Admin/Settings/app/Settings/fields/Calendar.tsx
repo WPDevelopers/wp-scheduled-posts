@@ -338,6 +338,7 @@ export default function Calendar(props) {
                 setDraftEvents((posts) =>
                   posts.filter((p) => p.postId !== props.postId)
                 );
+                const droppedOnDay = event.allDay;
                 if(event.allDay) {
                   // Set the event to not be an all-day event
                   event.setAllDay(false);
@@ -362,7 +363,8 @@ export default function Calendar(props) {
                   // Set the end of the event to the adjusted date
                   event.setEnd(dateMoment.toDate());
                 }
-                eventDrop(event, 'eventDrop').then(updateEvents);
+                // Dropped on a day, not a time: Pro's Auto/Manual Scheduler may pick the time (6823).
+                eventDrop(event, 'eventDrop', droppedOnDay ? { pick_slot: true } : {}).then(updateEvents);
               }}
               eventDragStop={(info: EventDragStopArg) => {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {

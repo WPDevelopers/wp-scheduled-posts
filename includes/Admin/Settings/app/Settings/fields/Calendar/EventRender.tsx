@@ -27,7 +27,7 @@ export const getPostFromEvent = (event: EventApi, dateString = false) => {
   };
   return post;
 }
-export const eventDrop = (event: EventApi, eventType) => {
+export const eventDrop = (event: EventApi, eventType, extra = {}) => {
   const post: PostType = getPostFromEvent(event, true);
 
   // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
@@ -44,6 +44,7 @@ export const eventDrop = (event: EventApi, eventType) => {
       // postContent: post.post_content,
       // postTitle  : post.title,
       date       : post.end,
+      ...extra,
     },
   });
 }
