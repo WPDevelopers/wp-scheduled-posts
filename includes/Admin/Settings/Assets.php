@@ -81,6 +81,8 @@ class Assets
                 'priority'      => 5,
                 'start_of_week' => (int) get_option('start_of_week', 0),
                 'schedule_time' => Helper::get_settings('calendar_schedule_time'),
+                // The category filter starts on these, as in SchedulePress → Calendar (66496).
+                'allow_categories' => Helper::get_settings('allow_categories'),
                 'rest_route'    => '/wpscp/v1/calendar',
                 'timeZone'      => wp_timezone_string(),
                 'image_path'    => WPSP_PLUGIN_ROOT_URI.'assets/images/',
