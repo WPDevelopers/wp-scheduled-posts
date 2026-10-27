@@ -12,7 +12,11 @@ const normalize = (value) => {
     return byId ? [...items].sort((a, b) => String(a.id).localeCompare(String(b.id))) : items;
   }
   if (value && typeof value === 'object') {
-    return Object.keys(value).sort().reduce((out, key) => ({ ...out, [key]: normalize(value[key]) }), {});
+    // An empty key a field adds on load (Manual Scheduler's weekdata) is not a change.
+    return Object.keys(value).sort().reduce((out, key) => {
+      const item = normalize(value[key]);
+      return item === null ? out : { ...out, [key]: item };
+    }, {});
   }
   return value ?? null;
 };

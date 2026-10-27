@@ -1,7 +1,7 @@
 import { __ } from "@wordpress/i18n";
 import React, { useEffect, useState } from 'react';
 import Modal from "react-modal";
-import { generateTabURL, getPinterestBoardSection, getProfileData, allowsMultipleProfiles } from "../../helper/helper";
+import { completeReconnect, generateTabURL, getPinterestBoardSection, getProfileData, allowsMultipleProfiles } from "../../helper/helper";
 import ProfileLimitNotice from "../utils/ProfileLimitNotice";
 import Facebook from "./Facebook";
 import Linkedin from "./Linkedin";
@@ -240,8 +240,73 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
         }
     },[isProfileEditModal])
 
+    /**
+     * Stored profiles this fresh grant also covers: a new page's LinkedIn person, or the Pinterest account a board was added to.
+     *
+     * @return {{payload: object|null, targets: string[]}}
+     */
+    const renewalTargets = () => {
+        const stored = Array.isArray(props?.value) ? props.value : [];
+        const sameId = (a, b) => String(a) === String(b);
+        // A grant from another app can't renew a profile saved with a different one.
+        const sameApp = (profile, grant) => String(profile?.app_id ?? '') === String(grant?.app_id ?? '');
+        if (type === 'linkedin') {
+            const payload = linkedInData;
+            const targets = savedProfile
+                .filter((p) => p?.profile_id && !stored.some((s) => sameId(s?.id, p?.id)))
+                .map((p) => stored.find((s) => sameId(s?.id, p.profile_id)))
+                .filter((person) => person && sameApp(person, payload))
+                .map((person) => String(person.id));
+            return { payload, targets: Array.from(new Set(targets)) };
+        }
+        if (type === 'pinterest') {
+            const payload = responseData?.[0];
+            const id = payload?.id;
+            const account = stored.filter((s) => sameId(s?.id, id));
+            const added = savedProfile.filter((p) => sameId(p?.id, id)).length > account.length;
+            const renew = id && account.length && added && account.every((s) => sameApp(s, payload));
+            return { payload, targets: renew ? [String(id)] : [] };
+        }
+        return { payload: null, targets: [] };
+    };
+
+    /**
+     * Have the server write the fresh grant onto those profiles, before the settings save that keeps stored credentials.
+     *
+     * @param {object}   payload The fetch step's response.
+     * @param {string[]} targets Stored profile ids.
+     * @return {Promise<object[]>} The list to save, with the renewed profiles updated.
+     */
+    const renewStoredProfiles = async (payload, targets) => {
+        const renewed = [];
+        // One at a time: each call rewrites the whole option.
+        for (const id of targets) {
+            const res = await completeReconnect(type, id, payload);
+            if (res?.success) {
+                renewed.push(id);
+            }
+        }
+        const fresh = {};
+        ['access_token', 'refresh_token', 'expires_in', 'rt_expires_in'].forEach((field) => {
+            if (payload?.[field]) {
+                fresh[field] = payload[field];
+            }
+        });
+        return savedProfile.map((p) => renewed.includes(String(p?.id)) ? { ...p, ...fresh, renewal_failed: false } : p);
+    };
+
     const addSavedProfile = (event, platform) => {
-        setSelectedProfile(savedProfile);
+        const { payload, targets } = renewalTargets();
+        // Stay synchronous without a fresh grant: the board edit's Save sets its list right after this call.
+        if (targets.length) {
+            renewStoredProfiles(payload, targets).then((list) => finishSave(list, platform));
+        } else {
+            finishSave(savedProfile, platform);
+        }
+    }
+
+    const finishSave = (list, platform) => {
+        setSelectedProfile(list);
         closeProfileDataModal();
 
          apiFetch( {
