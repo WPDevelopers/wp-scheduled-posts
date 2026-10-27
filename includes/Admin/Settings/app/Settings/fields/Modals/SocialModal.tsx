@@ -66,6 +66,11 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     }
                     getProfileData(params).then(response => {
                         setRequestSending(false);
+                        // A refused account lookup comes back as a message; show it instead of a blank profile (65261).
+                        if( response?.success === false ) {
+                            setError(typeof response.data === 'string' && response.data ? response.data : __('Could not read the account. Please try again.', 'wp-scheduled-posts'));
+                            return;
+                        }
                         if( account_type == 'page' ) {
                             setFbPage(response.page);
                         }else if( account_type == 'group' ) {
@@ -286,6 +291,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                 <div className="modalbody">
                     {isErrorMessage && (
                         <ProfileLimitNotice />
+                    )}
+                    {error && (
+                        <p className="wpsp-modal-error">{error}</p>
                     )}
                     {/* @ts-ignore */}
                     {

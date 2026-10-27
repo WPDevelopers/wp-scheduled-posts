@@ -545,6 +545,13 @@ class SocialProfile
                 }else{
                     $profiles = $linkedin->getPerson($access_token);
                 }
+                // LinkedIn sent no member: show its reason instead of a blank profile, unless there are pages to add (65261).
+                $profile_error = isset($profiles['error']) ? $profiles['error'] : '';
+                unset($profiles['error']);
+                if ($profile_error !== '' && empty($pages)) {
+                    wp_send_json_error($profile_error);
+                    wp_die();
+                }
                 $pages = apply_filters('wpsp_filter_linkedin_pages', $pages, $profiles);
                 $info = array(
                     '__id'          => time(),
@@ -560,7 +567,7 @@ class SocialProfile
                     'refresh_token' => $refresh_token,
                     'rt_expires_in' => $rt_expires_in,
                     'expires_in'    => $expires_in,
-                    'profiles'      => [$profiles],
+                    'profiles'      => $profile_error === '' ? [$profiles] : [],
                     'pages'         => $pages,
                     'added_by'      => $current_user->user_login,
                     'added_date'    => current_time('mysql'),
@@ -607,7 +614,15 @@ class SocialProfile
                     $access_token['oauth_token'],
                     $access_token['oauth_token_secret']
                 );
-                $content = $connection->get("account/verify_credentials");
+                // X's free tier refuses v1.1 verify_credentials (403, code 453); v2 users/me is allowed (65261).
+                $connection->setApiVersion('2');
+                $me = $connection->get('users/me', ['user.fields' => 'profile_image_url']);
+                if (empty($me->data->id)) {
+                    $message = isset($me->errors[0]->message) ? $me->errors[0]->message : (isset($me->detail) ? $me->detail : __('Could not read your X account. Please try again.', 'wp-scheduled-posts'));
+                    wp_send_json_error($message);
+                    wp_die();
+                }
+                $content = $me->data;
 
                 if (is_array($access_token) && count($access_token) > 0) {
                     $info = array(

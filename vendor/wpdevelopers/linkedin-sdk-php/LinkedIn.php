@@ -43,11 +43,13 @@ class LinkedIn {
 
         $person = [
             'type'          => 'person',
-            'id'            => $person->sub,
-            'name'          => $person->name,
-            'given_name'    => $person->given_name,
-            'family_name'   => $person->family_name,
-            'thumbnail_url' => $person->picture,
+            'id'            => isset($person->sub) ? $person->sub : null,
+            'name'          => isset($person->name) ? $person->name : '',
+            'given_name'    => isset($person->given_name) ? $person->given_name : '',
+            'family_name'   => isset($person->family_name) ? $person->family_name : '',
+            // A member without a photo has no picture field.
+            'thumbnail_url' => isset($person->picture) ? $person->picture : '',
+            'error'         => $this->errorMessage($person),
         ];
         return $person;
     }
@@ -56,14 +58,37 @@ class LinkedIn {
         $params = [];
         $response = $this->curl($url, http_build_query($params), "application/x-www-form-urlencoded", false);
         $person = json_decode($response['result']);
-        $image = $person->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier;
+        // A member without a photo has no profilePicture.
+        $image = isset($person->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier) ? $person->profilePicture->{'displayImage~'}->elements[0]->identifiers[0]->identifier : '';
         $person = [
             'type'          => 'person',
-            'id'            => $person->id,
-            'name'          => $person->firstName->localized->en_US . " " . $person->lastName->localized->en_US,
+            'id'            => isset($person->id) ? $person->id : null,
+            'name'          => trim($this->localizedName(isset($person->firstName) ? $person->firstName : null) . ' ' . $this->localizedName(isset($person->lastName) ? $person->lastName : null)),
             'thumbnail_url' => $image,
+            'error'         => $this->errorMessage($person),
         ];
         return $person;
+    }
+    // The name is stored under the member's own locale (de_DE, bn_BD...), not always en_US.
+    private function localizedName($field) {
+        if (empty($field->localized)) {
+            return '';
+        }
+        $names = (array) $field->localized;
+        if (isset($field->preferredLocale->language, $field->preferredLocale->country)) {
+            $locale = $field->preferredLocale->language . '_' . $field->preferredLocale->country;
+            if (isset($names[$locale])) {
+                return $names[$locale];
+            }
+        }
+        return (string) reset($names);
+    }
+    // LinkedIn's reason when it sent no member (e.g. 403 ACCESS_DENIED), so no blank profile is added.
+    private function errorMessage($answer) {
+        if (!empty($answer->id) || !empty($answer->sub)) {
+            return '';
+        }
+        return isset($answer->message) && is_string($answer->message) && $answer->message !== '' ? $answer->message : 'LinkedIn did not return your profile. Please try again.';
     }
     public function getPersonID($accessToken) {
         $url = "https://api.linkedin.com/v2/me?oauth2_access_token=" . $accessToken;
