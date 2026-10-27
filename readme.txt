@@ -1,10 +1,10 @@
 === SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, arrasel403, mdnahidhasan
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
-Requires at least: 4.0
+Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.4
+Stable tag: 5.3.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -32,7 +32,7 @@ https://youtu.be/oBD7MbtWvcQ
 ### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCE AND POST AUTOMATICALLY ON SOCIAL PLATFORMS:
 
 -   Revamp the entire content writing experience with SchedulePress
--   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Google Business Profile
+-   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Google Business Profile [PRO]
 -   Customize social-share per platform or global template in the editor & auto‑share with one click.
 -   Schedule hundreds of posts using the editorial calendar
 -   Manage multiple authors from one place
@@ -70,7 +70,7 @@ From one place, you can easily get an overview of your blog posts and when each 
 
 **◾ Notify WordPress Users With Email:** Send email alerts to authors or users when a post is published, trashed, or has been scheduled. It will let our users be aware of the status of their current blog posts.
 
-**◾ Auto Share Posts On Multi Social Profiles:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to multiple social media platforms like Facebook page & group, Twitter, Pinterest, LinkedIn profiles, LinkedIn pages, Instagram, Medium, Threads and Google Business Profile.
+**◾ Auto Share Posts On Social Media:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to one profile on each of Facebook (page or group), Twitter, Pinterest, LinkedIn, Instagram, Medium and Threads. Multiple profiles per network, LinkedIn pages and Google Business Profile come with [PRO].
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
 
@@ -161,6 +161,53 @@ If you like SchedulePress, then consider checking out our other WordPress Plugin
 Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.com/blog).
 
 
+== External services ==
+
+SchedulePress connects to the services below only for the features you set up. Nothing is sent to a service you don't use.
+
+= SchedulePress OAuth service =
+
+When you connect a social profile, the social network sends you back to your site through SchedulePress's OAuth service at `api.schedulepress.com`. If you connect with SchedulePress's own apps instead of your own app credentials, the service also exchanges the authorization code for an access token and renews that token before it expires. It receives the authorization code or refresh token, the app ID, the network's name and your site's address (so it can send you back), and it returns the token to your site.
+
+Provided by WPDeveloper: [Terms and conditions](https://wpdeveloper.com/terms-and-conditions/), [Privacy policy](https://schedulepress.com/privacy-policy/).
+
+= OpenAI =
+
+The "Write With AI" caption tool uses your own OpenAI API key. When you generate captions, it sends the post's title, link and the first 1,500 characters of its text, together with the networks you picked and your caption settings and instructions, to OpenAI (`api.openai.com`). Saving or testing the key also calls OpenAI to check it. Nothing is sent unless you add a key and use the tool.
+
+[OpenAI Services Agreement](https://openai.com/policies/services-agreement/), [Privacy policy](https://openai.com/policies/privacy-policy/).
+
+= Social networks =
+
+When you connect a profile, SchedulePress asks the network for the account's name, picture and pages or boards, and keeps the access token on your site. When a post is published (on schedule, right away or with Share Now), SchedulePress sends the share text built from your template (title, excerpt or content, link and hashtags) and the featured image or social banner to each profile you turned on. Tokens are renewed with the network directly or through the SchedulePress OAuth service above.
+
+* Facebook, Instagram and Threads, by Meta (`graph.facebook.com`, `graph.instagram.com`, `graph.threads.net`): [Meta Terms of Service](https://www.facebook.com/terms.php), [Instagram Terms of Use](https://help.instagram.com/581066165581870), [Meta Platform Terms](https://developers.facebook.com/terms/), [Meta Privacy Policy](https://www.facebook.com/privacy/policy/)
+* X (Twitter) (`api.twitter.com`, `upload.twitter.com`): [Terms of Service](https://x.com/en/tos), [Privacy policy](https://x.com/en/privacy)
+* LinkedIn (`api.linkedin.com`, `www.linkedin.com`): [User Agreement](https://www.linkedin.com/legal/user-agreement), [Privacy policy](https://www.linkedin.com/legal/privacy-policy)
+* Pinterest (`api.pinterest.com`): [Terms of Service](https://policy.pinterest.com/en/terms-of-service), [Privacy policy](https://policy.pinterest.com/en/privacy-policy)
+* Medium (`api.medium.com`): [Terms of Service](https://policy.medium.com/medium-terms-of-service-9db0094a1e0f), [Privacy policy](https://policy.medium.com/medium-privacy-policy-f03bf92035c9)
+* Bluesky (`bsky.social`): [Terms of Service](https://bsky.social/about/support/tos), [Privacy policy](https://bsky.social/about/support/privacy-policy)
+* Mastodon (the server you connect, `mastodon.social` by default): that server's own terms and privacy policy, for example [mastodon.social Terms of Service](https://mastodon.social/terms-of-service) and [Privacy policy](https://mastodon.social/privacy-policy)
+
+= Google Fonts =
+
+On the post editing screens, SchedulePress's panel loads the Inter font from Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`). Google receives the IP address and browser details of the person editing. Visitors to your site are not affected.
+
+[Google Terms of Service](https://policies.google.com/terms), [Privacy policy](https://policies.google.com/privacy).
+
+= Usage tracking (opt-in) =
+
+Only if you allow it in the admin notice, SchedulePress sends WPDeveloper (`app.wpdeveloper.com`) your site's address and name, your WordPress, PHP and plugin versions, language, active and inactive plugins, theme and admin email address, at most once a day. When an opted-in site deactivates SchedulePress, the same details are sent once more.
+
+If you haven't allowed tracking and you submit the optional feedback form when deactivating, only your answer is sent. Skipping the form sends nothing.
+
+[Terms and conditions](https://wpdeveloper.com/terms-and-conditions/), [Privacy policy](https://wpdeveloper.com/privacy-policy/).
+
+== Source code ==
+
+The JavaScript in this plugin is built from source in the public repository, [github.com/WPDevelopers/wp-scheduled-posts](https://github.com/WPDevelopers/wp-scheduled-posts), where every release is tagged. The post panel is built from `src/`, and the settings and calendar screens from `includes/Admin/Settings/app`; run `npm install` and `npm run build` in the plugin folder and in `includes/Admin/Settings` respectively.
+
+
 == Installation ==
 
 = Modern Way: =
@@ -216,6 +263,25 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.5 - 2026-10-18 =
+- Fixed: Social shares for scheduled posts now go out in the same cron run that publishes the post, instead of waiting for the next cron run.
+- Fixed: SchedulePress's editor styles broke the block editor's Pattern Chooser and other core modals.
+- Fixed: Reconnecting LinkedIn could drop the token from the new authorisation.
+- Fixed: Instant Share to Pinterest did not send the selected board.
+- Fixed: The share limit was not applied to Threads and Medium.
+- Fixed: Saving settings could overwrite connected social profile credentials.
+- Fixed: The Elementor schedule modal could save the wrong time in some time zones.
+- Fixed: Calendar categories and tags failed to load when no post type was selected.
+- Fixed: Deleting an advanced-scheduled post from the calendar caused a fatal error without SchedulePress Pro.
+- Fixed: "Publish immediately" now works only on scheduled posts, and the post panel refreshes after it runs.
+- Fixed: Social accounts were renewed more than once in the same maintenance run.
+- Improved: Social tokens and the OpenAI API key are no longer included in settings and profile responses.
+- Improved: Contributors can no longer publish or schedule posts through SchedulePress.
+- Improved: Nonce checks in the social share and profile handlers.
+- Improved: The plugin now checks for PHP 7.4, as the readme states.
+- Improved: The notice shown when SchedulePress Pro is out of date now asks you to update Pro.
+- Few minor bug fixes & improvements
 
 = 5.3.4 - 2026-09-15 =
 - Improved: Expired Social profile connection process.
@@ -421,5 +487,8 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.5 - 2026-10-18 =
+* Update SchedulePress Pro to 5.3.4 along with this release.
+
 = 4.1.3 - 2021-12-15 =
 * Few minor bug fix & improvements

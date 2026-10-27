@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { SweetAlertDeleteMsg } from '../ToasterMsg';
-import { socialProfileRequestHandler } from '../helper/helper';
+import { socialProfileRequestHandler, allowsMultipleProfiles } from '../helper/helper';
 import ApiCredentialsForm from './Modals/ApiCredentialsForm';
 import SocialModal from './Modals/SocialModal';
 import MainProfile from './utils/MainProfile';
@@ -32,8 +32,7 @@ const Pinterest = (props) => {
   );
   localStorage.setItem('pinterest',JSON.stringify(cachedStatus));
   const [activeStatusCount,setActiveStatusCount] = useState(0);
-  // @ts-ignore
-  const is_pro = wpspSettingsGlobal?.pro_version ? true : false;
+  const is_multi_profile = allowsMultipleProfiles();
   // prepare appId and appSecret
   let appInfo = [];
   if( props?.value ) {
@@ -59,13 +58,13 @@ const Pinterest = (props) => {
       setProfileStatus(true);
     }
     setCashedStatus((prevStatus) => {
-      if( is_pro ) {
+      if( is_multi_profile ) {
       return { ...prevStatus, [item.default_board_name.value]: event.target.checked };
     }else{
       return {  [item.default_board_name.value]: event.target.checked };
     }
     });
-    if ( is_pro ) {
+    if ( is_multi_profile ) {
       const updatedData = selectedProfile.map((selectedItem) => {
         if ( selectedItem.default_board_name.value === item.default_board_name.value ) {
           return {

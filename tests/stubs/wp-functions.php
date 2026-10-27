@@ -318,7 +318,7 @@ namespace WPSP\Tests\Stubs {
 			if ( self::$failUpdateWith ) {
 				return new \WP_Error( self::$failUpdateWith, 'Simulated update failure.' );
 			}
-			foreach ( array( 'post_status', 'post_date', 'post_date_gmt' ) as $field ) {
+			foreach ( array( 'post_status', 'post_date', 'post_date_gmt', 'post_author', 'post_type' ) as $field ) {
 				if ( isset( $args[ $field ] ) ) {
 					self::$posts[ $id ]->{$field} = $args[ $field ];
 				}
@@ -341,6 +341,70 @@ namespace WPSP\Tests\Stubs {
 
 		public function get_param( $key ) {
 			return array_key_exists( $key, $this->params ) ? $this->params[ $key ] : null;
+		}
+	}
+
+	/**
+	 * The current user's capabilities, for current_user_can(). Empty by default,
+	 * so a test grants exactly what the role under test has.
+	 */
+	class CapStore {
+
+		/** @var array<string,bool> */
+		private static $caps = array();
+
+		public static function reset() {
+			self::$caps = array();
+		}
+
+		public static function grant( ...$caps ) {
+			foreach ( $caps as $cap ) {
+				self::$caps[ $cap ] = true;
+			}
+		}
+
+		public static function has( $cap ) {
+			return ! empty( self::$caps[ $cap ] );
+		}
+	}
+
+	/**
+	 * The logged-in user and SchedulePress's "Allow users" roles, the two
+	 * things Helper::is_user_allow() reads.
+	 */
+	class UserStore {
+
+		public static function login( $id, ...$roles ) {
+			$GLOBALS['current_user'] = (object) array( 'ID' => $id, 'roles' => $roles );
+		}
+
+		public static function allowRoles( ...$roles ) {
+			if ( ! defined( 'WPSP_SETTINGS_NAME' ) ) {
+				define( 'WPSP_SETTINGS_NAME', 'wpsp_settings_v5' );
+			}
+			OptionStore::seed( WPSP_SETTINGS_NAME, json_encode( array( 'allow_user_by_role' => $roles ) ) );
+		}
+	}
+
+	/**
+	 * Thrown by the wp_send_json_* stubs where WordPress would print and die.
+	 */
+	class JsonResponse extends \Exception {
+
+		/** @var bool */
+		public $success;
+
+		/** @var mixed */
+		public $data;
+
+		/** @var int|null */
+		public $status;
+
+		public function __construct( $success, $data, $status ) {
+			parent::__construct( 'wp_send_json' );
+			$this->success = $success;
+			$this->data    = $data;
+			$this->status  = $status;
 		}
 	}
 }
@@ -412,33 +476,278 @@ namespace {
 		}
 	}
 
+	if ( ! function_exists( 'current_user_can' ) ) {
+		function current_user_can( $capability, ...$args ) {
+			return \WPSP\Tests\Stubs\CapStore::has( $capability );
+		}
+	}
+
+	if ( ! function_exists( 'is_super_admin' ) ) {
+		// On a single site WordPress counts anyone who can delete users.
+		function is_super_admin( $user_id = false ) {
+			return \WPSP\Tests\Stubs\CapStore::has( 'delete_users' );
+		}
+	}
+
+	if ( ! function_exists( 'absint' ) ) {
+		function absint( $maybeint ) {
+			return abs( (int) $maybeint );
+		}
+	}
+
+	if ( ! function_exists( 'wp_parse_args' ) ) {
+		function wp_parse_args( $args, $defaults = array() ) {
+			return array_merge( $defaults, (array) $args );
+		}
+	}
+
+	if ( ! function_exists( 'check_ajax_referer' ) ) {
+		function check_ajax_referer( $action = -1, $query_arg = false, $stop = true ) {
+			return 1;
+		}
+	}
+
+	if ( ! function_exists( 'wp_send_json_error' ) ) {
+		function wp_send_json_error( $data = null, $status_code = null, $flags = 0 ) {
+			throw new \WPSP\Tests\Stubs\JsonResponse( false, $data, $status_code );
+		}
+	}
+
+	if ( ! function_exists( 'get_gmt_from_date' ) ) {
+		function get_gmt_from_date( $date_string, $format = 'Y-m-d H:i:s' ) {
+			return $date_string;
+		}
+	}
+
 	if ( ! function_exists( 'current_time' ) ) {
 		function current_time( $type = 'mysql', $gmt = 0 ) {
 			return gmdate( 'Y-m-d H:i:s' );
 		}
 	}
 
+	// A real enough hook store. The no-op version was fine while nothing under
+	// test read a filter back, but the social-platform registry is built
+	// entirely out of `wpsp_social_platforms`, so a test has to be able to
+	// register one and see it come out the other side.
 	if ( ! function_exists( 'do_action' ) ) {
 		function do_action( $hook, ...$args ) {
 			\WPSP\Tests\Stubs\PostStore::$firedActions[] = $hook;
+
+			foreach ( \WPSP\Tests\Stubs\HookStore::callbacks( $hook ) as $callback ) {
+				call_user_func_array( $callback, $args );
+			}
 		}
 	}
 
 	if ( ! function_exists( 'add_filter' ) ) {
 		function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			\WPSP\Tests\Stubs\HookStore::add( $hook, $callback, $priority );
 			return true;
+		}
+	}
+
+	if ( ! function_exists( 'apply_filters' ) ) {
+		function apply_filters( $hook, $value, ...$args ) {
+			foreach ( \WPSP\Tests\Stubs\HookStore::callbacks( $hook ) as $callback ) {
+				$value = call_user_func_array( $callback, array_merge( array( $value ), $args ) );
+			}
+
+			return $value;
+		}
+	}
+
+	if ( ! function_exists( 'has_filter' ) ) {
+		function has_filter( $hook, $callback = false ) {
+			return \WPSP\Tests\Stubs\HookStore::has( $hook );
+		}
+	}
+
+	if ( ! function_exists( 'has_action' ) ) {
+		function has_action( $hook, $callback = false ) {
+			return \WPSP\Tests\Stubs\HookStore::has( $hook );
 		}
 	}
 
 	if ( ! function_exists( 'remove_filter' ) ) {
 		function remove_filter( $hook, $callback, $priority = 10 ) {
+			\WPSP\Tests\Stubs\HookStore::remove( $hook, $callback );
+			return true;
+		}
+	}
+
+	if ( ! function_exists( 'remove_all_filters' ) ) {
+		function remove_all_filters( $hook, $priority = false ) {
+			\WPSP\Tests\Stubs\HookStore::reset( $hook );
 			return true;
 		}
 	}
 
 	if ( ! function_exists( 'add_action' ) ) {
 		function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
+			\WPSP\Tests\Stubs\HookStore::add( $hook, $callback, $priority );
 			return true;
+		}
+	}
+
+	if ( ! function_exists( 'admin_url' ) ) {
+		function admin_url( $path = '' ) {
+			return 'https://example.test/wp-admin/' . ltrim( $path, '/' );
+		}
+	}
+}
+
+namespace WPSP\Tests\Stubs {
+
+	/**
+	 * Canned responses for wp_remote_get(), matched by URL prefix and used in order.
+	 */
+	class HttpStore {
+
+		/** @var array<string,array[]> URL prefix => responses still to hand out */
+		private static $routes = array();
+
+		/** @var string[] URLs requested, in order */
+		public static $requests = array();
+
+		public static function reset() {
+			self::$routes   = array();
+			self::$requests = array();
+		}
+
+		public static function on( $url_prefix, array $responses ) {
+			self::$routes[ $url_prefix ] = $responses;
+		}
+
+		public static function json( $code, $data ) {
+			return array( 'response' => array( 'code' => $code ), 'body' => json_encode( $data ) );
+		}
+
+		public static function get( $url ) {
+			self::$requests[] = $url;
+			foreach ( array_keys( self::$routes ) as $prefix ) {
+				if ( 0 === strpos( $url, $prefix ) && self::$routes[ $prefix ] ) {
+					return array_shift( self::$routes[ $prefix ] );
+				}
+			}
+			return self::json( 404, array( 'error' => array( 'message' => 'No canned response for ' . $url ) ) );
+		}
+	}
+}
+
+namespace {
+
+	if ( ! function_exists( 'wp_remote_get' ) ) {
+		function wp_remote_get( $url, $args = array() ) {
+			return \WPSP\Tests\Stubs\HttpStore::get( $url );
+		}
+	}
+
+	if ( ! function_exists( 'wp_remote_retrieve_response_code' ) ) {
+		function wp_remote_retrieve_response_code( $response ) {
+			return is_array( $response ) && isset( $response['response']['code'] ) ? $response['response']['code'] : '';
+		}
+	}
+
+	if ( ! function_exists( 'wp_remote_retrieve_body' ) ) {
+		function wp_remote_retrieve_body( $response ) {
+			return is_array( $response ) && isset( $response['body'] ) ? $response['body'] : '';
+		}
+	}
+}
+
+namespace WPSP\Tests\Stubs {
+
+	/**
+	 * In-memory stand-in for the WP-Cron event list.
+	 */
+	class CronStore {
+
+		/** @var array<int,array{timestamp:int,hook:string,args:array}> */
+		public static $events = array();
+
+		/** @var bool What wp_doing_cron() reports. */
+		public static $doingCron = false;
+
+		/**
+		 * Every do_action_ref_array() call, the way wp-cron.php runs an event.
+		 *
+		 * @var array<int,array{hook:string,args:array,queued:bool}> `queued` is
+		 *      whether the event was still scheduled when its hook ran.
+		 */
+		public static $ran = array();
+
+		public static function reset() {
+			self::$events    = array();
+			self::$doingCron = false;
+			self::$ran       = array();
+		}
+
+		/**
+		 * @param int    $timestamp
+		 * @param string $hook
+		 * @param array  $args
+		 */
+		public static function schedule( $timestamp, $hook, array $args = array() ) {
+			self::$events[] = array(
+				'timestamp' => (int) $timestamp,
+				'hook'      => $hook,
+				'args'      => $args,
+			);
+		}
+
+		/**
+		 * @param string $hook
+		 * @param array  $args
+		 * @return bool
+		 */
+		public static function is_queued( $hook, array $args = array() ) {
+			return false !== \wp_next_scheduled( $hook, $args );
+		}
+	}
+
+}
+
+namespace {
+
+	if ( ! function_exists( 'wp_next_scheduled' ) ) {
+		function wp_next_scheduled( $hook, $args = array() ) {
+			$next = false;
+			foreach ( \WPSP\Tests\Stubs\CronStore::$events as $event ) {
+				// Real WP-Cron matches args by md5( serialize() ), so types matter.
+				if ( $event['hook'] === $hook && $event['args'] === $args
+					&& ( false === $next || $event['timestamp'] < $next ) ) {
+					$next = $event['timestamp'];
+				}
+			}
+			return $next;
+		}
+	}
+
+	if ( ! function_exists( 'wp_unschedule_event' ) ) {
+		function wp_unschedule_event( $timestamp, $hook, $args = array(), $wp_error = false ) {
+			foreach ( \WPSP\Tests\Stubs\CronStore::$events as $i => $event ) {
+				if ( $event['timestamp'] === (int) $timestamp && $event['hook'] === $hook && $event['args'] === $args ) {
+					unset( \WPSP\Tests\Stubs\CronStore::$events[ $i ] );
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	if ( ! function_exists( 'wp_doing_cron' ) ) {
+		function wp_doing_cron() {
+			return \WPSP\Tests\Stubs\CronStore::$doingCron;
+		}
+	}
+
+	if ( ! function_exists( 'do_action_ref_array' ) ) {
+		function do_action_ref_array( $hook, $args ) {
+			\WPSP\Tests\Stubs\CronStore::$ran[] = array(
+				'hook'   => $hook,
+				'args'   => $args,
+				'queued' => \WPSP\Tests\Stubs\CronStore::is_queued( $hook, $args ),
+			);
 		}
 	}
 }

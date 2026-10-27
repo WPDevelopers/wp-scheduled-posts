@@ -397,7 +397,8 @@ export const getProfileData = async (params) => {
         nonce : nonce,
         type: params.get("type"),
         appId: params.get("appId"),
-        appSecret: params.get("appSecret"),
+        // No appSecret: the callback URL never carries it. The server kept the
+        // one the connect step was given.
         code: params.get("code"),
         redirectURI: params.get("redirectURI"),
         access_token: params.get("access_token"),
@@ -586,4 +587,10 @@ export const handleImageError = (e) => {
     const placeholderImage = `${wpspSettingsGlobal?.assets_path}/images/author-logo.jpeg`;
     e.target.onerror = null; // Prevents infinite loop in case placeholder image fails
     e.target.src = placeholderImage; // Set the placeholder image
+};
+
+// One profile per network unless an add-on raises the limit (Helper::social_profile_limit()).
+export const allowsMultipleProfiles = () => {
+    // @ts-ignore
+    return Number(wpspSettingsGlobal?.social_profile_limit) > 1;
 };

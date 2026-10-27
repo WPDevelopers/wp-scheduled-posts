@@ -72,5 +72,5 @@ Key post meta written by features:
 
 - **Option:** `wpsp_settings_v5` (JSON).
 - **Migration:** runs on `wp_loaded`.
-- **REST:** settings read/write via `wp-scheduled-posts/v1` (`get-option-data`, save routes).
+- **REST:** settings read/write via `wp-scheduled-posts/v1` (`settings` and the save routes). `get-option-data` returns only the social profile lists, without secrets.
 - **JWT whitelist:** `wp-scheduled-posts/v1`, `wp-scheduled-posts-pro/v1`, `wpscp/v1`.

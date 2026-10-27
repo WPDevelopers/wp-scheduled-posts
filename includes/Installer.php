@@ -74,6 +74,12 @@ class Installer
             ), false);
         }
 
+        // Backfill settings keys added since this site was seeded (e.g. show_publish_post_button),
+        // once per version. Admin-only, since the handler lives there and stamps the version.
+        if (is_admin() && get_option('wpsp_defaults_backfilled_version') !== WPSP_VERSION) {
+            do_action('wpsp_backfill_missing_defaults');
+        }
+
         // update version
         if (version_compare(get_option('wpsp_version'), WPSP_VERSION, '<')) {
             if (get_option('wpsp_version') != WPSP_VERSION) {

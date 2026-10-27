@@ -4,26 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-SchedulePress (plugin slug `wp-scheduled-posts`) is a WordPress plugin by WPDeveloper for automated content scheduling and social auto-sharing. Core capabilities: missed-schedule handling, a **Schedule Calendar**, a **Dashboard widget**, a **sitewide admin-bar menu**, per-post scheduling controls, and auto-sharing to Facebook, Twitter/X, LinkedIn, Pinterest, Instagram, Medium, Threads, and Google Business. Text domain `wp-scheduled-posts`; settings-UI slug `schedulepress`; main entry [wp-scheduled-posts.php](wp-scheduled-posts.php) (`final class WPSP`). The paid features live in the sibling plugin `wp-scheduled-posts-pro` and integrate via the same subsystems + WP hooks.
+SchedulePress (plugin slug `wp-scheduled-posts`) is a WordPress plugin by WPDeveloper for automated content scheduling and social auto-sharing. Core capabilities: missed-schedule handling, a **Schedule Calendar**, a **Dashboard widget**, a **sitewide admin-bar menu**, per-post scheduling controls, and auto-sharing to Facebook, Twitter/X, LinkedIn, Pinterest, Instagram, Medium, Threads, Bluesky and Mastodon. Google Business Profile is a Pro platform and ships with `wp-scheduled-posts-pro`; this plugin only carries its locked upsell card. Text domain `wp-scheduled-posts`; settings-UI slug `schedulepress`; main entry [wp-scheduled-posts.php](wp-scheduled-posts.php) (`final class WPSP`). The paid features live in the sibling plugin `wp-scheduled-posts-pro` and integrate via the same subsystems + WP hooks.
 
 PHP namespace root: `WPSP\` → `includes/` (PSR-4 autoload via Composer; see [composer.json](composer.json)). Global procedural helpers live in [includes/functions.php](includes/functions.php) (`wpsp_*` / `wpscp_*` prefixes).
 
 ## Branching
 
-`dev` is the integration branch. `master` holds released code only — it moves at
+`dev` is the integration branch. `main` holds released code only — it moves at
 release time and at no other time.
 
 - Branch from `dev`, and open the pull request against `dev`. Never open one
-  against `master`.
+  against `main`.
 - Name the branch after the task it closes (`84488`, `fix/84488-token-renewal`)
   so the work stays traceable.
 - A release is cut from `dev` as `release/<task>-<yyyymmdd>`. When it ships it
-  merges into `master` **and** back into `dev`, so the two never drift.
+  merges into `main` **and** back into `dev`, so the two never drift.
 - The same flow applies to the Pro plugin (`wp-scheduled-posts-pro`); a change
   that spans both repos needs a branch of the same name in each.
 - Push one named ref at a time (`git push origin <branch>`). Never `--all`,
   `--tags`, `--mirror` or `--prune` — this repo's release tooling is
-  tag-triggered. Creating tags is a human step, done from `master`.
+  tag-triggered. Creating tags is a human step, done from `main`.
 
 ## Commands
 
@@ -58,7 +58,7 @@ Key constants: `WPSP_VERSION`, `WPSP_PLUGIN_SLUG` (`wp-scheduled-posts`), `WPSP_
 ### Subsystems (`includes/`)
 - **Installer** ([includes/Installer.php](includes/Installer.php)) + **Migration** ([includes/Migration.php](includes/Migration.php)) — activation, schema/version transitions.
 - **Admin** ([includes/Admin/](includes/Admin/)) — `Calendar`, `Menu`, `Metabox/`, `Notices/`, `Rule(s)` (access control), `Widgets/` (dashboard widget), and the React **Settings** app under `Admin/Settings/`.
-- **Social** ([includes/Social/](includes/Social/)) — one class per platform (`Facebook`, `Twitter`, `Linkedin`, `Pinterest`, `Instagram`, `Medium`, `Threads`, `GoogleBusiness`, `InstantShare`) plus `SocialProfile`, `SocialReconnection`/`ReconnectHandler`. Shared logic in the `WPSP\Traits\SocialHelper` trait. OAuth flows go through the middleware endpoints defined in `define_constants()`. Platform SDKs come from `includes/Deps/` (facebook graph-sdk, twitteroauth, linkedin, pinterest, guzzle).
+- **Social** ([includes/Social/](includes/Social/)) — one class per platform (`Facebook`, `Twitter`, `Linkedin`, `Pinterest`, `Instagram`, `Medium`, `Threads`, `Bluesky`, `Mastodon`, `InstantShare`) plus `SocialProfile`, `SocialReconnection`/`ReconnectHandler` and `Platforms` — the registry through which Pro adds a network without any of its code living here (see [docs/specs/free-pro-separation.md](docs/specs/free-pro-separation.md)). Shared logic in the `WPSP\Traits\SocialHelper` trait. OAuth flows go through the middleware endpoints defined in `define_constants()`. Platform SDKs come from `includes/Deps/` (facebook graph-sdk, twitteroauth, linkedin, pinterest, guzzle).
 - **API** ([includes/API.php](includes/API.php), [includes/API/](includes/API/)) — REST endpoints: `AICaption`, `CustomSocialTemplates`, `PostPanel`, `Settings`.
 - **Email** ([includes/Email.php](includes/Email.php)) — schedule / review notification emails.
 - **Helper** ([includes/Helper.php](includes/Helper.php)) — static utilities: post-type/taxonomy/role queries, settings access (`get_settings()`, `wpsp_settings_v5()`), social profile/token storage, per-platform char limits (`get_social_platform_limits()`), content formatting.

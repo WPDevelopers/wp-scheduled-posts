@@ -142,7 +142,7 @@ class Facebook
             }else {
                 $featured_image_id = Helper::get_featured_image_id_from_request();
                 if( !empty( $featured_image_id ) ) {
-                    $thumbnail_src = wp_get_attachment_image_url($featured_image_id, 'full');
+                    $thumbnail_src = wp_get_attachment_image_src($featured_image_id, 'full');
                     echo '<meta property="og:image" content="' . esc_attr($thumbnail_src[0]) . '"/>';
                 }
             }

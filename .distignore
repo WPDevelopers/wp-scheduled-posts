@@ -19,7 +19,6 @@ behat.yml
 bitbucket-pipelines.yml
 bin
 .circleci/config.yml
-composer.json
 composer.lock
 dependencies.yml
 Gruntfile.js
@@ -55,6 +54,7 @@ includes/Admin/Settings/**/admin.js.LICENSE.txt
 assets/sass
 .prettierignore
 .prettierrc.json
+.npmrc
 vendor/abraham/twitteroauth/.github
 vendor/abraham/twitteroauth/tests
 vendor/wpdevelopers/pinterest-api-php/demo
@@ -72,3 +72,7 @@ vendor/priyomukul/.gitignore
 vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
 docs/
+/src
+/phpunit-integration.xml
+/vendor/bin
+/vendor/coenjacobs

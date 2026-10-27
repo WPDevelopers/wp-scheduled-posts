@@ -243,7 +243,12 @@ class CurlBuilder {
 
         if (!$body) {
             $this->setOption(CURLOPT_HEADER, true);
-            $response = $this->execute();
+            // Run the request once. Calling execute() here re-entered execFollow(),
+            // which looped forever whenever the response body was empty.
+            $response = curl_exec($this->curl);
+            if (!is_string($response)) {
+                $response = '';
+            }
 
             $header_size = $this->getInfo(CURLINFO_HEADER_SIZE);
             $header = substr($response, 0, $header_size);

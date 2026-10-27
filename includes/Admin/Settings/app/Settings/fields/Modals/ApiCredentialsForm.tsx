@@ -19,7 +19,12 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
       "https://api.schedulepress.com/callback.php"
   );
 
-  const hasAutomatic = platform == "linkedin" || platform == "pinterest" || platform == 'google_business';
+  // The three built-ins SchedulePress runs a shared app for, plus any platform
+  // an extension registered that says it has one.
+  const hasAutomatic =
+    platform == "linkedin" ||
+    platform == "pinterest" ||
+    Boolean(props?.automatic_connect);
   
   const handleProfileConnection = () => {
    requestHandler(redirectURIv2, '', '', platform).then((res) => {
