@@ -286,6 +286,18 @@ class Linkedin
                 } else if (isset($result->code, $result->message) && $result->code === 'INVALID_STRING_FORMAT') {
                     $errorFlag = false;
                     $response = $result->message;
+                } else {
+                    // Other LinkedIn errors (duplicate, rate limit, old version, no reply) left the log empty (6789).
+                    $errorFlag = false;
+                    if (isset($result->code) && $result->code === 'NONEXISTENT_VERSION') {
+                        $response = __('LinkedIn no longer supports the API version this plugin uses. Please update SchedulePress.', 'wp-scheduled-posts');
+                    } else if (isset($result->message) && is_string($result->message) && $result->message !== '') {
+                        $response = $result->message;
+                    } else if (empty($results)) {
+                        $response = __('Could not reach LinkedIn. Please try again.', 'wp-scheduled-posts');
+                    } else {
+                        $response = __('LinkedIn returned an unexpected response. Please try again.', 'wp-scheduled-posts');
+                    }
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
