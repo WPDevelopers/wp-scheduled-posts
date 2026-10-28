@@ -660,7 +660,6 @@ class SocialProfile
                 }
 
                 $userInfo = $this->facebookGetUserDetails($tempAccessToken);
-                $groupInfo = $this->facebookGetGroupDetails($tempAccessToken);
 
                 // page
                 $page_array = array();
@@ -684,31 +683,11 @@ class SocialProfile
                 }
 
 
-                // group
-                $group_array = array();
-                if (is_array($groupInfo->data) && count($groupInfo->data) > 0) {
-                    foreach ($groupInfo->data as $group) {
-                        if ($group->administrator === true) {
-                            array_push($group_array, array(
-                                'id' => $group->id,
-                                'app_id' => $app_id,
-                                'app_secret' => $app_secret,
-                                'name' => $group->name,
-                                'thumbnail_url' => $group->picture->data->url,
-                                'type' => 'group',
-                                'status' => true,
-                                'access_token' => !empty( $access_token ) ? $access_token : $userAcessToken ,
-                                'added_by' => $current_user->user_login,
-                                'added_date'    => current_time('mysql')
-                            ));
-                        }
-                    }
-                }
-                // response
+                // response; no groups since Meta removed the Groups API (6797)
                 $response = array(
                     'success' => true,
                     'page'   => $page_array,
-                    'group'   => $group_array,
+                    'group'   => array(),
                     'type'      => 'facebook',
                 );
                 wp_send_json($response);
