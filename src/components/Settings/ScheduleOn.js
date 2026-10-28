@@ -30,6 +30,11 @@ const formatDateTime = (dateString) => {
     });
 };
 
+/** The site's current time as "Y-m-dTH:i:s", not the browser's (6831). */
+const siteNow = () => (window.wp?.date?.date
+    ? window.wp.date.date('Y-m-d\\TH:i:s')
+    : new Date().toISOString());
+
 /** Read post date from Classic Editor DOM fields. */
 const getClassicEditorDate = () => {
     const pad = (n) => String(n || 0).padStart(2, '0');
@@ -299,17 +304,16 @@ const ScheduleOn = () => {
                                             variant="secondary"
                                             isSmall
                                             onClick={() => {
-                                                const now = new Date().toISOString();
                                                 isCleared.current = false;
                                                 userInteracted.current = true;
-                                                setScheduleDate(now);
+                                                setScheduleDate(siteNow());
                                             }}
                                         >
                                             {__('Now', 'wp-scheduled-posts')}
                                         </Button>
                                     </div>
                                     <DateTimePicker
-                                        currentDate={scheduleDate || undefined}
+                                        currentDate={scheduleDate || siteNow()}
                                         onChange={(date) => {
                                             isCleared.current = false;
                                             userInteracted.current = true;
