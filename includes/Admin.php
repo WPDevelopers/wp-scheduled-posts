@@ -58,6 +58,10 @@ class Admin
 
     public function wpsp_register_metabox()
     {
+        // The panel app loads only for "Allow users" roles; others got a button that did nothing (6850).
+        if ( ! Helper::is_user_allow() ) {
+            return;
+        }
         $allowed_post_types = \WPSP\Helper::get_all_allowed_post_type(); // Fetch allowed post types
         foreach ($allowed_post_types as $post_type) {
            add_meta_box(
@@ -410,6 +414,10 @@ class Admin
 
     public function schedulepress_el_tab()
     {
+        // Same as the metabox: no button or modal markup for roles outside "Allow users" (6850).
+        if ( ! Helper::is_user_allow() ) {
+            return;
+        }
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         ?>
         <div id="wpsp-post-panel-modal" class="wpsp-post-panel-modal">
