@@ -264,7 +264,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
-= 5.3.6 - 2026-10-26 =
+= 5.3.6 - 2026-10-28 =
 - Fixed: The "Publish future post immediately" setting was missing after upgrading from older versions.
 - Fixed: Facebook could share "h" as the og:image when the image came from the request.
 - Fixed: Saving in Elementor threw a TypeError when a custom social profile selection was sent as a single value.
@@ -504,7 +504,7 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
-= 5.3.6 - 2026-10-26 =
+= 5.3.6 - 2026-10-28 =
 * Update SchedulePress Pro to 5.3.5 along with this release.
 
 = 5.3.5 - 2026-10-18 =
