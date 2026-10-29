@@ -100,12 +100,49 @@ class CalendarPermissionTest extends TestCase {
 		$this->assertFalse( $this->allowed( 'eventDrop' ) );
 	}
 
+	private function add( $type, $post_type = 'post' ) {
+		return $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => $type, 'post_type' => $post_type ) ) );
+	}
+
 	public function test_new_post_without_an_id_still_needs_publish_posts() {
-		CapStore::grant( 'edit_post', 'publish_post' );
-		$this->assertFalse( $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => 'addEvent' ) ) ) );
+		CapStore::grant( 'edit_post', 'publish_post', 'edit_posts' );
+		$this->assertFalse( $this->add( 'addEvent' ) );
 
 		CapStore::grant( 'publish_posts' );
-		$this->assertTrue( $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => 'addEvent' ) ) ) );
+		$this->assertTrue( $this->add( 'addEvent' ) );
+	}
+
+	/**
+	 * Card 84937: a new post needs the rights of its own post type.
+	 *
+	 * @dataProvider new_post_types
+	 */
+	public function test_author_cannot_add_a_page( $type ) {
+		CapStore::grant( 'edit_posts', 'publish_posts' );
+		$this->assertTrue( $this->add( $type, 'post' ) );
+		$this->assertFalse( $this->add( $type, 'page' ) );
+	}
+
+	public function new_post_types() {
+		return array(
+			'scheduled' => array( 'addEvent' ),
+			'draft'     => array( 'newDraft' ),
+		);
+	}
+
+	public function test_a_scheduled_page_needs_publish_pages_a_draft_only_edit_pages() {
+		CapStore::grant( 'edit_posts', 'publish_posts', 'edit_pages' );
+		$this->assertTrue( $this->add( 'newDraft', 'page' ) );
+		$this->assertFalse( $this->add( 'addEvent', 'page' ) );
+
+		CapStore::grant( 'publish_pages' );
+		$this->assertTrue( $this->add( 'addEvent', 'page' ) );
+	}
+
+	public function test_new_post_of_an_unknown_or_missing_type_is_refused() {
+		CapStore::grant( 'edit_posts', 'publish_posts', 'edit_pages', 'publish_pages' );
+		$this->assertFalse( $this->add( 'addEvent', 'nope' ) );
+		$this->assertFalse( $this->calendar->edit_permission_callback( new FakeRequest( array( 'type' => 'addEvent' ) ) ) );
 	}
 
 	/**

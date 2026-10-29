@@ -87,7 +87,15 @@ class Calendar
             }
             return true;
         }
-        return current_user_can('publish_posts');
+        // A new post also needs the rights WordPress asks for its own post type.
+        $post_type = get_post_type_object($request->get_param('post_type'));
+        if (!$post_type || !current_user_can('publish_posts') || !current_user_can($post_type->cap->create_posts)) {
+            return false;
+        }
+        if ('newDraft' !== $request->get_param('type')) {
+            return current_user_can($post_type->cap->publish_posts);
+        }
+        return true;
     }
 
     /**
