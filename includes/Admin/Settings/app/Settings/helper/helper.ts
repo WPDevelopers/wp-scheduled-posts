@@ -99,7 +99,7 @@ export const generateTabURL = () => {
 // a second settings screen in there. `options.accountType` is what the profile
 // being reconnected actually is — the stored profile knows, where the leftover
 // localStorage value from the last connect does not.
-export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, openIDConnect = false, options: { popup?: boolean, accountType?: string } = {}) => {
+export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, openIDConnect = false, options: { popup?: boolean, accountType?: string, configId?: string } = {}) => {
     const account_type = options?.accountType ?? localStorage.getItem('account_type');
     // @ts-ignore
     const nonce = wpspSettingsGlobal?.api_nonce;
@@ -113,6 +113,8 @@ export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, 
         openIDConnect: openIDConnect,
         accountType: account_type,
         popupCallback: options?.popup ? 1 : 0,
+        // Instagram's Unified Login is opened by a configuration, not a scope.
+        configId: options?.configId ?? '',
     };
     const response = await fetchDataFromAPI(data);
     const responseData = await response.json();
@@ -132,8 +134,8 @@ export const getSocialAuthUrl = async (redirectURI, appID, appSecret, platform, 
 };
 
 // Send API request for fetch url
-export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect = false) => {
-    const result = await getSocialAuthUrl(redirectURI, appID, appSecret, platform, openIDConnect);
+export const socialProfileRequestHandler = async (redirectURI, appID, appSecret, platform, openIDConnect = false, options: { configId?: string } = {}) => {
+    const result = await getSocialAuthUrl(redirectURI, appID, appSecret, platform, openIDConnect, { configId: options?.configId });
     if (result?.url) {
         open(result.url, '_self');
         return;
@@ -318,7 +320,11 @@ export const runReconnect = async (targets, onProgress = null) => {
         // member app, and asking for the wrong set is refused outright — so a
         // reconnect asks for whatever this profile was connected with.
         !! next.item?.openIDConnect,
-        { popup: true, accountType: reconnectAccountType(next.platform, next.item) }
+        {
+            popup: true,
+            accountType: reconnectAccountType(next.platform, next.item),
+            configId: next.auth.config_id ?? next.item?.config_id ?? '',
+        }
     );
 
     if (authUrl?.error || !authUrl?.url) {
@@ -408,6 +414,7 @@ export const getProfileData = async (params) => {
         oauthVerifier: params.get("oauth_verifier"),
         oauthToken: params.get("oauth_token"),
         openIDConnect: params.get("openIDConnect"),
+        configId: params.get("configId"),
     };
     const response = await fetchDataFromAPI(data);
     return response.json();

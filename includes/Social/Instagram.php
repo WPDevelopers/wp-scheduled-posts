@@ -215,6 +215,11 @@ class Instagram
         }
         
         if(get_post_meta($post_id, '_wpsp_is_instagram_share', true) == 'on' || $force_share) {
+            $profile = isset($instagram[$profile_key]) ? $instagram[$profile_key] : null;
+            if ($profile && InstagramUnifiedLogin::is_unified($profile)) {
+                return $this->share_with_unified_login($post_id, $profile_key, $ID, $profile->access_token);
+            }
+
             $errorFlag = false;
             $response = '';
 
@@ -278,6 +283,39 @@ class Instagram
             );
         }
         return;
+    }
+
+    /**
+     * Share through Meta's Unified Login setup, on graph.facebook.com.
+     *
+     * @param int    $post_id
+     * @param int    $profile_key
+     * @param string $ID           Instagram professional account ID.
+     * @param string $access_token
+     * @return array
+     */
+    private function share_with_unified_login($post_id, $profile_key, $ID, $access_token)
+    {
+        $linkData = $this->get_share_content_args($post_id);
+        $result   = InstagramUnifiedLogin::publish($ID, $access_token, $linkData['image_url'], $linkData['caption']);
+
+        if (empty($result['success'])) {
+            return array(
+                'success' => false,
+                'log'     => $result['error'],
+            );
+        }
+
+        $shareInfo = array(
+            'share_id'     => $result['id'],
+            'publish_date' => time(),
+        );
+        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
+
+        return array(
+            'success' => true,
+            'log'     => $shareInfo,
+        );
     }
 
     public function sharePostOnInstagram($post_id, $profile_key, $ID, $access_token) {

@@ -241,6 +241,11 @@ class ReconnectHandler
         if ($platform === 'threads') {
             return self::renew_meta_long_lived($item, 'threads', 'https://graph.threads.net/refresh_access_token', 'th_refresh_token');
         }
+        // Unified Login has no in-place renewal: its system-user token does not
+        // expire, and a user token from it can only be replaced by signing in.
+        if ($platform === 'instagram' && InstagramUnifiedLogin::is_unified($item)) {
+            return self::authRequiredResponse($platform, $item);
+        }
         if ($platform === 'instagram') {
             return self::renew_meta_long_lived($item, 'instagram', 'https://graph.instagram.com/refresh_access_token', 'ig_refresh_token');
         }
@@ -560,6 +565,8 @@ class ReconnectHandler
             // fall back to the plugin's own app.
             'app_id'      => $is_automatic ? '' : $app_id,
             'app_secret'  => $is_automatic ? '' : $app_secret,
+            // Instagram's Unified Login dialog is opened by configuration.
+            'config_id'   => !empty($item['config_id']) ? $item['config_id'] : '',
             'reason'      => $reason,
             'message'     => __('This connection has to be authorised again.', 'wp-scheduled-posts'),
         ];
