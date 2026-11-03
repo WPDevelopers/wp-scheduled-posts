@@ -33,6 +33,7 @@ phpcs.xml
 .phpcs.xml.dist
 phpcs.xml.dist
 README.md
+SECURITY.md
 webpack.config.js
 wp-cli.local.yml
 yarn.lock
