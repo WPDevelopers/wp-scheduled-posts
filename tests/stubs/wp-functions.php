@@ -482,6 +482,21 @@ namespace {
 		}
 	}
 
+	if ( ! function_exists( 'get_post_type_object' ) ) {
+		// Posts and pages with WordPress's own capability names; any other type does not exist.
+		function get_post_type_object( $post_type ) {
+			$plural = array( 'post' => 'posts', 'page' => 'pages' );
+			if ( ! is_scalar( $post_type ) || ! isset( $plural[ $post_type ] ) ) {
+				return null;
+			}
+			$p = $plural[ $post_type ];
+			return (object) array(
+				'name' => $post_type,
+				'cap'  => (object) array( 'create_posts' => "edit_$p", 'edit_posts' => "edit_$p", 'publish_posts' => "publish_$p" ),
+			);
+		}
+	}
+
 	if ( ! function_exists( 'is_super_admin' ) ) {
 		// On a single site WordPress counts anyone who can delete users.
 		function is_super_admin( $user_id = false ) {
