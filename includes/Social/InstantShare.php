@@ -712,6 +712,11 @@ class InstantShare
         }
 
         $postid = intval($_GET['postid']);
+        // Sharing writes the share log to the post, so it needs the right to edit it.
+        if ( ! get_post( $postid ) || ! current_user_can( 'edit_post', $postid ) ) {
+            wp_send_json_error( [ 'message' => __('You are not allowed to share this post.', 'wp-scheduled-posts') ], 403 );
+            wp_die();
+        }
         $platform = (isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '');
         $is_share_on_publish = (isset($_GET['share_on_publish']) ? $_GET['share_on_publish'] : false);
         $profileID = (isset($_GET['id']) ? sanitize_text_field($_GET['id']) : '');
