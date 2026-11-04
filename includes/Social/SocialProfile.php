@@ -436,6 +436,7 @@ class SocialProfile
         $expires_in    = (isset($_POST['expires_in']) ? $_POST['expires_in'] : '');
         $rt_expires_in = (isset($_POST['rt_expires_in']) ? $_POST['rt_expires_in'] : '');
         $openIDConnect = (isset($_POST['openIDConnect']) ? $_POST['openIDConnect'] : '');
+        $config_id     = (isset($_POST['configId']) ? sanitize_text_field(wp_unslash($_POST['configId'])) : '');
         // The callback URL no longer carries the secret, so take the one the
         // connect step kept on this side.
         if ($app_secret === '') {
@@ -712,6 +713,46 @@ class SocialProfile
                     'type'      => 'facebook',
                 );
                 wp_send_json($response);
+                wp_die();
+            } catch (\Exception $error) {
+                wp_send_json_error($error->getMessage());
+                wp_die();
+            }
+        } else if ($type == 'instagram' && $code != "" && $config_id !== '') {
+            try {
+                $token    = InstagramUnifiedLogin::exchange_code($app_id, $app_secret, $redirectURI, $code);
+                $accounts = InstagramUnifiedLogin::fetch_accounts($token['access_token']);
+                $business = InstagramUnifiedLogin::fetch_client_business_id($token['access_token']);
+
+                $profile_array = array();
+                foreach ($accounts as $account) {
+                    $uploaded_image_url = $account['profile_picture_url'] !== ''
+                        ? $this->handle_thumbnail_upload($account['profile_picture_url'], $account['name'])
+                        : '';
+                    array_push($profile_array, array(
+                        'id'                 => $account['id'],
+                        'app_id'             => $app_id,
+                        'app_secret'         => $app_secret,
+                        'config_id'          => $config_id,
+                        'client_business_id' => $business,
+                        'name'               => $account['name'],
+                        'username'           => $account['username'],
+                        'thumbnail_url'      => !empty($uploaded_image_url) ? $uploaded_image_url : $account['profile_picture_url'],
+                        'type'               => 'profile',
+                        'status'             => true,
+                        'access_token'       => $token['access_token'],
+                        // A system-user token never expires, so it has no date.
+                        'expires_at'         => $token['expires_in'] ? Helper::getDateFromTimezone($token['expires_in']) : '',
+                        'auth_mode'          => InstagramUnifiedLogin::AUTH_MODE,
+                        'added_by'           => $current_user->user_login,
+                        'added_date'         => current_time('mysql'),
+                    ));
+                }
+                wp_send_json(array(
+                    'success'  => true,
+                    'profiles' => $profile_array,
+                    'type'     => 'instagram',
+                ));
                 wp_die();
             } catch (\Exception $error) {
                 wp_send_json_error($error->getMessage());
@@ -1059,10 +1100,19 @@ class SocialProfile
             }
             try {
                 $request['redirect_URI'] = OAuthPopup::return_url();
+                // The configuration ID travels in the state too, so the callback
+                // knows to finish the exchange the Unified Login way.
+                $config_id = isset($_POST['configId']) ? sanitize_text_field(wp_unslash($_POST['configId'])) : '';
+                $request['configId'] = $config_id;
                 $state = base64_encode(json_encode($request));
-                $url = "https://www.instagram.com/oauth/authorize?enable_fb_login=0&response_type=code&force_authentication=1&client_id="
-                    . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
-                    . $state . "&scope=instagram_business_basic,instagram_business_content_publish";
+                if ($config_id !== '') {
+                    $url = InstagramUnifiedLogin::auth_url($app_id, $config_id, $redirectURI, $state);
+                } else {
+                    // Apps still set up with Business Login for Instagram.
+                    $url = "https://www.instagram.com/oauth/authorize?enable_fb_login=0&response_type=code&force_authentication=1&client_id="
+                        . $app_id . "&redirect_uri=" . urlencode($redirectURI) . "&state="
+                        . $state . "&scope=instagram_business_basic,instagram_business_content_publish";
+                }
                 wp_send_json_success($url);
                 wp_die();
             } catch (\Exception $error) {

@@ -711,7 +711,7 @@ class Settings
                                     'desc' => sprintf(__('You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target="__blank" href="%s">Doc</a>', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/'),
                                     'modal' => [
                                         'logo' => WPSP_ASSETS_URI . 'images/instagram.png',
-                                        'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Instagram app.', 'wp-scheduled-posts'),
+                                        'redirect_url_desc' => __('Add this URL as the redirect URL of your Meta app\'s Unified Login configuration, and to Facebook Login for Business › Valid OAuth Redirect URIs.', 'wp-scheduled-posts'),
                                         /* translators: 1: Link to documentation for Instagram configuration, 2: Link to Facebook developer portal */
                                         'desc' => sprintf(__('For details on Instagram configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Instagram account.', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/', 'https://developers.facebook.com/'),
                                     ],
