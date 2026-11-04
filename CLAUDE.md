@@ -25,6 +25,19 @@ release time and at no other time.
   `--tags`, `--mirror` or `--prune` — this repo's release tooling is
   tag-triggered. Creating tags is a human step, done from `main`.
 
+## Keeping internal work private
+
+This repo is public; `wp-scheduled-posts-pro` is private.
+
+- Handoff notes, QA findings and review reports go in the Pro repo's
+  `docs/handoffs/`, never here. `docs/handoffs/` is in `.gitignore`.
+- Vulnerability reports go through GitHub private security advisories (see
+  [SECURITY.md](SECURITY.md)), not public issues or PRs.
+- Until the release that fixes a vulnerability ships, its branch name, commit
+  messages and PR text say what changed in plain terms ("check the capability
+  on the settings route"), not how to exploit it. Delete the branch once it is
+  merged.
+
 ## Commands
 
 JS/asset builds use `@wordpress/scripts` (wp-scripts). See [package.json](package.json):

@@ -25,3 +25,6 @@ includes/Admin/Settings/yarn.lock
 includes/Admin/Settings/stats.json
 .vscode/
 .phpunit.result.cache
+
+# Handoff and QA notes are internal; they live in the private Pro repo.
+docs/handoffs/
