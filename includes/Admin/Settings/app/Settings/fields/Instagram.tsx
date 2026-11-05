@@ -37,6 +37,7 @@ const Instagram = (props) => {
       if( profile['app_id'] && profile['app_secret'] ) {
       appInfo['app_id'] = profile['app_id'];
       appInfo['app_secret'] = profile['app_secret'];
+      appInfo['config_id'] = profile['config_id'] ?? '';
       }
   } );
   }

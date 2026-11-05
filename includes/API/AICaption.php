@@ -81,7 +81,8 @@ class AICaption
             'methods'             => 'POST',
             'callback'            => array($this, 'generate_captions'),
             'permission_callback' => function () {
-                return current_user_can('edit_posts');
+                // Same roles as the post panel that shows "Write With AI".
+                return current_user_can('edit_posts') && Helper::is_user_allow();
             },
             'args'                => array(
                 'post_id' => array(

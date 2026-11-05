@@ -1,10 +1,10 @@
 === SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
-Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, arrasel403, mdnahidhasan
+Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, mszaman, mdnahidhasan
 Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.6
+Stable tag: 5.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -264,6 +264,13 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.3.7 - 2026-11-05 =
+- Fixed: Saving the SchedulePress settings could overwrite social profiles and tokens that had changed since the screen loaded.
+- Improved: Added Meta's Unified Login option for connecting Instagram accounts.
+- Improved: Stricter permission checks in Share Now and when creating a post or page from the Calendar.
+- Improved: Write With AI now follows the roles set in Allow users.
+- Few minor bug fixes & improvements
+
 = 5.3.6 - 2026-10-28 =
 - Fixed: The "Publish future post immediately" setting was missing after upgrading from older versions.
 - Fixed: Facebook could share "h" as the og:image when the image came from the request.
@@ -504,6 +511,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.7 - 2026-11-05 =
+* Update SchedulePress Pro to 5.3.6 along with this release.
+
 = 5.3.6 - 2026-10-28 =
 * Update SchedulePress Pro to 5.3.5 along with this release.
 

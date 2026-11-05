@@ -8,6 +8,7 @@ const COPY_ICON_SRC =
 const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) => {
   const [appID, SetAppID] = useState( appInfo['app_id'] ? appInfo['app_id'] : "" );
   const [appSecret, SetAppSecret] = useState(appInfo['app_secret'] ? appInfo['app_secret'] : "" );
+  const [configID, SetConfigID] = useState(appInfo['config_id'] ? appInfo['config_id'] : "" );
   const [isManual, setIsManual] = useState(false);
   const [isMultiAccountError,setMultiAccountError] = useState(false);
   const [multiAccountErrorMessage,setMultiAccountErrorMessage] = useState();
@@ -37,7 +38,7 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
   const onSubmitHandler = (event) => {
     event.preventDefault();
     if (redirectURI && appID && appSecret || ( appID && platform == 'medium' ) || ( appID && appSecret && platform == 'bluesky' ) || ( appID && appSecret && platform == 'mastodon' )) {
-      requestHandler(redirectURI, appID, appSecret,platform, openIDConnect).then((res) => {
+      requestHandler(redirectURI, appID, appSecret,platform, openIDConnect, { configId: platform == 'instagram' ? configID.trim() : '' }).then((res) => {
         if( res?.error ) {
           setMultiAccountError(true);
           setMultiAccountErrorMessage(res?.message);
@@ -194,6 +195,18 @@ const ApiCredentialsForm = ({ props, platform, requestHandler, appInfo = [] }) =
                           onChange={(e) => SetAppSecret(e.target.value)}
                       />
                   </div>
+                  { platform == 'instagram' &&
+                    <div className="form-group">
+                      <label htmlFor="">{ __( 'Configuration ID:','wp-scheduled-posts' ) } </label>
+                      <input
+                          type="text"
+                          value={configID}
+                          placeholder={ __("Configuration ID", "wp-scheduled-posts") }
+                          onChange={(e) => SetConfigID(e.target.value)}
+                      />
+                      <span className="redirect-note">{ __( 'From your Meta app: Use cases › Manage messaging & content on Instagram › API setup with Unified login › Configure your app. Leave it empty only for an app that still uses Instagram Login.','wp-scheduled-posts' ) }</span>
+                    </div>
+                  }
                   { currentActiveAccountType == 'group' && 
                     <div className="wpsp-fb-group-warning" dangerouslySetInnerHTML={ { __html: '<a target="_blank" href="https://developers.facebook.com/docs/graph-api/changelog/version19.0">Meta shut down its Facebook Groups API as of April 22, 2024</a>, and SchedulePress will no longer be able to post to Facebook Groups on your behalf.' } }></div>
                   }
