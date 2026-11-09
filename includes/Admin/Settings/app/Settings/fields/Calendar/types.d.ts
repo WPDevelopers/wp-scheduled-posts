@@ -17,6 +17,7 @@ export type Option = {
 export type PostType = {
     postId  : number;
     title   : string;
+    full_title?: string;
     href    : string;
     edit    : string;
     postType: string;
