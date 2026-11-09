@@ -101,6 +101,20 @@ class Social
     }
 
     public function publish_future_post($post_id){
+        self::dispatch_auto_share($post_id);
+    }
+
+    /**
+     * Start the automatic social share for a post that has just gone live.
+     *
+     * Shared by the WP-Cron publication of a scheduled post and by the Calendar,
+     * which can publish a post on the spot when its chosen time has passed.
+     * Every caller gets the same safeguards: an already-queued or already-sent
+     * share is left alone and a duplicate dispatch is blocked.
+     *
+     * @param int $post_id
+     */
+    public static function dispatch_auto_share($post_id){
         $post_id = (int) $post_id;
         if ( ! $post_id ) {
             return;

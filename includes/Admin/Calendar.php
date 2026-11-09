@@ -699,6 +699,11 @@ class Calendar
         }
 
 
+        // Status before this request, so a post WordPress publishes right away
+        // (a Calendar time already in the past) can be told apart from one that
+        // was already live.
+        $previous_status = !empty($postid) ? get_post_status($postid) : 'new';
+
         /**
          * Post Status Change and Date modifired
          */
@@ -721,6 +726,7 @@ class Calendar
                 if ($post_id && is_array($scf)) {
                     $this->save_scf_fields($post_id, $scf);
                 }
+                $this->maybe_share_immediate_publish($post_id, $previous_status);
                 return $this->get_rest_result($post_id);
             } else {
                 // only work new event created
@@ -739,6 +745,7 @@ class Calendar
                 if ($post_id && is_array($scf)) {
                     $this->save_scf_fields($post_id, $scf);
                 }
+                $this->maybe_share_immediate_publish($post_id, $previous_status);
                 return $this->get_rest_result($post_id);
             }
         }
@@ -759,6 +766,7 @@ class Calendar
                     'edit_date'     => true,
                 ), true);
             }
+            $this->maybe_share_immediate_publish($post_id, $previous_status);
             return $this->get_rest_result($post_id);
         }
         // dropping event to sidebar
@@ -821,6 +829,7 @@ class Calendar
                 'post_date_gmt' => (isset($postdate_gmt) ? $postdate_gmt : ''),
                 'edit_date'     => true,
             ), true);
+            $this->maybe_share_immediate_publish($post_id, $previous_status);
             return $this->get_rest_result($post_id);
         }
 
@@ -835,6 +844,67 @@ class Calendar
 
         $error_message = implode(' ', $error_messages);
         return new WP_Error('rest_post_update_error', $error_message, array('status' => 400));
+    }
+
+    /**
+     * Run the automatic social share for a post the Calendar published right away.
+     *
+     * The Calendar always saves an event as `future`. When the chosen time has
+     * already passed, WordPress publishes the post on the spot instead, so the
+     * `publish_future_post` cron event — the only trigger for auto sharing —
+     * never runs and the post is never shared.
+     *
+     * The share is started through the same dispatcher the cron publication
+     * uses, so each post's selected profiles and "disable share" setting, the
+     * already-queued and already-shared checks, and the duplicate-dispatch lock
+     * all still apply. Core's `publish_future_post` hook itself is not fired, so
+     * other plugins listening on it do not see a cron publication that never
+     * happened.
+     *
+     * @param int|\WP_Error $post_id         Result of wp_insert_post()/wp_update_post().
+     * @param string        $previous_status Status before this request, 'new' for a new post.
+     */
+    protected function maybe_share_immediate_publish($post_id, $previous_status)
+    {
+        if (empty($post_id) || is_wp_error($post_id)) {
+            return;
+        }
+        $post_id = (int) $post_id;
+
+        // Only a post this request took live; one already published is not re-shared.
+        if ('publish' === $previous_status || 'publish' !== get_post_status($post_id)) {
+            return;
+        }
+
+        // Pro's "share on post publish" option has already shared it on save.
+        if (get_post_meta($post_id, 'wpsp_post_share_on_publish', true)) {
+            return;
+        }
+
+        /**
+         * Whether a post the Calendar published immediately is auto-shared.
+         *
+         * @param bool   $share
+         * @param int    $post_id
+         * @param string $previous_status
+         */
+        if (!apply_filters('wpsp_calendar_share_on_immediate_publish', true, $post_id, $previous_status)) {
+            return;
+        }
+
+        if (!class_exists('\WPSP\Social')) {
+            return;
+        }
+
+        // The post is already published. A failing social API must not turn the
+        // Calendar's response into an error.
+        try {
+            \WPSP\Social::dispatch_auto_share($post_id);
+        } catch (\Throwable $e) {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log(sprintf('SchedulePress: Calendar auto share failed for post %d: %s', $post_id, $e->getMessage()));
+            }
+        }
     }
 
     public function get_rest_result($post_id){
