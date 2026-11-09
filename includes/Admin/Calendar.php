@@ -884,11 +884,15 @@ class Calendar
         /**
          * Whether a post the Calendar published immediately is auto-shared.
          *
+         * The post goes live now, so by default it follows the same rules as
+         * publishing it from the editor: Pro's "Auto-Share upon Publishing"
+         * option and its post type list.
+         *
          * @param bool   $share
          * @param int    $post_id
          * @param string $previous_status
          */
-        if (!apply_filters('wpsp_calendar_share_on_immediate_publish', true, $post_id, $previous_status)) {
+        if (!apply_filters('wpsp_calendar_share_on_immediate_publish', $this->is_share_on_publish_enabled($post_id), $post_id, $previous_status)) {
             return;
         }
 
@@ -899,12 +903,34 @@ class Calendar
         // The post is already published. A failing social API must not turn the
         // Calendar's response into an error.
         try {
-            \WPSP\Social::dispatch_auto_share($post_id);
+            if (\WPSP\Social::dispatch_auto_share($post_id)) {
+                // Same marker Pro sets, so a later save in the editor does not share it again.
+                update_post_meta($post_id, 'wpsp_post_share_on_publish', true);
+            }
         } catch (\Throwable $e) {
             if (defined('WP_DEBUG') && WP_DEBUG) {
                 error_log(sprintf('SchedulePress: Calendar auto share failed for post %d: %s', $post_id, $e->getMessage()));
             }
         }
+    }
+
+    /**
+     * Whether "Auto-Share upon Publishing" applies to this post: SchedulePress Pro
+     * is active, the option is on, and the post type is in its list. These are the
+     * checks Pro makes when a post is published from the editor.
+     *
+     * @param int $post_id
+     * @return bool
+     */
+    protected function is_share_on_publish_enabled($post_id)
+    {
+        if (!defined('WPSP_PRO_VERSION') || !Helper::get_settings('is_share_on_post_publish')) {
+            return false;
+        }
+        $post_types = Helper::get_settings('allow_post_type_for_future_date_and_published_share');
+        $post_types = is_array($post_types) || is_object($post_types) ? array_values((array) $post_types) : array();
+
+        return in_array(get_post_type($post_id), $post_types, true);
     }
 
     public function get_rest_result($post_id){
