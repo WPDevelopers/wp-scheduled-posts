@@ -328,6 +328,14 @@ class Settings
                                     'info' => __('Immediately Publish Button only shows for Scheduled Post, after Enabling this option', 'wp-scheduled-posts'),
                                     'priority' => 20,
                                 ],
+                                'utm_tags_on_shared_links' => [
+                                    'name' => 'utm_tags_on_shared_links',
+                                    'type' => 'toggle',
+                                    'label' => __('Add UTM Tags to Shared Links', 'wp-scheduled-posts'),
+                                    'default' => 1,
+                                    'info' => __('Adds utm_source (the network), utm_medium=social and utm_campaign=schedulepress to the link of each social share, so Google Analytics shows which network sent the visit. A link that already has UTM tags is left as it is.', 'wp-scheduled-posts'),
+                                    'priority' => 20.5,
+                                ],
                                 'show_on_elementor_editor' => [
                                     'name' => 'show_on_elementor_editor',
                                     'type' => 'toggle',

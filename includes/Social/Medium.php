@@ -126,7 +126,7 @@ class Medium
             }
         }
         $tags = array_values($tags);
-        $post_link = esc_url(get_permalink($post_id));
+        $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'medium');
 
         // Retrieve custom social share image meta value
         $socialshareimage_id = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);

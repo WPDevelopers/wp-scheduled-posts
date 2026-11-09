@@ -104,7 +104,7 @@ class Pinterest
         $has_url = false;
         $post_details = get_post($post_id);
         $PostTitle = get_the_title($post_id);
-        $PostPermalink = esc_url(get_permalink($post_id));;
+        $PostPermalink = \WPSP\Helpers\ShareUrl::for_post($post_id, 'pinterest');
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
         $PostThumbnailURI = '';
