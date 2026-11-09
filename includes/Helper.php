@@ -668,66 +668,49 @@ class Helper
         return false;
     }
 
-    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true )
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        if ($post) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-        }
-        curl_setopt($ch, CURLOPT_POST, $post);
-
-        $headers[] = "Content-Type: {$content_type}";
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $result = curl_exec($ch);
-        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
-        return [
-            'result' => $result,
-            'code'   => $response_code
-        ];
+        // No redirects, as the old cURL call did.
+        return self::wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, 0);
     }
 
-    public static function wpsp_medium_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    public static function wpsp_medium_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true )
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        return self::wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, 10);
+    }
+
+    /**
+     * WordPress HTTP API version of the old cURL helpers, same return shape:
+     * ['result' => body or false, 'code' => HTTP code or 0 on failure].
+     */
+    private static function wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, $redirects)
+    {
+        $args = [
+            'method'      => $post ? 'POST' : 'GET',
+            'timeout'     => 60, // cURL had no limit; the default 5s would cut off media uploads.
+            'redirection' => $redirects,
+            'httpversion' => '1.1',
+            'sslverify'   => (bool) $ssl,
+            'headers'     => [],
+        ];
+        foreach ((array) $headers as $header) {
+            $parts = explode(':', $header, 2);
+            if (count($parts) === 2 && strcasecmp(trim($parts[0]), 'Content-Type') !== 0) {
+                $args['headers'][trim($parts[0])] = trim($parts[1]);
+            }
+        }
+        $args['headers']['Content-Type'] = $content_type;
         if ($post) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+            $args['body'] = $parameters;
         }
-        curl_setopt($ch, CURLOPT_POST, $post);
-    
-        // Add the content type to headers
-        $headers[] = "Content-Type: {$content_type}";
-    
-        // Add the provided headers
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
-        // Additional options
-        curl_setopt($ch, CURLOPT_ENCODING, '');  // Handle different encodings
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 10); // Follow up to 10 redirects
-        curl_setopt($ch, CURLOPT_TIMEOUT, 0);    // No timeout
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1); // Use HTTP/1.1
-    
-        $result = curl_exec($ch);
-    
-        // Check for errors
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+
+        $response = wp_remote_request($url, $args);
+        if (is_wp_error($response)) {
+            return ['result' => false, 'code' => 0];
         }
-    
-        // Get the response code
-        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
-    
         return [
-            'result' => $result,
-            'code'   => $response_code
+            'result' => wp_remote_retrieve_body($response),
+            'code'   => (int) wp_remote_retrieve_response_code($response),
         ];
     }
 
