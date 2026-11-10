@@ -105,7 +105,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 
 						foreach ($scposts as $scpost) {
 							if( !empty( $title_length ) ) {
-								$title = esc_html( substr($scpost->post_title, 0,$title_length) );
+								$title = esc_html( \WPSP\Helper::mb_substr($scpost->post_title, 0, $title_length) );
 							}else{
 								$title = esc_html( $scpost->post_title );
 							}

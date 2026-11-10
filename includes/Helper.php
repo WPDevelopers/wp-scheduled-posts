@@ -22,6 +22,110 @@ class Helper
         return array_diff($taxonomies, $not_necessary_taxonomies);
     }
 
+    /**
+     * Character count (UTF-8), with a byte fallback when mbstring is absent.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function mb_strlen($string)
+    {
+        return function_exists('mb_strlen') ? mb_strlen((string) $string, 'UTF-8') : strlen((string) $string);
+    }
+
+    /**
+     * Substring by characters (UTF-8), so non-Latin text and emoji are not cut mid-character.
+     *
+     * @param string   $string
+     * @param int      $start
+     * @param int|null $length
+     * @return string
+     */
+    public static function mb_substr($string, $start, $length = null)
+    {
+        if (function_exists('mb_substr')) {
+            return mb_substr((string) $string, $start, $length, 'UTF-8');
+        }
+        return $length === null ? substr((string) $string, $start) : substr((string) $string, $start, $length);
+    }
+
+    /**
+     * Length as X (Twitter) counts it, or a little more: CJK and emoji count 2, a link 23 more.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function x_strlen($string)
+    {
+        return self::x_measure($string, PHP_INT_MAX)[1];
+    }
+
+    /**
+     * Longest start of the text that fits $max as X counts it, without cutting a link or an emoji.
+     *
+     * @param string $string
+     * @param int    $max
+     * @return string
+     */
+    public static function x_substr($string, $max)
+    {
+        return self::x_measure($string, $max)[0];
+    }
+
+    /**
+     * A post link on its own, as 23 or its characters if more: X counts 23 for a known domain, characters otherwise.
+     *
+     * @param string $url
+     * @return int
+     */
+    public static function x_link_length($url)
+    {
+        return max(23, self::x_weight(self::x_normalize($url)));
+    }
+
+    /**
+     * @return array [ text that fits $max, its weight ]
+     */
+    private static function x_measure($string, $max)
+    {
+        $string = self::x_normalize($string);
+        // Anything domain-like is one piece and adds 23 per dot in it, so no link X finds is under-counted.
+        preg_match_all('~(?:https?://)?(?:[\p{L}\p{M}\p{N}-]+\.)+\p{L}[\p{L}\p{M}]+(?:[/?#][^\s]*)?|\X~iu', $string, $pieces);
+        $out    = '';
+        $weight = 0;
+        foreach ($pieces[0] as $piece) {
+            $piece_weight = self::x_weight($piece) + 23 * preg_match_all('~\.\p{L}~u', $piece);
+            if ($weight + $piece_weight > $max) {
+                break;
+            }
+            $out    .= $piece;
+            $weight += $piece_weight;
+        }
+        return [$out, $weight];
+    }
+
+    // X counts the NFC form, where a few characters (Bangla য় ড় ঢ় and similar) become two.
+    private static function x_normalize($string)
+    {
+        $string = (string) $string;
+        if (class_exists('Normalizer')) {
+            $normal = \Normalizer::normalize($string, \Normalizer::FORM_C);
+            return false === $normal ? $string : $normal;
+        }
+        return $string;
+    }
+
+    // X's weights: 1 in its light ranges (Latin, Bangla, Arabic and others up to U+10FF), 2 elsewhere.
+    private static function x_weight($text)
+    {
+        $weight = 2 * self::mb_strlen($text) - preg_match_all('~[\x{0}-\x{10FF}\x{2000}-\x{200D}\x{2010}-\x{201F}\x{2032}-\x{2037}]~u', $text);
+        if (!class_exists('Normalizer')) {
+            // Without intl, count the characters NFC would split as 2.
+            $weight += preg_match_all('~[\x{958}-\x{95F}\x{9DC}\x{9DD}\x{9DF}\x{A33}\x{A36}\x{A59}-\x{A5B}\x{A5E}\x{B5C}\x{B5D}\x{F43}\x{F4D}\x{F52}\x{F57}\x{F5C}\x{F69}\x{F73}\x{F75}\x{F76}\x{F78}\x{F81}\x{F93}\x{F9D}\x{FA2}\x{FA7}\x{FAC}\x{FB9}]~u', $text);
+        }
+        return $weight;
+    }
+
 
     public static function get_all_allowed_post_type() {
         $allow_post_types = \WPSP\Helper::get_settings('allow_post_types');
