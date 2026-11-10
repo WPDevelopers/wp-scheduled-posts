@@ -198,6 +198,10 @@ class Assets
 
     public function gutenberg_sidebar_script()
     {
+        // Only adds the panel button and sidebar, whose app is not loaded for roles outside "Allow users" (6850).
+        if ( ! Helper::is_user_allow() ) {
+            return;
+        }
         wp_enqueue_script(
             'wpsp-gutenberg-sidebar',
             WPSP_ASSETS_URI . 'js/gutenberg.js',
