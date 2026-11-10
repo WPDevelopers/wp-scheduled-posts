@@ -627,10 +627,14 @@ namespace WPSP\Tests\Stubs {
 		/** @var array[] Bodies sent with wp_remote_post(), in order */
 		public static $bodies = array();
 
+		/** @var array[] Arguments sent with wp_remote_request(), in order */
+		public static $args = array();
+
 		public static function reset() {
 			self::$routes   = array();
 			self::$requests = array();
 			self::$bodies   = array();
+			self::$args     = array();
 		}
 
 		public static function on( $url_prefix, array $responses ) {
@@ -664,6 +668,13 @@ namespace {
 	if ( ! function_exists( 'wp_remote_post' ) ) {
 		function wp_remote_post( $url, $args = array() ) {
 			\WPSP\Tests\Stubs\HttpStore::$bodies[] = isset( $args['body'] ) ? $args['body'] : array();
+			return \WPSP\Tests\Stubs\HttpStore::get( $url );
+		}
+	}
+
+	if ( ! function_exists( 'wp_remote_request' ) ) {
+		function wp_remote_request( $url, $args = array() ) {
+			\WPSP\Tests\Stubs\HttpStore::$args[] = $args;
 			return \WPSP\Tests\Stubs\HttpStore::get( $url );
 		}
 	}

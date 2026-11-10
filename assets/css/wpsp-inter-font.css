@@ -1,0 +1,8 @@
+/* Inter, served from the plugin (SIL Open Font License, see ../fonts/inter/LICENSE.txt). */
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('../fonts/inter/Inter-Variable.woff2') format('woff2');
+}
