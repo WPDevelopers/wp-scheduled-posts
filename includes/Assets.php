@@ -44,7 +44,7 @@ class Assets
             wp_enqueue_script('wpscp-el-editor', WPSP_ASSETS_URI . 'js/elementor-editor.js', array('jquery', 'tipsy'), WPSP_VERSION, true);
             wp_enqueue_style('jquery-kylefoxModal', WPSP_ASSETS_URI . 'css/vendor/jquery.modal.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpscp-el-editor', WPSP_ASSETS_URI . 'css/elementor-editor.css', array(), WPSP_VERSION, 'all');
-            wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
+            wp_enqueue_style('wpsp-inter-font', WPSP_ASSETS_URI . 'css/wpsp-inter-font.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpsp-post-panel', WPSP_ASSETS_URI . 'css/wpsp-post-panel.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_style('wpsp-react-app', WPSP_ASSETS_URI . 'css/app.min.css', array(), WPSP_VERSION, 'all');
             wp_enqueue_script('wpsp-react-app', WPSP_ASSETS_URI . 'js/app.min.js', array('wp-element','wp-components','wp-data', 'wp-i18n', 'wp-hooks'), WPSP_VERSION, true);
@@ -130,7 +130,7 @@ class Assets
         $featured_img_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
 
 
-        wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', array(), WPSP_VERSION, 'all');
+        wp_enqueue_style('wpsp-inter-font', WPSP_ASSETS_URI . 'css/wpsp-inter-font.css', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wps-publish-button', WPSP_ASSETS_URI . 'css/wpspl-admin.css', array(), WPSP_VERSION, 'all');
         wp_enqueue_style('wpsp-post-panel', WPSP_ASSETS_URI . 'css/wpsp-post-panel.css', array(), WPSP_VERSION, 'all');
         wp_enqueue_style(WPSP_PLUGIN_SLUG . '-icon', WPSP_ADMIN_URL . 'Settings/assets/icon/style.css', array(), WPSP_VERSION);
