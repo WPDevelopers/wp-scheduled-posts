@@ -108,7 +108,7 @@ class Twitter
     {
         //post data
         $post_details = get_post($post_id);
-        $post_link = esc_url(get_permalink($post_id));
+        $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'x');
         $title = $post_details->post_title;
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
