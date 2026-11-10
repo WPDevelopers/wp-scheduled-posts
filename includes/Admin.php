@@ -33,6 +33,7 @@ class Admin
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
         $this->usage_tracker();
         $this->load_dashboard_widgets();
+        new Admin\CronHealth();
         $this->load_settings();
         $this->load_elementor_panel_icon();
         if (!$this->pro_enabled) {
