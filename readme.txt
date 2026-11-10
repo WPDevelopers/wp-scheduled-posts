@@ -189,12 +189,6 @@ When you connect a profile, SchedulePress asks the network for the account's nam
 * Bluesky (`bsky.social`): [Terms of Service](https://bsky.social/about/support/tos), [Privacy policy](https://bsky.social/about/support/privacy-policy)
 * Mastodon (the server you connect, `mastodon.social` by default): that server's own terms and privacy policy, for example [mastodon.social Terms of Service](https://mastodon.social/terms-of-service) and [Privacy policy](https://mastodon.social/privacy-policy)
 
-= Google Fonts =
-
-On the post editing screens, SchedulePress's panel loads the Inter font from Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`). Google receives the IP address and browser details of the person editing. Visitors to your site are not affected.
-
-[Google Terms of Service](https://policies.google.com/terms), [Privacy policy](https://policies.google.com/privacy).
-
 = Usage tracking (opt-in) =
 
 Only if you allow it in the admin notice, SchedulePress sends WPDeveloper (`app.wpdeveloper.com`) your site's address and name, your WordPress, PHP and plugin versions, language, active and inactive plugins, theme and admin email address, at most once a day. When an opted-in site deactivates SchedulePress, the same details are sent once more.
