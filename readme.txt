@@ -1,6 +1,6 @@
 === SchedulePress – Auto Post & Publish, Auto Social Share, Schedule Posts with Editorial Calendar & Missed Schedule Post Publisher  ===
 Contributors: wpdevteam, Asif2BD, re_enter_rupok, priyomukul, shajalal, alimuzzamanalim, mszaman, mdnahidhasan
-Tags: post schedule, schedule calendar, auto scheduler, auto sharing, social share
+Tags: social media scheduler, social media auto post, post schedule, schedule calendar, auto scheduler
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,21 +8,23 @@ Stable tag: 5.3.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Automate your WordPress content scheduling with a visual calendar, auto/manual schedulers, missed‑post handler, social sharing options & templates.
+Social media scheduler & auto post for WordPress. Schedule posts on a visual calendar, auto share to Facebook, X, LinkedIn, Bluesky, Threads & more.
 
 == Description ==
 
-### Your Content Marketing Tool For WordPress - Schedule, Organize, & Auto Share Blog Posts
+### Social Media Scheduler & Auto Post For WordPress - Schedule, Organize, & Auto Share Blog Posts
 
-Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/). Take a glance at your content planning with a drag-and-drop, visual Schedule Calendar, Auto Scheduler, Manual Scheduler, handle missed schedules easily & more. Automatically share your posts on the following social media platforms:
+Automate your content workflow with [SchedulePress](https://wpdeveloper.com/plugins/wp-scheduled-posts/). Take a glance at your content planning with a drag-and-drop, visual Schedule Calendar, Auto Scheduler, Manual Scheduler, handle missed schedules easily & more. Use it as your social media scheduler and social media auto post tool, and automatically share your posts on the following social media platforms:
 
 -   Facebook
--   Twitter
+-   X (Twitter)
 -   LinkedIn
 -   Pinterest
 -   Instagram
 -   Medium
 -   Threads
+-   Bluesky
+-   Mastodon
 -   Google Business Profile [PRO]
 
 [MORE ABOUT PLUGIN](https://wpdeveloper.com/plugins/wp-scheduled-posts/) ◼️ [DOCUMENTATION](https://wpdeveloper.com/docs-category/wp-scheduled-posts/) ◼️ [SUPPORT FORUM](https://wordpress.org/support/plugin/wp-scheduled-posts/)
@@ -32,7 +34,7 @@ https://youtu.be/oBD7MbtWvcQ
 ### SCHEDULE YOUR WORDPRESS POSTS IN ADVANCE AND POST AUTOMATICALLY ON SOCIAL PLATFORMS:
 
 -   Revamp the entire content writing experience with SchedulePress
--   Automatically share on Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Google Business Profile [PRO]
+-   Automatically share on Facebook, X (Twitter), LinkedIn, Pinterest, Instagram, Medium, Threads, Bluesky, Mastodon, Google Business Profile [PRO]
 -   Customize social-share per platform or global template in the editor & auto‑share with one click.
 -   Schedule hundreds of posts using the editorial calendar
 -   Manage multiple authors from one place
@@ -70,7 +72,7 @@ From one place, you can easily get an overview of your blog posts and when each 
 
 **◾ Notify WordPress Users With Email:** Send email alerts to authors or users when a post is published, trashed, or has been scheduled. It will let our users be aware of the status of their current blog posts.
 
-**◾ Auto Share Posts On Social Media:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to one profile on each of Facebook (page or group), Twitter, Pinterest, LinkedIn, Instagram, Medium and Threads. Multiple profiles per network, LinkedIn pages and Google Business Profile come with [PRO].
+**◾ Auto Share Posts On Social Media:** Easily schedule, auto-share, or instant share blog posts from the WordPress dashboard to one profile on each of Facebook (pages), X (Twitter), Pinterest, LinkedIn, Instagram, Medium, Threads, Bluesky and Mastodon. Multiple profiles per network, LinkedIn pages and Google Business Profile come with [PRO].
 
 **◾ Configure Auto Social Share Templates:** Personalize your WordPress blog with preferred social media templates by configuring all exclusive features by SchedulePress. Each social share channel template comes with specific and unique features.
 
@@ -228,7 +230,7 @@ You are good to go!
 
 = Can I Share Scheduled Posts on Social Media? =
 
-Yes, you can share scheduled posts on social media by using [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) that offer integrations with the most popular Social Media platforms, [Facebook](https://wpdeveloper.com/docs/share-scheduled-posts-facebook/) & [Twitter](https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/), [LinkedIn](https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/), [Pinterest](https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/), [Instagram](https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/), [Medium](https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/), [Threads](https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/) and [Google Business Profile](https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/). By simply connecting SchedulePress with your Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads or Google Business Profile Account, your scheduled posts will be automatically shared on the respective platforms.
+Yes, you can share scheduled posts on social media by using [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) that offer integrations with the most popular Social Media platforms, [Facebook](https://wpdeveloper.com/docs/share-scheduled-posts-facebook/) & [Twitter](https://wpdeveloper.com/docs/automatically-tweet-wordpress-posts/), [LinkedIn](https://wpdeveloper.com/docs/share-wordpress-posts-on-linkedin/), [Pinterest](https://wpdeveloper.com/docs/wordpress-posts-on-pinterest/), [Instagram](https://wpdeveloper.com/docs/share-scheduled-wordpress-posts-on-instagram/), [Medium](https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/), [Threads](https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-threads/) and [Google Business Profile](https://wpdeveloper.com/docs/share-wordpress-posts-on-google-business-profile/). SchedulePress also shares to Bluesky and Mastodon. By simply connecting SchedulePress with your Facebook, Twitter, LinkedIn, Pinterest, Instagram, Medium, Threads, Bluesky, Mastodon or Google Business Profile Account, your scheduled posts will be automatically shared on the respective platforms.
 
 You can check out the step-by-step visual guide to sharing your content on multiple social media [sites](https://wpdeveloper.com/wordpress-auto-social-sharing/) using SchedulePress [here](https://wpdeveloper.com/docs/share-scheduled-posts-on-social-media/).
 
