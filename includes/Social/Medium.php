@@ -126,7 +126,7 @@ class Medium
             }
         }
         $tags = array_values($tags);
-        $post_link = esc_url(get_permalink($post_id));
+        $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'medium');
 
         // Retrieve custom social share image meta value
         $socialshareimage_id = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
@@ -248,21 +248,19 @@ class Medium
             $response = '';
             if( $type == 'profile' ) {
                 try {
-                    $ch = curl_init();
-                    $headers = [
-                        "Authorization: Bearer $app_id",
-                        'Content-Type: application/json',
-                        'Accept: application/json',
-                        'Accept-Charset: utf-8',
-                    ];
                     $data = $this->get_share_content_args($post_id);
-                    curl_setopt($ch, CURLOPT_URL, "https://api.medium.com/v1/users/$ID/posts" );
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                    $response = curl_exec($ch);
-                    curl_close($ch);
+                    $http = Helper::wpsp_curl(
+                        "https://api.medium.com/v1/users/$ID/posts",
+                        json_encode($data),
+                        'application/json',
+                        true,
+                        [
+                            "Authorization: Bearer $app_id",
+                            'Accept: application/json',
+                            'Accept-Charset: utf-8',
+                        ]
+                    );
+                    $response = $http['result'];
                     $response = json_decode($response);
                     if( !empty($response) && !empty( $response->data->title ) ) {
                         $response = array(

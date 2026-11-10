@@ -104,7 +104,7 @@ class Pinterest
         $has_url = false;
         $post_details = get_post($post_id);
         $PostTitle = get_the_title($post_id);
-        $PostPermalink = esc_url(get_permalink($post_id));;
+        $PostPermalink = \WPSP\Helpers\ShareUrl::for_post($post_id, 'pinterest');
         $board_type = get_post_meta($post_id, '_wpscppro_pinterestboardtype', true);
         $customThumbnailID = get_post_meta($post_id, '_wpscppro_custom_social_share_image', true);
         $PostThumbnailURI = '';
@@ -189,10 +189,24 @@ class Pinterest
             $post_id,
             $this->current_profile_id ?? null
         );
+        $pin_title = apply_filters('wpsp_social_share_title', html_entity_decode($PostTitle), get_called_class(), $PostPermalink, $post_id);
+        // Pinterest answers 400 to a title over 100 characters (6839); count emoji as 2, cut between whole letters.
+        $utf16 = function ($text) { return \WPSP\Helper::mb_strlen($text) + preg_match_all('/[\x{10000}-\x{10FFFF}]/u', $text); };
+        if ($utf16($pin_title) > 100) {
+            preg_match_all('/\X/u', $pin_title, $letters);
+            $cut = '';
+            foreach ($letters[0] as $letter) {
+                if ($utf16($cut . $letter) > 99) {
+                    break;
+                }
+                $cut .= $letter;
+            }
+            $pin_title = rtrim($cut) . '…';
+        }
         // main arguments
         $pinterest_create_args = array(
-            "title"       => apply_filters('wpsp_social_share_title', html_entity_decode($PostTitle), get_called_class(), $PostPermalink, $post_id),
-            "description" => substr($note_content, 0, $this->note_limit),
+            "title"       => $pin_title,
+            "description" => \WPSP\Helper::mb_substr($note_content, 0, $this->note_limit),
             'link'        => $has_url ? $PostPermalink : '',
             "board_id"    => $board_name,
         );

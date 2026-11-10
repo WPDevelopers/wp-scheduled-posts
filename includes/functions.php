@@ -105,7 +105,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 
 						foreach ($scposts as $scpost) {
 							if( !empty( $title_length ) ) {
-								$title = esc_html( substr($scpost->post_title, 0,$title_length) );
+								$title = esc_html( \WPSP\Helper::mb_substr($scpost->post_title, 0, $title_length) );
 							}else{
 								$title = esc_html( $scpost->post_title );
 							}
@@ -135,7 +135,8 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 					$item_id++;
 ?>
 			<?php
-					$Powered_by_text = '<div style="margin-top:5px; text-align:center;"><span class="wpsp_arrow_prev wpsp_arrow_pagi"></span>Powered By <span style="color:#fff"><a  style="padding:0;display:inline;" href="https://wpdeveloper.com/in/schedulepress">SchedulePress</a></span>
+					// Pagination row for the arrows; adminbar.js treats the last item as this row, so keep it.
+					$pagination_row = '<div style="margin-top:5px; text-align:center;"><span class="wpsp_arrow_prev wpsp_arrow_pagi"></span>&nbsp;
 					<span class="wpsp_arrow_next wpsp_arrow_pagi"></span>
 					</div>';
 
@@ -143,8 +144,7 @@ if (!function_exists('wpscp_scheduled_post_menu')) {
 						array(
 							'id' => 'wpscp_' . $item_id,
 							'parent' => 'wpscp',
-							'title' => $Powered_by_text,
-							'meta' => array('title' => 'WPDeveloper', 'target' => '_blank')
+							'title' => $pagination_row,
 						)
 					);
 

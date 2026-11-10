@@ -138,18 +138,23 @@ trait SocialHelper
         $title              = html_entity_decode($title);
         $desc               = html_entity_decode($desc);
         $post_content_limit = intval($limit);
+        // X counts CJK and emoji as 2 and a link as 23; the other platforms count characters.
+        $is_x   = 'twitter' === $platform;
+        $length = function ($text) use ($is_x) { return $is_x ? \WPSP\Helper::x_strlen($text) : \WPSP\Helper::mb_strlen($text); };
+        $cut    = function ($text, $max) use ($is_x) { return $is_x ? \WPSP\Helper::x_substr($text, $max) : \WPSP\Helper::mb_substr($text, 0, $max); };
         if (!empty($post_link) && strpos($template_structure, '{url}') !== false) {
-            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : strlen($post_link));
+            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : ($is_x ? \WPSP\Helper::x_link_length($post_link) : $length($post_link)));
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
         else{
             $template_structure = str_replace('{url}', '', $template_structure);
         }
         if (!empty($title) && strpos($template_structure, '{title}') !== false) {
-            $title              = substr($title, 0, $post_content_limit);
+            // Never a negative length: substr() would then keep almost everything (84931).
+            $title              = $cut($title, max(0, $post_content_limit));
             $title              = apply_filters('wpsp_social_share_title', $title, get_called_class(), $post_link);
-            $post_content_limit = intval($post_content_limit) - strlen($title);
-            $template_structure = str_replace('{title}', '::::' . $title . '::::', $template_structure);
+            $post_content_limit = intval($post_content_limit) - $length($title);
+            $template_structure = str_replace('{title}', '' === $title ? '' : '::::' . $title . '::::', $template_structure);
         }
         else{
             $template_structure = str_replace('{title}', '', $template_structure);
@@ -163,7 +168,7 @@ trait SocialHelper
                 if (empty($tag))
                     continue;
                 $_tag = "#$tag ";
-                $post_content_limit = intval($post_content_limit) - strlen($_tag);
+                $post_content_limit = intval($post_content_limit) - $length($_tag);
                 if($post_content_limit > 0){
                     $tags .= $_tag;
                 }
@@ -179,12 +184,13 @@ trait SocialHelper
 
         if (!empty($desc) && strpos($template_structure, '{content}') !== false) {
             $desc = apply_filters('wpsp_social_share_desc', $desc, $platform);
-            if ( strlen($desc) > $post_content_limit ) {
-                $post_content = substr($desc, 0, $post_content_limit - 3 ) . '...';
+            if ( $length($desc) > $post_content_limit ) {
+                // No room after a long title: leave the content out instead of cutting with a negative length.
+                $post_content = $post_content_limit > 3 ? $cut($desc, $post_content_limit - 3 ) . '...' : '';
             }else{
-                $post_content = substr($desc, 0, $post_content_limit );
+                $post_content = $cut($desc, $post_content_limit );
             }
-            $template_structure = str_replace('{content}', '::::' . $post_content . '::::', $template_structure);
+            $template_structure = str_replace('{content}', '' === $post_content ? '' : '::::' . $post_content . '::::', $template_structure);
         }
         else{
             $template_structure = str_replace('{content}', '', $template_structure);

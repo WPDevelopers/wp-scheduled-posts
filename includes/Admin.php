@@ -33,6 +33,7 @@ class Admin
         add_filter('plugin_row_meta', array($this, 'insert_plugin_row_meta'), 10, 2);
         $this->usage_tracker();
         $this->load_dashboard_widgets();
+        new Admin\CronHealth();
         $this->load_settings();
         $this->load_elementor_panel_icon();
         if (!$this->pro_enabled) {
@@ -58,6 +59,10 @@ class Admin
 
     public function wpsp_register_metabox()
     {
+        // The panel app loads only for "Allow users" roles; others got a button that did nothing (6850).
+        if ( ! Helper::is_user_allow() ) {
+            return;
+        }
         $allowed_post_types = \WPSP\Helper::get_all_allowed_post_type(); // Fetch allowed post types
         foreach ($allowed_post_types as $post_type) {
            add_meta_box(
@@ -410,6 +415,10 @@ class Admin
 
     public function schedulepress_el_tab()
     {
+        // Same as the metabox: no button or modal markup for roles outside "Allow users" (6850).
+        if ( ! Helper::is_user_allow() ) {
+            return;
+        }
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         ?>
         <div id="wpsp-post-panel-modal" class="wpsp-post-panel-modal">
@@ -1304,6 +1313,13 @@ class Admin
             // The modal only schedules or publishes; ignore any other posted status.
             if (!in_array($args['post_status'], ['future', 'publish'], true)) {
                 $args['post_status'] = 'future';
+            }
+
+            // Scheduling turns the post `future`, and it is then published publicly.
+            if (!empty($args['id']) && $args['post_status'] === 'future' && \WPSP\Helper::is_private_post(absint($args['id']))) {
+                wp_send_json_error([
+                    'msg' => \WPSP\Helper::private_post_schedule_message()
+                ]);
             }
 
             do_action('wpsp_el_action_before', $args);

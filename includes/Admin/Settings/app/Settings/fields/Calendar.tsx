@@ -338,6 +338,8 @@ export default function Calendar(props) {
                 setDraftEvents((posts) =>
                   posts.filter((p) => p.postId !== props.postId)
                 );
+                // The day dropped on, sent as is: the time below uses today's UTC offset, which is a day off across a DST change.
+                const droppedOnDay = event.allDay ? format('Y-m-d', event.start) : '';
                 if(event.allDay) {
                   // Set the event to not be an all-day event
                   event.setAllDay(false);
@@ -362,7 +364,8 @@ export default function Calendar(props) {
                   // Set the end of the event to the adjusted date
                   event.setEnd(dateMoment.toDate());
                 }
-                eventDrop(event, 'eventDrop').then(updateEvents);
+                // Dropped on a day, not a time: Pro's Auto/Manual Scheduler may pick the time (6823).
+                eventDrop(event, 'eventDrop', droppedOnDay ? { pick_slot: true, drop_day: droppedOnDay } : {}).then(updateEvents);
               }}
               eventDragStop={(info: EventDragStopArg) => {
                 if(isEventOverDiv(info.jsEvent.clientX, info.jsEvent.clientY)) {

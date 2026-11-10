@@ -11,10 +11,12 @@ import { __ } from '@wordpress/i18n';
 
 export const getPostFromEvent = (event: EventApi, dateString = false) => {
   const { title, start, end, allDay } = event;
-  const { postId, href, edit, status, postType, postTime } = event.extendedProps;
+  const { postId, href, edit, status, postType, postTime, full_title } = event.extendedProps;
 
   const post: PostType = {
     postId  : postId,
+    // The grid shows a 3-word title; keep the full one for the hover tooltip.
+    full_title: full_title || title,
     postTime: postTime,
     postType: postType,
     status  : status,
@@ -27,7 +29,7 @@ export const getPostFromEvent = (event: EventApi, dateString = false) => {
   };
   return post;
 }
-export const eventDrop = (event: EventApi, eventType) => {
+export const eventDrop = (event: EventApi, eventType, extra = {}) => {
   const post: PostType = getPostFromEvent(event, true);
 
   // let date = post.end.toISOString().replace('T', ' ').replace(/\.\d{3}Z/, '');
@@ -44,6 +46,7 @@ export const eventDrop = (event: EventApi, eventType) => {
       // postContent: post.post_content,
       // postTitle  : post.title,
       date       : post.end,
+      ...extra,
     },
   });
 }
@@ -206,7 +209,7 @@ const PostCard = ({
           {/* {format(post.end, 'h:mm a')} */}
           {post.postTime}
         </span>
-        <h3 title={post.full_title}>{ decodeEntities(  post.title ) }</h3>
+        <h3 title={decodeEntities(post.full_title || post.title)}>{ decodeEntities(  post.title ) }</h3>
         <span className="badge-wrapper">
           <span className="Unscheduled-badge">{post.postType}</span>
           <span className="status-badge">{post.status}</span>
