@@ -8,6 +8,20 @@ use WPSP\Deps\GuzzleHttp\Psr7\Request;
 
 class Helper
 {
+    /**
+     * Scheduling sets the status to `future`, and WordPress publishes that
+     * publicly, so a private post must not be scheduled.
+     */
+    public static function is_private_post($post_id)
+    {
+        return get_post_status($post_id) === 'private';
+    }
+
+    public static function private_post_schedule_message()
+    {
+        return __('Private posts cannot be scheduled. Change the visibility first.', 'wp-scheduled-posts');
+    }
+
     public static function get_all_post_type()
     {
         $postType = get_post_types('', 'names');
