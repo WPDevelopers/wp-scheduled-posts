@@ -4,7 +4,7 @@ Tags: social media scheduler, social media auto post, post schedule, schedule ca
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.7
+Stable tag: 5.3.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -260,6 +260,26 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 
 == Changelog ==
 
+= 5.3.8 - 2026-11-10 =
+- Added: Tools > Site Health now warns when scheduled posts or social shares are running late, and an admin notice shows when something is waiting past its time.
+- Added: UTM tags on shared links, so Google Analytics shows which network sent a visit. On by default; turn it off in Settings > General. Links that already have UTM tags are left as they are.
+- Fixed: Scheduling a private post made it public. SchedulePress now refuses and keeps the post private.
+- Fixed: "Now" in the post panel and in Elementor used the browser's time instead of the site's time.
+- Fixed: A draft dropped on a Calendar day could land on the wrong day across a daylight-saving change.
+- Fixed: Posts published at once from the Calendar, at a time already past, were never shared. They are now shared when Auto-Share upon Publishing (Pro) is on for that post type, and only once.
+- Fixed: Social messages and the admin-bar list of scheduled posts broke non-Latin text and emoji when cutting them to length.
+- Fixed: A long post title could make the social message longer than the network allows.
+- Fixed: Pinterest refused pins with a title over 100 characters.
+- Fixed: Shares to Facebook groups failed with a raw Facebook error. Meta no longer allows posting to groups, so SchedulePress now says so and no longer asks Facebook for groups.
+- Fixed: The SchedulePress button showed in the editors for roles outside Allow users.
+- Improved: A failed X share now shows the reason X gave, including when the X developer account needs API credits.
+- Improved: The share preview names the platform that has no profile selected, and warns that Instagram needs an image.
+- Improved: The Calendar shows the full post title when you hover over a shortened one.
+- Improved: The Inter font now loads from the plugin instead of Google Fonts.
+- Improved: Bluesky, Mastodon and Medium requests now use the WordPress HTTP API.
+- Improved: Removed the Powered by link from the admin-bar list of scheduled posts.
+- Few minor bug fixes & improvements
+
 = 5.3.7 - 2026-11-05 =
 - Fixed: Saving the SchedulePress settings could overwrite social profiles and tokens that had changed since the screen loaded.
 - Improved: Added Meta's Unified Login option for connecting Instagram accounts.
@@ -507,6 +527,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.8 - 2026-11-10 =
+* Update SchedulePress Pro to 5.3.7 along with this release.
+
 = 5.3.7 - 2026-11-05 =
 * Update SchedulePress Pro to 5.3.6 along with this release.
 
