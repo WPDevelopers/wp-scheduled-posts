@@ -303,6 +303,14 @@ class Facebook
         }
         
         if(get_post_meta($post_id, '_wpsp_is_facebook_share', true) == 'on' || $force_share) {
+            // Meta removed the Groups API on 22 Apr 2024, so a group post can only fail (6797).
+            if ($type === 'group') {
+                return array(
+                    'success' => false,
+                    'log' => __('Meta shut down its Facebook Groups API on April 22, 2024, so SchedulePress can no longer post to Facebook Groups. Turn this group off or delete it in SchedulePress > Settings > Social Profile.', 'wp-scheduled-posts')
+                );
+            }
+
             $errorFlag = false;
             $response = '';
 
@@ -321,31 +329,6 @@ class Facebook
                 $this->refresh_facebook_cache($app_id, $app_secret, $post_url);
             }
 
-            // group api
-            if ($type === 'group') {
-                try {
-                    // group post
-                    $response = $fb->post('/' . $ID . '/feed',  $linkData, $app_access_token);
-                    $isError = $response->isError();
-                    if ($isError == false) {
-                        $graphNode = $response->getGraphNode();
-                        $shareInfo = array(
-                            'share_id' => $graphNode['id'],
-                            'publish_date' => time(),
-                        );
-                        // save shareinfo in metabox
-                        $this->save_metabox_social_share_metabox($post_id, $shareInfo, $profile_key, $ID);
-                        $errorFlag = true;
-                        $response = $shareInfo;
-                    }
-                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                    $errorFlag = false;
-                    $response = 'Graph returned an error: ' . $e->getMessage();
-                } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-                    $errorFlag = false;
-                    $response = 'SDK returned an error: ' . $e->getMessage();
-                }
-            }
             // page api
             if ($type === 'page') {
                 try {
