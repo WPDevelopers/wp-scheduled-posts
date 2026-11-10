@@ -548,16 +548,13 @@ class Calendar
         $adv_data = get_post_meta(get_the_ID(), 'wpscp_pending_schedule', true);
         $advance_schedule_date = $this->wpsp_get_advance_schedule_date( get_the_ID() );
         $advance_schedule_date = get_gmt_from_date( $advance_schedule_date, 'Y-m-d H:i:s' );
-        $post_title = '';
-        if( !empty( $adv_data['post_title'] ) ) {
-            $post_title = wp_trim_words( $adv_data['post_title'], 3, '...');
-        }else{
-            $post_title = wp_trim_words(get_the_title(), 3, '...');
-        }
+        // The pending title when there is one, else the live title.
+        $full_title = !empty( $adv_data['post_title'] ) ? $adv_data['post_title'] : get_the_title();
 
         return array(
             'postId'   => get_the_ID(),
-            'title'    => $post_title,
+            'title'    => wp_trim_words( $full_title, 3, '...'),
+            'full_title' => $full_title,
             'href'     => get_the_permalink(),
             'edit'     => get_edit_post_link(get_the_ID(), null),
             'postType' => get_post_type(),
