@@ -8,6 +8,20 @@ use WPSP\Deps\GuzzleHttp\Psr7\Request;
 
 class Helper
 {
+    /**
+     * Scheduling sets the status to `future`, and WordPress publishes that
+     * publicly, so a private post must not be scheduled.
+     */
+    public static function is_private_post($post_id)
+    {
+        return get_post_status($post_id) === 'private';
+    }
+
+    public static function private_post_schedule_message()
+    {
+        return __('Private posts cannot be scheduled. Change the visibility first.', 'wp-scheduled-posts');
+    }
+
     public static function get_all_post_type()
     {
         $postType = get_post_types('', 'names');
@@ -20,6 +34,110 @@ class Helper
         $taxonomies = get_taxonomies('', 'names');
         $not_necessary_taxonomies = array('nav_menu', 'link_category', 'post_format');
         return array_diff($taxonomies, $not_necessary_taxonomies);
+    }
+
+    /**
+     * Character count (UTF-8), with a byte fallback when mbstring is absent.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function mb_strlen($string)
+    {
+        return function_exists('mb_strlen') ? mb_strlen((string) $string, 'UTF-8') : strlen((string) $string);
+    }
+
+    /**
+     * Substring by characters (UTF-8), so non-Latin text and emoji are not cut mid-character.
+     *
+     * @param string   $string
+     * @param int      $start
+     * @param int|null $length
+     * @return string
+     */
+    public static function mb_substr($string, $start, $length = null)
+    {
+        if (function_exists('mb_substr')) {
+            return mb_substr((string) $string, $start, $length, 'UTF-8');
+        }
+        return $length === null ? substr((string) $string, $start) : substr((string) $string, $start, $length);
+    }
+
+    /**
+     * Length as X (Twitter) counts it, or a little more: CJK and emoji count 2, a link 23 more.
+     *
+     * @param string $string
+     * @return int
+     */
+    public static function x_strlen($string)
+    {
+        return self::x_measure($string, PHP_INT_MAX)[1];
+    }
+
+    /**
+     * Longest start of the text that fits $max as X counts it, without cutting a link or an emoji.
+     *
+     * @param string $string
+     * @param int    $max
+     * @return string
+     */
+    public static function x_substr($string, $max)
+    {
+        return self::x_measure($string, $max)[0];
+    }
+
+    /**
+     * A post link on its own, as 23 or its characters if more: X counts 23 for a known domain, characters otherwise.
+     *
+     * @param string $url
+     * @return int
+     */
+    public static function x_link_length($url)
+    {
+        return max(23, self::x_weight(self::x_normalize($url)));
+    }
+
+    /**
+     * @return array [ text that fits $max, its weight ]
+     */
+    private static function x_measure($string, $max)
+    {
+        $string = self::x_normalize($string);
+        // Anything domain-like is one piece and adds 23 per dot in it, so no link X finds is under-counted.
+        preg_match_all('~(?:https?://)?(?:[\p{L}\p{M}\p{N}-]+\.)+\p{L}[\p{L}\p{M}]+(?:[/?#][^\s]*)?|\X~iu', $string, $pieces);
+        $out    = '';
+        $weight = 0;
+        foreach ($pieces[0] as $piece) {
+            $piece_weight = self::x_weight($piece) + 23 * preg_match_all('~\.\p{L}~u', $piece);
+            if ($weight + $piece_weight > $max) {
+                break;
+            }
+            $out    .= $piece;
+            $weight += $piece_weight;
+        }
+        return [$out, $weight];
+    }
+
+    // X counts the NFC form, where a few characters (Bangla য় ড় ঢ় and similar) become two.
+    private static function x_normalize($string)
+    {
+        $string = (string) $string;
+        if (class_exists('Normalizer')) {
+            $normal = \Normalizer::normalize($string, \Normalizer::FORM_C);
+            return false === $normal ? $string : $normal;
+        }
+        return $string;
+    }
+
+    // X's weights: 1 in its light ranges (Latin, Bangla, Arabic and others up to U+10FF), 2 elsewhere.
+    private static function x_weight($text)
+    {
+        $weight = 2 * self::mb_strlen($text) - preg_match_all('~[\x{0}-\x{10FF}\x{2000}-\x{200D}\x{2010}-\x{201F}\x{2032}-\x{2037}]~u', $text);
+        if (!class_exists('Normalizer')) {
+            // Without intl, count the characters NFC would split as 2.
+            $weight += preg_match_all('~[\x{958}-\x{95F}\x{9DC}\x{9DD}\x{9DF}\x{A33}\x{A36}\x{A59}-\x{A5B}\x{A5E}\x{B5C}\x{B5D}\x{F43}\x{F4D}\x{F52}\x{F57}\x{F5C}\x{F69}\x{F73}\x{F75}\x{F76}\x{F78}\x{F81}\x{F93}\x{F9D}\x{FA2}\x{FA7}\x{FAC}\x{FB9}]~u', $text);
+        }
+        return $weight;
     }
 
 
@@ -668,66 +786,49 @@ class Helper
         return false;
     }
 
-    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    public static function wpsp_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true )
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        if ($post) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-        }
-        curl_setopt($ch, CURLOPT_POST, $post);
-
-        $headers[] = "Content-Type: {$content_type}";
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $result = curl_exec($ch);
-        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
-        return [
-            'result' => $result,
-            'code'   => $response_code
-        ];
+        // No redirects, as the old cURL call did.
+        return self::wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, 0);
     }
 
-    public static function wpsp_medium_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true ) 
+    public static function wpsp_medium_curl($url, $parameters, $content_type, $post = true, $headers = [], $ssl = true )
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $ssl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        return self::wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, 10);
+    }
+
+    /**
+     * WordPress HTTP API version of the old cURL helpers, same return shape:
+     * ['result' => body or false, 'code' => HTTP code or 0 on failure].
+     */
+    private static function wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, $redirects)
+    {
+        $args = [
+            'method'      => $post ? 'POST' : 'GET',
+            'timeout'     => 60, // cURL had no limit; the default 5s would cut off media uploads.
+            'redirection' => $redirects,
+            'httpversion' => '1.1',
+            'sslverify'   => (bool) $ssl,
+            'headers'     => [],
+        ];
+        foreach ((array) $headers as $header) {
+            $parts = explode(':', $header, 2);
+            if (count($parts) === 2 && strcasecmp(trim($parts[0]), 'Content-Type') !== 0) {
+                $args['headers'][trim($parts[0])] = trim($parts[1]);
+            }
+        }
+        $args['headers']['Content-Type'] = $content_type;
         if ($post) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+            $args['body'] = $parameters;
         }
-        curl_setopt($ch, CURLOPT_POST, $post);
-    
-        // Add the content type to headers
-        $headers[] = "Content-Type: {$content_type}";
-    
-        // Add the provided headers
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
-        // Additional options
-        curl_setopt($ch, CURLOPT_ENCODING, '');  // Handle different encodings
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 10); // Follow up to 10 redirects
-        curl_setopt($ch, CURLOPT_TIMEOUT, 0);    // No timeout
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
-        curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1); // Use HTTP/1.1
-    
-        $result = curl_exec($ch);
-    
-        // Check for errors
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
+
+        $response = wp_remote_request($url, $args);
+        if (is_wp_error($response)) {
+            return ['result' => false, 'code' => 0];
         }
-    
-        // Get the response code
-        $response_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
-    
         return [
-            'result' => $result,
-            'code'   => $response_code
+            'result' => wp_remote_retrieve_body($response),
+            'code'   => (int) wp_remote_retrieve_response_code($response),
         ];
     }
 

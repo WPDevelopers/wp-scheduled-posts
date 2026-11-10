@@ -108,7 +108,7 @@ class Twitter
     {
         //post data
         $post_details = get_post($post_id);
-        $post_link = esc_url(get_permalink($post_id));
+        $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'x');
         $title = $post_details->post_title;
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = wp_strip_all_tags($post_details->post_excerpt);
@@ -268,7 +268,7 @@ class Twitter
                     $response = $shareInfo;
                 } else {
                     $errorFlag = false;
-                    $response = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts') . $TwitterConnection->getLastHttpCode();
+                    $response = self::error_message($TwitterConnection->getLastHttpCode(), $result);
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
@@ -280,6 +280,39 @@ class Twitter
             );
         }
         return;
+    }
+
+    /**
+     * Error text for a failed post, with the reason X sent back when there is one.
+     *
+     * @param int   $http_code HTTP status of the post request.
+     * @param mixed $body      Decoded response body.
+     * @return string
+     */
+    public static function error_message($http_code, $body)
+    {
+        $message = __('Twitter Connection Problem. error code: ', 'wp-scheduled-posts') . $http_code;
+
+        $reason = '';
+        if (is_object($body)) {
+            if (!empty($body->detail) && is_string($body->detail)) {
+                $reason = $body->detail;
+            } elseif (!empty($body->title) && is_string($body->title)) {
+                $reason = $body->title;
+            } elseif (isset($body->errors) && is_array($body->errors) && !empty($body->errors[0]->message) && is_string($body->errors[0]->message)) {
+                $reason = $body->errors[0]->message;
+            }
+        }
+        if ($reason !== '') {
+            $message .= ' (' . sanitize_text_field($reason) . ')';
+        }
+
+        // 402 is Payment Required: X bills API use with prepaid credits.
+        if ((int) $http_code === 402) {
+            $message .= ' ' . __('X answered 402 Payment Required: the X developer account behind this profile needs API credits. Add credits at console.x.com, then share again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
     }
 
     /**

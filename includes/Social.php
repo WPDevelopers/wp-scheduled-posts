@@ -101,28 +101,44 @@ class Social
     }
 
     public function publish_future_post($post_id){
+        self::dispatch_auto_share($post_id);
+    }
+
+    /**
+     * Start the automatic social share for a post that has just gone live.
+     *
+     * Shared by the WP-Cron publication of a scheduled post and by the Calendar,
+     * which can publish a post on the spot when its chosen time has passed.
+     * Every caller gets the same safeguards: an already-queued or already-sent
+     * share is left alone and a duplicate dispatch is blocked.
+     *
+     * @param int $post_id
+     * @return bool True when the share was dispatched.
+     */
+    public static function dispatch_auto_share($post_id){
         $post_id = (int) $post_id;
         if ( ! $post_id ) {
-            return;
+            return false;
         }
 
         // A share is already queued for this post — let that event do the sharing
         // rather than firing a second time here.
         if ( wp_next_scheduled('wpsp_publish_future_post', array($post_id)) || wp_next_scheduled('wpsp_custom_social_template', array($post_id))) {
-            return;
+            return false;
         }
 
         // The post's scheduled social share has already gone out. Reaching the
         // post's own publication time afterwards must not share it again.
         if ( get_post_meta($post_id, \WPSP\API\CustomSocialTemplates::SHARED_MARKER_META, true) ) {
-            return;
+            return false;
         }
 
         if ( ! self::claim_share_dispatch($post_id) ) {
-            return;
+            return false;
         }
 
         do_action('wpsp_publish_future_post', $post_id);
+        return true;
     }
 
     /**

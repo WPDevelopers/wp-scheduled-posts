@@ -1,8 +1,21 @@
 import React, { memo, useState } from 'react';
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 import { authorIcon } from '../../../icons/icons';
 
 const CONTENT_CHAR_LIMIT = 250;
+
+const PLATFORM_NAMES = {
+    facebook: 'Facebook',
+    twitter: 'X',
+    linkedin: 'LinkedIn',
+    pinterest: 'Pinterest',
+    instagram: 'Instagram',
+    medium: 'Medium',
+    threads: 'Threads',
+    google_business: 'Google Business Profile',
+    bluesky: 'Bluesky',
+    mastodon: 'Mastodon',
+};
 
 const stripHtml = (html) => {
     const div = document.createElement('div');
@@ -45,7 +58,11 @@ const PreviewCard = ({
                             </defs>
                         </svg>
                         <h3>{__('Preview not available', 'wp-scheduled-posts')}</h3>
-                        <p>{__('Please make sure you select a social profile first.', 'wp-scheduled-posts')}</p>
+                        <p>{sprintf(
+                            /* translators: %s: social platform name, e.g. Instagram */
+                            __('No %s profile is selected for this post. Select one to see the preview; the post is only shared to the profiles you select.', 'wp-scheduled-posts'),
+                            PLATFORM_NAMES[platform] || platform
+                        )}</p>
                     </div>
                 </div>
             </div>
@@ -78,6 +95,16 @@ const PreviewCard = ({
                 </div>
 
                 <div className="wpsp-preview-content-area">
+                    {/* Instagram rejects a post without an image, so say so before sharing fails. */}
+                    {platform === 'instagram' && !bannerImage && (
+                        <p
+                            className="wpsp-preview-warning"
+                            role="alert"
+                            style={{ margin: '0 0 12px', padding: '8px 12px', background: '#fff8e5', borderLeft: '4px solid #dba617', fontSize: '13px' }}
+                        >
+                            {__('Instagram only shares posts that have an image. Add a featured image or a social banner, or sharing this post to Instagram will fail.', 'wp-scheduled-posts')}
+                        </p>
+                    )}
                     <div className="wpsp-preview-text">
                         {displayText}
                         {/* {isTruncated && (

@@ -99,7 +99,7 @@ class Linkedin
     {
         $post_details = get_post($post_id);
         $title = get_the_title($post_id);
-        $post_link = esc_url(get_permalink($post_id));;
+        $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'linkedin');
         if ($this->content_source === 'excerpt' && has_excerpt($post_details->ID)) {
             $desc = get_the_excerpt($post_details);
         } else {
@@ -145,7 +145,7 @@ class Linkedin
             return '\\'.$matches[0];
         }, $text);
 
-        return substr($filtered_text, 0, 4086);
+        return \WPSP\Helper::mb_substr($filtered_text, 0, 4086);
     }
 
     /**
@@ -257,7 +257,7 @@ class Linkedin
                     $post_details = get_post($post_id);
                     $title = get_the_title($post_id);
                     $formatedText = $this->get_formatted_text($post_id);
-                    $post_link = get_permalink($post_id);
+                    $post_link = \WPSP\Helpers\ShareUrl::for_post($post_id, 'linkedin');
                     if ($this->content_source == 'excerpt' && has_excerpt($post_details->ID)) {
                         $desc = wp_strip_all_tags($post_details->post_excerpt);
                     } else {

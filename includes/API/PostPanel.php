@@ -229,9 +229,20 @@ class PostPanel {
             ], 403 );
         }
 
+        // Scheduling turns the post `future`, and it is then published publicly.
+        if ( $is_scheduled && ! empty( $schedule_date ) && \WPSP\Helper::is_private_post( $post_id ) ) {
+            return new \WP_REST_Response( [
+                'success' => false,
+                'message' => \WPSP\Helper::private_post_schedule_message(),
+            ], 400 );
+        }
+
         // ── Free feature: schedule_date ───────────────────────────────────────
         if ( $is_scheduled && ! empty( $schedule_date ) ) {
-            $post_date     = date( 'Y-m-d H:i:s', strtotime( $schedule_date ) );
+            // A date with a time zone (e.g. "…Z") is turned into site time; a plain one already is (6831).
+            $post_date     = preg_match( '/(Z|[+-]\d{2}:?\d{2})$/i', trim( $schedule_date ) )
+                ? wp_date( 'Y-m-d H:i:s', strtotime( $schedule_date ) )
+                : date( 'Y-m-d H:i:s', strtotime( $schedule_date ) );
             $post_date_gmt = get_gmt_from_date( $post_date );
 
             wp_update_post( [
