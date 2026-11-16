@@ -73,6 +73,7 @@ Each platform uses **your own app credentials** (privacy + your own rate limits)
 - **Token expiry** — profiles may need reconnecting; sharing silently stops until reconnected.
 - Per-platform **character limits** apply (see [social templates](social-templates.md)); over-limit content is trimmed.
 - Outbound HTTP timeout is raised to 30s to accommodate slow social APIs.
+- **Facebook link preview.** Facebook builds the preview card (image, title, description) from its own copy of the link's Open Graph data. A link with UTM tags is a URL it has not seen, and its page names the clean permalink in `og:url`, so Facebook could miss the preview and show only the domain. Before every Facebook share that carries a link, SchedulePress asks Facebook to scrape the clean permalink and then the exact link being shared (`WPSP\Helpers\FacebookLinkPreview`), once per URL per request. If Facebook still cannot read the tagged link, the share uses the clean permalink, in `link` and in the message. The `wpsp_facebook_share_clean_link_fallback` filter (bool, `$share_link`, `$permalink`) can switch that fallback off.
 
 ## Technical touchpoints
 

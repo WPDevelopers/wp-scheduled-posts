@@ -322,12 +322,18 @@ class Facebook
 
             $linkData = $this->get_share_content_args($post_id);
 
-            // Refresh Facebook cache before sharing
-            $post_url = get_permalink($post_id);
-
-            if( ( get_post_meta( $post_id, $count_meta_key, true ) ) > 0 ) {
-                $this->refresh_facebook_cache($app_id, $app_secret, $post_url);
-            }
+            // Have Facebook read the link before posting, so the post gets the full
+            // preview card. Runs on every share, not just re-shares: the link may carry
+            // UTM tags, which makes it a URL Facebook has never seen. If Facebook cannot
+            // read the tagged link, the share uses the clean permalink instead.
+            $share_link = isset($linkData['link']) ? $linkData['link'] : \WPSP\Helpers\ShareUrl::for_post($post_id, 'facebook');
+            $linkData   = \WPSP\Helpers\FacebookLinkPreview::prepare(
+                $app_id,
+                $app_secret,
+                $linkData,
+                $share_link,
+                esc_url_raw(get_permalink($post_id))
+            );
 
             // page api
             if ($type === 'page') {
@@ -398,20 +404,16 @@ class Facebook
     }
 
 
+    /**
+     * Ask Facebook to re-read a URL's Open Graph data.
+     *
+     * @param string $app_id
+     * @param string $app_secret
+     * @param string $url
+     * @return bool True when Facebook read the page.
+     */
     public function refresh_facebook_cache($app_id, $app_secret, $url) {
-        $access_token = $app_id . '|' . $app_secret;
-        $api_url = 'https://graph.facebook.com/v20.0';
-        $endpoint = $api_url . '?id=' . urlencode($url) . '&scrape=true&access_token=' . $access_token;
-        $response = wp_remote_post($endpoint);
-        if (is_wp_error($response)) {
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                wp_trigger_error( '', 'Error refreshing Facebook cache: ' . $response->get_error_message(), E_USER_WARNING );
-            }
-        } else {
-            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                wp_trigger_error( '', 'Facebook cache refreshed for URL: ' . $url, E_USER_NOTICE );
-            }
-        }
+        return \WPSP\Helpers\FacebookLinkPreview::scrape($app_id, $app_secret, $url);
     }
 
     /**
