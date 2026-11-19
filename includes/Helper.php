@@ -799,7 +799,8 @@ class Helper
 
     /**
      * WordPress HTTP API version of the old cURL helpers, same return shape:
-     * ['result' => body or false, 'code' => HTTP code or 0 on failure].
+     * ['result' => body or false, 'code' => HTTP code or 0 on failure], plus
+     * 'error' (the transport message) when there was no answer.
      */
     private static function wpsp_http_request($url, $parameters, $content_type, $post, $headers, $ssl, $redirects)
     {
@@ -824,7 +825,8 @@ class Helper
 
         $response = wp_remote_request($url, $args);
         if (is_wp_error($response)) {
-            return ['result' => false, 'code' => 0];
+            // Keep the transport reason (timeout, DNS, SSL) so a failed share can say why.
+            return ['result' => false, 'code' => 0, 'error' => $response->get_error_message()];
         }
         return [
             'result' => wp_remote_retrieve_body($response),

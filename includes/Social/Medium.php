@@ -270,11 +270,10 @@ class Medium
                         // Count the share, or post_share_limit never applies.
                         $this->save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID);
                         $errorFlag = true;
-                    }else if(!empty($response->errors[0]->message)){
-						$response = $response->errors[0]->message;
-					}else {
+                    } else {
+                        // Any answer without a post is a failure; say why instead of "Something went wrong".
                         $errorFlag = false;
-                        $response = 'Something went wrong..';
+                        $response = self::error_message($http);
                     }
                 } catch (\Facebook\Exceptions\FacebookResponseException $e) {
                     $errorFlag = false;
@@ -358,6 +357,51 @@ class Medium
      * @since 2.5.0
      * @return ajax response
      */
+    /**
+     * Error text for a failed post: Medium's own reason, and what to do for the common cases.
+     *
+     * @param array $http Return value of Helper::wpsp_curl(): 'result' (body or false), 'code', optional 'error'.
+     * @return string
+     */
+    public static function error_message($http)
+    {
+        $code = isset($http['code']) ? (int) $http['code'] : 0;
+        $raw  = isset($http['result']) ? $http['result'] : false;
+        if ($raw === false || $raw === null || ($raw === '' && $code === 0)) {
+            $message = __('Medium sent no answer (network error or timeout).', 'wp-scheduled-posts');
+            if (!empty($http['error']) && is_string($http['error'])) {
+                $message .= ' ' . rtrim(sanitize_text_field($http['error']), '.') . '.';
+            }
+            return $message . ' ' . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        $body   = is_string($raw) ? json_decode($raw) : null;
+        $reason = '';
+        if (is_object($body) && !empty($body->errors) && is_array($body->errors) && isset($body->errors[0]) && is_object($body->errors[0]) && !empty($body->errors[0]->message) && is_string($body->errors[0]->message)) {
+            $reason = sanitize_text_field($body->errors[0]->message);
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+
+        $message = __('Medium did not publish the post.', 'wp-scheduled-posts');
+        if ($code) {
+            /* translators: %d: HTTP status code from Medium. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $code);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('Medium returned an unexpected response.', 'wp-scheduled-posts'));
+
+        if (401 === $code) {
+            $message .= ' ' . __('The Medium token is invalid or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (403 === $code) {
+            $message .= ' ' . __('Medium did not allow this post. Check that the token can publish to this account, then share again.', 'wp-scheduled-posts');
+        } elseif (429 === $code) {
+            $message .= ' ' . __('Medium\'s rate limit was reached. Please try again later.', 'wp-scheduled-posts');
+        }
+
+        return $message;
+    }
+
     public function socialMediaInstantShare($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, $medium_id = '', $is_share_on_publish = false)
     {
         $response = $this->remote_post($app_id, $app_secret, $app_access_token, $type, $ID, $post_id, $profile_key, true, $medium_id);
