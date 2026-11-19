@@ -128,8 +128,62 @@ class Bluesky
         if ($response['code'] == 200 && !empty($body->accessJwt)) {
             return $body;
         }
-        $message = !empty($body->message) ? $body->message : __('Unable to authenticate with Bluesky. Please check your handle and App Password.', 'wp-scheduled-posts');
-        return new \WP_Error('bluesky_auth_failed', $message);
+        // A network failure is not a wrong password; error_message() tells them apart.
+        return new \WP_Error('bluesky_auth_failed', self::error_message($response, 'session'));
+    }
+
+    /**
+     * Error text for a failed sign-in or post: Bluesky's own reason, and what to do for the common cases.
+     *
+     * @param array  $http  Return value of Helper::wpsp_curl(): 'result' (body or false), 'code', optional 'error'.
+     * @param string $stage 'session' (createSession, also used when connecting) or 'post' (createRecord).
+     * @return string
+     */
+    public static function error_message($http, $stage = 'post')
+    {
+        $code = isset($http['code']) ? (int) $http['code'] : 0;
+        $raw  = isset($http['result']) ? $http['result'] : false;
+        if ($raw === false || $raw === null || ($raw === '' && $code === 0)) {
+            $message = __('Bluesky sent no answer (network error or timeout).', 'wp-scheduled-posts');
+            if (!empty($http['error']) && is_string($http['error'])) {
+                $message .= ' ' . rtrim(sanitize_text_field($http['error']), '.') . '.';
+            }
+            return $message . ' ' . __('Please try again.', 'wp-scheduled-posts');
+        }
+
+        // AT Protocol errors are {"error": "Name", "message": "..."}.
+        $body  = is_string($raw) ? json_decode($raw) : null;
+        $error = (is_object($body) && !empty($body->error) && is_string($body->error)) ? $body->error : '';
+        $reason = '';
+        if (is_object($body) && !empty($body->message) && is_string($body->message)) {
+            $reason = sanitize_text_field($body->message);
+        } elseif ($error !== '') {
+            $reason = sanitize_text_field($error);
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+
+        $message = 'session' === $stage
+            ? __('Bluesky did not let SchedulePress sign in.', 'wp-scheduled-posts')
+            : __('Bluesky did not publish the post.', 'wp-scheduled-posts');
+        if ($code) {
+            /* translators: %d: HTTP status code from Bluesky. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $code);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('Bluesky returned an unexpected response.', 'wp-scheduled-posts'));
+
+        if (429 === $code || 'RateLimitExceeded' === $error) {
+            $message .= ' ' . __('Bluesky\'s rate limit was reached. Please try again later.', 'wp-scheduled-posts');
+        } elseif ('session' === $stage && (401 === $code || 'AuthenticationRequired' === $error)) {
+            $message .= ' ' . __('Check the handle and the App Password. If needed, create a new App Password in Bluesky under Settings > Privacy and security > App passwords.', 'wp-scheduled-posts');
+        } elseif ('session' !== $stage && (401 === $code || in_array($error, array('ExpiredToken', 'InvalidToken', 'AuthenticationRequired'), true))) {
+            $message .= ' ' . __('Please share again. If it keeps failing, reconnect this profile in SchedulePress > Settings > Social Profile.', 'wp-scheduled-posts');
+        } elseif ('session' !== $stage && (400 === $code || 'InvalidRequest' === $error)) {
+            $message .= ' ' . __('Bluesky did not accept the post content. Change the text or image, then share again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
     }
 
     /**
@@ -410,8 +464,9 @@ class Bluesky
                     $errorFlag = true;
                     $response  = $shareInfo;
                 } else {
+                    // Say why, including a network error, instead of "error code: 0".
                     $errorFlag = false;
-                    $response  = !empty($result->message) ? $result->message : (__('Bluesky Connection Problem. error code: ', 'wp-scheduled-posts') . $create['code']);
+                    $response  = self::error_message($create, 'post');
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
