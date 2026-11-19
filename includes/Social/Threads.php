@@ -240,7 +240,7 @@ class Threads
                     $response = wp_remote_post($api_threads_url, $args);
                 
                     if (is_wp_error($response)) {
-                        throw new \Exception('Error in first API request: ' . $response->get_error_message());
+                        throw new \Exception(self::error_message($response));
                     }
                 
                     $response_code = wp_remote_retrieve_response_code($response);
@@ -248,7 +248,7 @@ class Threads
                         $response_body = json_decode(wp_remote_retrieve_body($response));
                         
                         if (empty($response_body->id)) {
-                            throw new \Exception('Invalid response: Creation ID is missing.');
+                            throw new \Exception(self::error_message($response));
                         }
                 
                         // Second API request to publish the thread
@@ -263,7 +263,7 @@ class Threads
                         $publish_response = wp_remote_post($api_publish_url, $_args);
                 
                         if (is_wp_error($publish_response)) {
-                            throw new \Exception('Error in publish request: ' . $publish_response->get_error_message());
+                            throw new \Exception(self::error_message($publish_response));
                         }
                 
                         $publish_code = wp_remote_retrieve_response_code($publish_response);
@@ -279,16 +279,17 @@ class Threads
                                 // Count the share, or post_share_limit never applies.
                                 $this->save_metabox_social_share_metabox($post_id, $response, $profile_key, $ID);
                             } else {
-                                throw new \Exception('Publishing failed: Response ID missing.');
+                                throw new \Exception(self::error_message($publish_response));
                             }
                         } else {
-                            throw new \Exception('Publishing request failed with status: ' . $publish_code . $this->get_api_error_detail($publish_response));
+                            throw new \Exception(self::error_message($publish_response));
                         }
                     } else {
-                        throw new \Exception('Initial request failed with status: ' . $response_code . $this->get_api_error_detail($response));
+                        throw new \Exception(self::error_message($response));
                     }
                 } catch (\Exception $e) {
-                    $response = 'SDK returned an error: ' . $e->getMessage();
+                    // error_message() already says why; there is no SDK here.
+                    $response = $e->getMessage();
                 }
             }
 
@@ -301,32 +302,65 @@ class Threads
     }
 
     /**
-     * Pull the human-readable reason out of a Threads API error response.
+     * Error text for a failed post: Threads' own reason, and what to do for the common cases.
      *
-     * The status code alone says nothing — an expired token, an image Threads
-     * could not fetch and a caption that breached a limit all come back as 400 —
-     * so the caller has no way to tell a reconnection problem from a content one.
+     * Threads answers with Meta's Graph error format, {"error": {"message", "code",
+     * "error_subcode", "error_user_msg"}}; the HTTP status alone does not tell an
+     * expired token from a rejected image, so the Graph code picks the hint.
      *
      * @param array|\WP_Error $response Raw wp_remote_post() response.
-     * @return string Empty string when no message could be read.
+     * @return string
      */
-    private function get_api_error_detail($response)
+    public static function error_message($response)
     {
         if (is_wp_error($response)) {
-            return ' - ' . $response->get_error_message();
+            return __('Threads sent no answer (network error or timeout).', 'wp-scheduled-posts')
+                . ' ' . rtrim(sanitize_text_field($response->get_error_message()), '.') . '. '
+                . __('Please try sharing again.', 'wp-scheduled-posts');
         }
 
-        $body = json_decode(wp_remote_retrieve_body($response), true);
-        if (!is_array($body) || empty($body['error']['message'])) {
-            return '';
+        $status = (int) wp_remote_retrieve_response_code($response);
+        $body   = json_decode(wp_remote_retrieve_body($response), true);
+        $error  = (is_array($body) && isset($body['error']) && is_array($body['error'])) ? $body['error'] : array();
+        $code   = isset($error['code']) ? (int) $error['code'] : 0;
+        $reason = '';
+        // Meta's user-facing message is clearer than the developer one when it is sent.
+        foreach (array('error_user_msg', 'message') as $key) {
+            if (!empty($error[$key]) && is_string($error[$key])) {
+                $reason = sanitize_text_field($error[$key]);
+                break;
+            }
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
         }
 
-        $detail = $body['error']['message'];
-        if (!empty($body['error']['error_subcode'])) {
-            $detail .= ' (subcode ' . $body['error']['error_subcode'] . ')';
+        $message = __('Threads did not publish the post.', 'wp-scheduled-posts');
+        if ($status && 200 !== $status) {
+            /* translators: %d: HTTP status code from Threads. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $status);
+        }
+        if ($reason !== '') {
+            $message .= ' ' . $reason;
+        } elseif (200 === $status) {
+            $message .= ' ' . __('Threads did not return a post ID.', 'wp-scheduled-posts');
+        } else {
+            $message .= ' ' . __('Threads returned an unexpected response.', 'wp-scheduled-posts');
         }
 
-        return ' - ' . $detail;
+        if (190 === $code || 401 === $status) {
+            $message .= ' ' . __('The Threads connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (10 === $code || ($code >= 200 && $code <= 299) || 403 === $status) {
+            $message .= ' ' . __('Threads did not allow this post. Reconnect the profile and allow SchedulePress to publish.', 'wp-scheduled-posts');
+        } elseif (in_array($code, array(4, 17, 32, 613), true) || 429 === $status) {
+            $message .= ' ' . __('Threads\' rate or posting limit was reached. Please try again later.', 'wp-scheduled-posts');
+        } elseif (100 === $code) {
+            $message .= ' ' . __('Threads did not accept the post content. Check the text and that the featured image is public, then share again.', 'wp-scheduled-posts');
+        } elseif (200 === $status && $reason === '') {
+            $message .= ' ' . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
     }
 
     /**
