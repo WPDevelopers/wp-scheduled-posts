@@ -26,6 +26,11 @@ abstract class AbilityBase {
 	const MIN_CAPABILITY = 'manage_options';
 
 	/**
+	 * Shortest time ahead a schedule tool accepts (core needs > 1 min past the current minute).
+	 */
+	const MIN_LEAD_SECONDS = 180;
+
+	/**
 	 * Unique ability identifier.
 	 *
 	 * @var string
@@ -401,5 +406,66 @@ abstract class AbilityBase {
 			);
 		}
 		return $post;
+	}
+
+	/**
+	 * Refuse a schedule change for a post outside the given statuses, or one
+	 * the user may not publish (a `future` post publishes on its own later).
+	 *
+	 * @param \WP_Post $post     Target post.
+	 * @param string[] $statuses Statuses the tool may act on.
+	 * @return true|\WP_Error
+	 */
+	protected function require_schedulable( $post, $statuses ) {
+		if ( ! in_array( $post->post_status, $statuses, true ) ) {
+			return new \WP_Error(
+				'wpsp_invalid_post_status',
+				sprintf(
+					/* translators: 1: the post's status, 2: the statuses the tool accepts. */
+					__( 'This post is "%1$s". Only %2$s posts can be scheduled with this tool.', 'wp-scheduled-posts' ),
+					$post->post_status,
+					implode( ', ', $statuses )
+				),
+				array( 'status' => 409 )
+			);
+		}
+		if ( ! current_user_can( 'publish_post', $post->ID ) ) {
+			return new \WP_Error(
+				'wpsp_forbidden',
+				sprintf(
+					/* translators: %d: post ID. */
+					__( 'You do not have permission to publish post %d, so it cannot be scheduled.', 'wp-scheduled-posts' ),
+					$post->ID
+				),
+				array( 'status' => 403 )
+			);
+		}
+		return true;
+	}
+
+	/**
+	 * Refuse a publish time that WordPress would treat as "now".
+	 *
+	 * Core publishes a `future` post at once unless its date is a full minute
+	 * after the end of the current minute, so anything sooner than
+	 * MIN_LEAD_SECONDS would go live immediately.
+	 *
+	 * @param \DateTime $when Requested publish time.
+	 * @return true|\WP_Error
+	 */
+	protected function require_lead_time( $when ) {
+		if ( $when->getTimestamp() < time() + self::MIN_LEAD_SECONDS ) {
+			return new \WP_Error(
+				'wpsp_too_soon',
+				sprintf(
+					/* translators: 1: the requested publish time, 2: minimum minutes ahead. */
+					__( 'The requested time %1$s is in the past or too close to now; WordPress would publish the post immediately. Pick a time at least %2$d minutes ahead, or use publish-now.', 'wp-scheduled-posts' ),
+					$when->format( 'c' ),
+					(int) ( self::MIN_LEAD_SECONDS / 60 )
+				),
+				array( 'status' => 400 )
+			);
+		}
+		return true;
 	}
 }

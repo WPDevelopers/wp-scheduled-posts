@@ -208,7 +208,13 @@ class BulkReschedule extends AbilityBase {
 			);
 		}
 
-		$moved = strtotime( $shift, strtotime( $post->post_date ) );
+		// post_date is site-local; read it in the site zone (PHP runs in UTC), as reschedule-post does.
+		try {
+			$current = new \DateTime( $post->post_date, $this->site_timezone() );
+		} catch ( \Exception $e ) {
+			$current = null;
+		}
+		$moved = $current ? strtotime( $shift, $current->getTimestamp() ) : false;
 		if ( false === $moved ) {
 			return array(
 				'post_id' => (int) $post->ID,
@@ -216,11 +222,11 @@ class BulkReschedule extends AbilityBase {
 				'error'   => __( 'Could not apply the shift to this post.', 'wp-scheduled-posts' ),
 			);
 		}
-		if ( $moved <= time() ) {
+		if ( $moved < time() + self::MIN_LEAD_SECONDS ) {
 			return array(
 				'post_id' => (int) $post->ID,
 				'title'   => get_the_title( $post ),
-				'error'   => __( 'The shift would move this post into the past, leaving it stuck as a missed schedule.', 'wp-scheduled-posts' ),
+				'error'   => __( 'The shift would move this post into the past or too close to now, so WordPress would publish it at once.', 'wp-scheduled-posts' ),
 			);
 		}
 

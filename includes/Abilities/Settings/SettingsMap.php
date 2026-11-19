@@ -54,9 +54,6 @@ trait SettingsMap {
 			'notify_author_post_is_review'      => 'bool',
 			'notify_author_post_is_scheduled'   => 'bool',
 			'notify_author_post_scheduled_to_publish' => 'bool',
-			// MCP itself.
-			'enable_mcp'                        => 'bool',
-			'enable_mcp_social_publish'         => 'bool',
 		);
 	}
 
@@ -66,7 +63,12 @@ trait SettingsMap {
 	 * @return array
 	 */
 	protected function read_only_settings() {
-		return array( 'is_pro' => 'bool' );
+		return array(
+			'is_pro'                    => 'bool',
+			// Gates that protect the site from the AI client: only the admin may switch them.
+			'enable_mcp'                => 'bool',
+			'enable_mcp_social_publish' => 'bool',
+		);
 	}
 
 	/**
