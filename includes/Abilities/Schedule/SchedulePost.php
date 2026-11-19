@@ -99,27 +99,24 @@ class SchedulePost extends AbilityBase {
 			return $when;
 		}
 
-		// WordPress silently publishes a `future` post whose date is in the
-		// past, so an accepted-but-past time would publish immediately — the
-		// opposite of what "schedule this" means. Refuse instead.
-		if ( $when->getTimestamp() <= time() ) {
-			return new \WP_Error(
-				'wpsp_past_datetime',
-				sprintf(
-					/* translators: %s: the requested publish time. */
-					__( 'The requested time %s is in the past. Scheduling it would publish the post immediately; use publish-now if that is what you want.', 'wp-scheduled-posts' ),
-					$when->format( 'c' )
-				),
-				array( 'status' => 400 )
-			);
-		}
-
 		if ( 'trash' === $post->post_status ) {
 			return new \WP_Error(
 				'wpsp_post_trashed',
 				__( 'That post is in the trash. Restore it before scheduling.', 'wp-scheduled-posts' ),
 				array( 'status' => 409 )
 			);
+		}
+
+		// Private and published posts are refused: `future` would make a private post public, or take a live one offline.
+		$allowed = $this->require_schedulable( $post, array( 'draft', 'pending', 'future' ) );
+		if ( is_wp_error( $allowed ) ) {
+			return $allowed;
+		}
+
+		// A past or too-near time would publish at once, the opposite of "schedule this".
+		$soon = $this->require_lead_time( $when );
+		if ( is_wp_error( $soon ) ) {
+			return $soon;
 		}
 
 		$previous = $this->describe_post( $post );

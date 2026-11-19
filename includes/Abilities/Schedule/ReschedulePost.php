@@ -124,21 +124,18 @@ class ReschedulePost extends AbilityBase {
 
 		$previous = $this->describe_post( $post );
 
-		// A post sitting in the future queue must keep a future date: moving it
-		// backwards past "now" would leave it stuck as a missed schedule rather
-		// than publishing it. Posts in any other status just get their date
-		// changed, status untouched.
-		$is_queued = ( 'future' === $post->post_status );
-		if ( $is_queued && $when->getTimestamp() <= time() ) {
-			return new \WP_Error(
-				'wpsp_past_datetime',
-				sprintf(
-					/* translators: %s: the requested publish time. */
-					__( 'The requested time %s is in the past, which would leave the post stuck as a missed schedule. Pick a future time, or use publish-now.', 'wp-scheduled-posts' ),
-					$when->format( 'c' )
-				),
-				array( 'status' => 400 )
-			);
+		// Only queued posts and unpublished drafts: a new date on a published or private post would take it offline or out.
+		$allowed = $this->require_schedulable( $post, array( 'future', 'draft', 'pending' ) );
+		if ( is_wp_error( $allowed ) ) {
+			return $allowed;
+		}
+
+		// A queued post must keep a date far enough ahead, or core publishes it at once.
+		if ( 'future' === $post->post_status ) {
+			$soon = $this->require_lead_time( $when );
+			if ( is_wp_error( $soon ) ) {
+				return $soon;
+			}
 		}
 		$status = $post->post_status;
 

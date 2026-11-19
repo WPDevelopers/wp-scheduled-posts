@@ -959,8 +959,20 @@ final class Manager {
 		status_header( 200 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 		header( 'Cache-Control: no-store' );
+		// A framed consent page could be clicked through by another site.
+		header( 'X-Frame-Options: DENY' );
+		header( "Content-Security-Policy: frame-ancestors 'none'" );
 
 		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		// The client name is self-reported, so show where the approval code is actually sent.
+		$redirect_host = (string) wp_parse_url( $req['redirect_uri'], PHP_URL_HOST );
+		$redirect_port = wp_parse_url( $req['redirect_uri'], PHP_URL_PORT );
+		if ( $redirect_port ) {
+			$redirect_host .= ':' . (int) $redirect_port;
+		}
+		if ( '' === $redirect_host ) {
+			$redirect_host = (string) $req['redirect_uri']; // App schemes such as cursor:// have no host.
+		}
 		$lock = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
 		// The SchedulePress mark, inlined from assets/images/wpsp-icon.svg. It is
 		// embedded rather than linked because this page is served outside
@@ -1000,6 +1012,7 @@ final class Manager {
 			. '.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 16px;font-size:13.5px}'
 			. '.row+.row,.access{border-top:1px solid #263149}'
 			. '.row .k{color:#9aa6be}.row .v{font-weight:600;text-align:right;word-break:break-word}'
+			. '.row.redirect{background:rgba(245,158,11,.10)}.row.redirect .v{color:#fcd9a1;font-size:14.5px}'
 			. '.access{padding:14px 16px;background:rgba(99,102,241,.07)}'
 			. '.access .k{color:#9aa6be;font-size:13px;margin-bottom:8px}'
 			. '.badge{display:inline-flex;align-items:center;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(99,102,241,.18);color:#c7cbff;border:1px solid rgba(99,102,241,.4)}'
@@ -1016,12 +1029,13 @@ final class Manager {
 		echo '<h1>' . esc_html__( 'Connect to SchedulePress', 'wp-scheduled-posts' ) . '</h1>';
 		$sub = sprintf(
 			/* translators: %s: AI client name, already escaped and wrapped in <strong>. */
-			esc_html__( '%s wants to manage the content schedule on this site.', 'wp-scheduled-posts' ),
+			$read_only ? esc_html__( '%s wants to view the content schedule on this site.', 'wp-scheduled-posts' ) : esc_html__( '%s wants to manage the content schedule on this site.', 'wp-scheduled-posts' ),
 			'<strong>' . esc_html( $client ) . '</strong>'
 		);
-		echo '<p class="sub">' . $sub . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput -- static translation; client name esc_html'd.
+		echo '<p class="sub">' . $sub . ' ' . esc_html__( 'The app chose this name itself; check where access is sent below.', 'wp-scheduled-posts' ) . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput -- static translation; client name esc_html'd.
 
 		echo '<div class="rows">';
+		echo '<div class="row redirect"><span class="k">' . esc_html__( 'Access is sent to', 'wp-scheduled-posts' ) . '</span><span class="v">' . esc_html( $redirect_host ) . '</span></div>';
 		echo '<div class="row"><span class="k">' . esc_html__( 'Site', 'wp-scheduled-posts' ) . '</span><span class="v">' . esc_html( $host ) . '</span></div>';
 		echo '<div class="row"><span class="k">' . esc_html__( 'Signed in as', 'wp-scheduled-posts' ) . '</span><span class="v">' . esc_html( $user->user_login ) . '</span></div>';
 		echo '<div class="access"><div class="k">' . esc_html__( 'Access', 'wp-scheduled-posts' ) . '</div>';
