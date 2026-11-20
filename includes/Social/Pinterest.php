@@ -283,6 +283,63 @@ class Pinterest
      * @since 2.5.0
      * @return array
      */
+    /**
+     * Error text for a failed pin: Pinterest's own reason, and what to do for the common cases.
+     *
+     * The Pinterest SDK throws PinterestException with the HTTP status as its code and
+     * "Pinterest error (code: N) with message: ..." as its text, or a cURL error when
+     * there was no answer. On a 404 it throws nothing and returns an empty pin; the
+     * caller passes null for that case.
+     *
+     * @param \Exception|null $e     The SDK exception, or null when no pin came back.
+     * @param string          $board Board name shown to the user.
+     * @return string
+     */
+    public static function error_message($e, $board = '')
+    {
+        $board   = is_string($board) ? sanitize_text_field($board) : '';
+        $message = $board !== ''
+            /* translators: %s: Pinterest board name. */
+            ? sprintf(__('Pinterest did not publish the pin to the board "%s".', 'wp-scheduled-posts'), $board)
+            : __('Pinterest did not publish the pin.', 'wp-scheduled-posts');
+
+        if (null === $e) {
+            return $message . ' ' . __('Pinterest did not return a pin. The board or its section may no longer exist. Check the board in the post\'s Pinterest settings, then share again.', 'wp-scheduled-posts');
+        }
+
+        $text = (string) $e->getMessage();
+        if ($e instanceof \DirkGroenen\Pinterest\Exceptions\CurlException || false !== strpos($text, 'cURL error')) {
+            $reason = trim(preg_replace('/^Error: (execute\(\) - )?(cURL error: )?/', '', $text));
+            $reason = rtrim(sanitize_text_field($reason), '.');
+            return __('Pinterest sent no answer (network error or timeout).', 'wp-scheduled-posts')
+                . ($reason !== '' ? ' ' . $reason . '.' : '') . ' ' . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        $status = ($e instanceof \DirkGroenen\Pinterest\Exceptions\PinterestException && $e->getCode() >= 400 && $e->getCode() < 600) ? (int) $e->getCode() : 0;
+        $reason = preg_match('/with message:\s*(.*)$/s', $text, $m) ? $m[1] : $text;
+        $reason = sanitize_text_field($reason);
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+        if ($status) {
+            /* translators: %d: HTTP status code from Pinterest. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $status);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('Pinterest returned an unexpected response.', 'wp-scheduled-posts'));
+
+        if (401 === $status) {
+            $message .= ' ' . __('The Pinterest connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (403 === $status) {
+            $message .= ' ' . __('Pinterest did not allow this pin. Reconnect the account, and check that it can save pins to this board.', 'wp-scheduled-posts');
+        } elseif (429 === $status) {
+            $message .= ' ' . __('Pinterest\'s rate limit was reached. Please try again later.', 'wp-scheduled-posts');
+        } elseif (400 === $status) {
+            $message .= ' ' . __('Pinterest did not accept the pin. Check the image, title and link, then share again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
+    }
+
     public function remote_post($post_id, $board_name, $section_name, $profile_key, $force_share = false, $instant_share = false)
     {
         // Set current profile ID for custom template resolution
@@ -362,7 +419,13 @@ class Pinterest
                 $pinterest = new \DirkGroenen\Pinterest\Pinterest(null, null);
                 $pinterest->auth->setOAuthToken($app_access_token);
                 $results = $pinterest->pins->create($pin_args);
-                if ($results != "") {
+                // On a 404 the SDK returns an empty pin instead of throwing: no id means not shared,
+                // so it must not be saved, counted or rate-limited as a share.
+                $pin_id = is_object($results) ? $results->id : null;
+                if (empty($pin_id)) {
+                    $errorFlag = false;
+                    $response  = self::error_message(null, $_board_name);
+                } else {
                     $shareInfo = array(
                         'share_id' => $results->id,
                         'publish_date' => time(),
@@ -374,22 +437,18 @@ class Pinterest
                     }
                     // Record timestamp for global rate limiting
                     $this->record_pinterest_share_timestamp();
-                }
-                $errorFlag = true;
-                $results = json_decode($results, true);
-                $response = [];
-                if( empty( $results['id'] ) && empty( $response['created_at'] ) ) {
-                    $errorFlag = false;
-                    throw new \Exception("this Pinterest board doesn't exits!!", 404);
-                }
-                if (array_key_exists('id', $results) && array_key_exists('created_at', $results)) {
-                    $response['message']    = __('Your post has been successfully shared!', 'wp-scheduled-posts');
-                    $response['id']         = $results['id'];
-                    $response['created_at'] = $results['created_at'];
+                    $errorFlag = true;
+                    $results = json_decode($results, true);
+                    $response = [];
+                    if (array_key_exists('id', $results) && array_key_exists('created_at', $results)) {
+                        $response['message']    = __('Your post has been successfully shared!', 'wp-scheduled-posts');
+                        $response['id']         = $results['id'];
+                        $response['created_at'] = $results['created_at'];
+                    }
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
-                $response = $_board_name . ' - ' . $e->getMessage();
+                $response = self::error_message($e, $_board_name);
             }
             return array(
                 'success' => $errorFlag,
