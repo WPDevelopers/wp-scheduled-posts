@@ -269,12 +269,10 @@ class Instagram
                             }
                         }
                     }
-                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                    $errorFlag = false;
-                    $response = 'Graph returned an error: ' . $e->getMessage();
                 } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    // Covers FacebookResponseException too; the helper tells them apart.
                     $errorFlag = false;
-                    $response = 'SDK returned an error: ' . $e->getMessage();
+                    $response = Facebook::graph_error_message($e, 'Instagram');
                 }
             }
 
