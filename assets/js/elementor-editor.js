@@ -648,11 +648,13 @@
         if (response.success) {
             logStatusSelector.replaceWith(successStatus + viewLogButton)
             logSelector.append(
-                '<div class="log">' + JSON.stringify(response.data) + '</div>'
+                $('<div class="log"></div>').text(JSON.stringify(response.data))
             )
         } else {
             logStatusSelector.replaceWith(failedStatus + viewLogButtonFailed)
-            logSelector.append('<div class="log">' + response.data + '</div>')
+            // The log is the platform's text: show it as text, never as markup.
+            var failedLog = typeof response.data === 'string' ? response.data : JSON.stringify(response.data)
+            logSelector.append($('<div class="log"></div>').text(failedLog))
         }
     }
     jQuery('.wpsp-el-form-next').click(function(event){
