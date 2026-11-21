@@ -4,7 +4,7 @@ Tags: social media scheduler, social media auto post, post schedule, schedule ca
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.8
+Stable tag: 5.3.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -259,6 +259,16 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.3.9 - 2026-11-22 =
+- Fixed: Since 5.3.8, the UTM tags added to shared links took characters away from the post text, so Facebook and LinkedIn messages were cut shorter than the character limit allows.
+- Fixed: Saving an already scheduled post could move its date to the next Auto or Manual Schedule slot (Pro). The date now changes only when you change Publish On.
+- Fixed: In Elementor, the SchedulePress button and panel showed for post types outside Show Post Types.
+- Fixed: A Pinterest pin that failed was still counted as shared.
+- Fixed: The social profile chooser could show a blank picture and no name for a connected X or LinkedIn account. It now shows the account, or why it could not be read.
+- Improved: A failed share to LinkedIn, Facebook, Instagram, Threads, Bluesky, Mastodon, Medium or Pinterest now shows the reason the network gave, as plain text, and what to do next.
+- Improved: The Medium connect window now says that Medium no longer issues new integration tokens, so only an account that already has one can connect.
+- Few minor bug fixes & improvements
 
 = 5.3.8 - 2026-11-10 =
 - Added: Tools > Site Health now warns when scheduled posts or social shares are running late, and an admin notice shows when something is waiting past its time.
@@ -527,6 +537,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.9 - 2026-11-22 =
+* Update SchedulePress Pro to 5.3.8 along with this release.
+
 = 5.3.8 - 2026-11-10 =
 * Update SchedulePress Pro to 5.3.7 along with this release.
 
