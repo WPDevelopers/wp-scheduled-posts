@@ -419,6 +419,10 @@ class Admin
         if ( ! Helper::is_user_allow() ) {
             return;
         }
+        // No modal markup for post types outside Show Post Types (85074).
+        if ( ! Assets::is_elementor_post_type_allowed() ) {
+            return;
+        }
         $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
         ?>
         <div id="wpsp-post-panel-modal" class="wpsp-post-panel-modal">
