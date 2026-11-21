@@ -788,3 +788,35 @@ namespace {
 		}
 	}
 }
+
+namespace WPSP\Tests\Stubs {
+
+	/**
+	 * Permalinks by post ID, for get_permalink().
+	 */
+	class PermalinkStore {
+
+		/** @var array<int,string> */
+		public static $links = array();
+
+		public static function reset() {
+			self::$links = array();
+		}
+	}
+}
+
+namespace {
+
+	if ( ! function_exists( 'get_permalink' ) ) {
+		function get_permalink( $post = 0, $leavename = false ) {
+			$id = is_object( $post ) ? (int) $post->ID : (int) $post;
+			return isset( \WPSP\Tests\Stubs\PermalinkStore::$links[ $id ] ) ? \WPSP\Tests\Stubs\PermalinkStore::$links[ $id ] : false;
+		}
+	}
+
+	if ( ! function_exists( 'esc_url_raw' ) ) {
+		function esc_url_raw( $url, $protocols = null ) {
+			return (string) $url;
+		}
+	}
+}
