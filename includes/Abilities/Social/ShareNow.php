@@ -304,6 +304,8 @@ class ShareNow extends AbilityBase {
 		);
 
 		$previous_get = $_GET;
+		// With wp_doing_ajax on (below), the handler reads $_GET instead of copying $params into it.
+		$_GET         = $params;
 		$halt_message = '';
 
 		$handler = function () {
