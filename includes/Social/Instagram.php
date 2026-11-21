@@ -235,10 +235,13 @@ class Instagram
                         if( !empty( $long_lived_access_token ) ) {
                             $app_access_token = $long_lived_access_token;
                         }
-                        $response = $this->sharePostOnInstagram($post_id, $profile_key, $ID, $app_access_token);
-                        $isSuccess = $response['success'];
-                        if( $isSuccess ) {
+                        $result = $this->sharePostOnInstagram($post_id, $profile_key, $ID, $app_access_token);
+                        // The log must be text (or the share info), not the helper's array.
+                        if ( !empty( $result['success'] ) ) {
                             $errorFlag = true;
+                            $response  = $result['data'];
+                        } else {
+                            $response = !empty( $result['error'] ) && is_string( $result['error'] ) ? $result['error'] : __('Instagram did not publish the post.', 'wp-scheduled-posts');
                         }
                     }else{
                         $linkData = $this->get_share_content_args($post_id);
@@ -266,12 +269,10 @@ class Instagram
                             }
                         }
                     }
-                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                    $errorFlag = false;
-                    $response = 'Graph returned an error: ' . $e->getMessage();
                 } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    // Covers FacebookResponseException too; the helper tells them apart.
                     $errorFlag = false;
-                    $response = 'SDK returned an error: ' . $e->getMessage();
+                    $response = Facebook::graph_error_message($e, 'Instagram');
                 }
             }
 
@@ -318,6 +319,67 @@ class Instagram
         );
     }
 
+    /**
+     * Error text for a failed post through graph.instagram.com: Instagram's own reason, and what to do.
+     *
+     * Instagram answers with Meta's Graph error format, {"error": {"message", "code",
+     * "error_subcode", "error_user_msg"}}; the Graph code picks the hint.
+     *
+     * @param array|\WP_Error $response Raw wp_remote_post() response.
+     * @return string
+     */
+    public static function error_message($response)
+    {
+        if (is_wp_error($response)) {
+            return __('Instagram sent no answer (network error or timeout).', 'wp-scheduled-posts')
+                . ' ' . rtrim(sanitize_text_field($response->get_error_message()), '.') . '. '
+                . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        $status = (int) wp_remote_retrieve_response_code($response);
+        $body   = json_decode(wp_remote_retrieve_body($response), true);
+        $error  = (is_array($body) && isset($body['error']) && is_array($body['error'])) ? $body['error'] : array();
+        $code   = isset($error['code']) ? (int) $error['code'] : 0;
+        $reason = '';
+        // Meta's user-facing message is clearer than the developer one when it is sent.
+        foreach (array('error_user_msg', 'message') as $key) {
+            if (!empty($error[$key]) && is_string($error[$key])) {
+                $reason = sanitize_text_field($error[$key]);
+                break;
+            }
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+
+        $message = __('Instagram did not publish the post.', 'wp-scheduled-posts');
+        if ($status && 200 !== $status) {
+            /* translators: %d: HTTP status code from Instagram. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $status);
+        }
+        if ($reason !== '') {
+            $message .= ' ' . $reason;
+        } elseif (200 === $status) {
+            $message .= ' ' . __('Instagram did not return a post ID.', 'wp-scheduled-posts');
+        } else {
+            $message .= ' ' . __('Instagram returned an unexpected response.', 'wp-scheduled-posts');
+        }
+
+        if (190 === $code || 401 === $status) {
+            $message .= ' ' . __('The Instagram connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (10 === $code || ($code >= 200 && $code <= 299) || 403 === $status) {
+            $message .= ' ' . __('Instagram did not allow this post. Reconnect the profile and allow SchedulePress to publish; the account must be a Business or Creator account.', 'wp-scheduled-posts');
+        } elseif (in_array($code, array(4, 17, 32, 613), true) || 429 === $status) {
+            $message .= ' ' . __('Instagram\'s rate or posting limit was reached. Please try again later.', 'wp-scheduled-posts');
+        } elseif (in_array($code, array(100, 9004, 36003), true)) {
+            $message .= ' ' . __('Instagram could not use the post\'s image. Check that the featured image is a public JPEG, then share again.', 'wp-scheduled-posts');
+        } elseif (200 === $status && $reason === '') {
+            $message .= ' ' . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
+    }
+
     public function sharePostOnInstagram($post_id, $profile_key, $ID, $access_token) {
         try {
             // Step 1: Create a media container
@@ -326,6 +388,7 @@ class Instagram
             $linkData = $this->get_share_content_args($post_id);
             $image_url = $this->get_image_url($post);
             $media_response = wp_remote_post($create_media_url, [
+                'timeout' => 60, // The 5 s default is too short while Instagram fetches the image.
                 'body' => [
                     'image_url'    => $image_url,
                     'access_token' => $access_token,
@@ -335,12 +398,12 @@ class Instagram
     
             // Check for errors in the response
             if (is_wp_error($media_response)) {
-                throw new \Exception("Error creating media container: " . $media_response->get_error_message());
+                throw new \Exception(self::error_message($media_response));
             }
     
             $media_body = json_decode(wp_remote_retrieve_body($media_response), true);
             if (!isset($media_body['id'])) {
-                throw new \Exception("Failed to create media container: " . wp_remote_retrieve_body($media_response));
+                throw new \Exception(self::error_message($media_response));
             }
     
             $creation_id = $media_body['id'];
@@ -349,6 +412,7 @@ class Instagram
             $publish_url = "https://graph.instagram.com/v21.0/$ID/media_publish";
     
             $publish_response = wp_remote_post($publish_url, [
+                'timeout' => 60,
                 'body' => [
                     'creation_id' => $creation_id,
                     'access_token' => $access_token,
@@ -357,12 +421,12 @@ class Instagram
     
             // Check for errors in the response
             if (is_wp_error($publish_response)) {
-                throw new \Exception("Error publishing media: " . $publish_response->get_error_message());
+                throw new \Exception(self::error_message($publish_response));
             }
     
             $publish_body = json_decode(wp_remote_retrieve_body($publish_response), true);
             if (!isset($publish_body['id'])) {
-                throw new \Exception("Failed to publish media: " . wp_remote_retrieve_body($publish_response));
+                throw new \Exception(self::error_message($publish_response));
             }
     
             $shareInfo = [

@@ -354,12 +354,10 @@ class Facebook
                         $errorFlag = true;
                         $response = $shareInfo;
                     }
-                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                    $errorFlag = false;
-                    $response = 'Graph returned an error: ' . $e->getMessage();
                 } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    // Covers FacebookResponseException too; the helper tells them apart.
                     $errorFlag = false;
-                    $response = 'SDK returned an error: ' . $e->getMessage();
+                    $response = self::graph_error_message($e);
                 }
             }
 
@@ -380,12 +378,10 @@ class Facebook
                         $errorFlag = true;
                         $response = $shareInfo;
                     }
-                } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-                    $errorFlag = false;
-                    $response = 'Graph returned an error: ' . $e->getMessage();
                 } catch (\Facebook\Exceptions\FacebookSDKException $e) {
+                    // Covers FacebookResponseException too; the helper tells them apart.
                     $errorFlag = false;
-                    $response = 'SDK returned an error: ' . $e->getMessage();
+                    $response = self::graph_error_message($e);
                 }
             }
 
@@ -471,6 +467,72 @@ class Facebook
         }
     }
 
+
+    /**
+     * Error text for a failed post through the Facebook Graph SDK: Meta's reason, and what to do.
+     *
+     * Also used by Instagram accounts connected through Facebook. A FacebookResponseException
+     * carries Meta's answer (Graph code, user-facing message); any other FacebookSDKException
+     * means no usable answer came back (network error, timeout, missing token).
+     *
+     * @param \Facebook\Exceptions\FacebookSDKException $e       The SDK exception.
+     * @param string                                    $network 'Facebook' or 'Instagram'.
+     * @return string
+     */
+    public static function graph_error_message($e, $network = 'Facebook')
+    {
+        $is_instagram = 'Instagram' === $network;
+        $label        = $is_instagram ? __('Instagram', 'wp-scheduled-posts') : __('Facebook', 'wp-scheduled-posts');
+        /* translators: %s: social network name (Facebook or Instagram). */
+        $message = sprintf(__('%s did not publish the post.', 'wp-scheduled-posts'), $label);
+
+        if (!($e instanceof \Facebook\Exceptions\FacebookResponseException)) {
+            $reason = rtrim(sanitize_text_field($e->getMessage()), '.');
+            return $message . ($reason !== '' ? ' ' . $reason . '.' : '') . ' ' . __('Please try sharing again. If it keeps failing, reconnect this profile in SchedulePress > Settings > Social Profile.', 'wp-scheduled-posts');
+        }
+
+        $data   = $e->getResponseData();
+        $error  = (is_array($data) && isset($data['error']) && is_array($data['error'])) ? $data['error'] : array();
+        $code   = (int) $e->getCode();
+        $status = (int) $e->getHttpStatusCode();
+        $reason = '';
+        // Meta's user-facing message is clearer than the developer one when it is sent.
+        if (!empty($error['error_user_msg']) && is_string($error['error_user_msg'])) {
+            $reason = sanitize_text_field($error['error_user_msg']);
+        } elseif (is_string($e->getMessage())) {
+            $reason = sanitize_text_field($e->getMessage());
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+        if ($status) {
+            /* translators: %d: HTTP status code from Facebook or Instagram. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $status);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('The answer gave no reason.', 'wp-scheduled-posts'));
+
+        if (190 === $code || 102 === $code || 401 === $status) {
+            /* translators: %s: social network name (Facebook or Instagram). */
+            $message .= ' ' . sprintf(__('The %s connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts'), $label);
+        } elseif (10 === $code || ($code >= 200 && $code <= 299) || 403 === $status) {
+            $message .= ' ' . ($is_instagram
+                ? __('Instagram did not allow this post. Reconnect the profile and allow SchedulePress to publish; the account must be a Business or Creator account.', 'wp-scheduled-posts')
+                : __('Facebook did not allow this post. Reconnect the page and allow SchedulePress to publish; you must be an admin of the page.', 'wp-scheduled-posts'));
+        } elseif (in_array($code, array(4, 17, 32, 613), true) || 429 === $status) {
+            /* translators: %s: social network name (Facebook or Instagram). */
+            $message .= ' ' . sprintf(__('%s\'s rate or posting limit was reached. Please try again later.', 'wp-scheduled-posts'), $label);
+        } elseif (506 === $code) {
+            /* translators: %s: social network name (Facebook or Instagram). */
+            $message .= ' ' . sprintf(__('%s does not accept the same post twice. Change the text, then share again.', 'wp-scheduled-posts'), $label);
+        } elseif (368 === $code) {
+            /* translators: %s: social network name (Facebook or Instagram). */
+            $message .= ' ' . sprintf(__('%s blocked this post for its rules. Check the post and the link, then try again later.', 'wp-scheduled-posts'), $label);
+        } elseif ($is_instagram && in_array($code, array(100, 9004, 36003), true)) {
+            $message .= ' ' . __('Instagram could not use the post\'s image. Check that the featured image is a public JPEG, then share again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
+    }
 
     /**
      * This method Call for Instant social share - it will be happend by ajax call
