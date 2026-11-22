@@ -491,8 +491,9 @@ namespace {
 			}
 			$p = $plural[ $post_type ];
 			return (object) array(
-				'name' => $post_type,
-				'cap'  => (object) array( 'create_posts' => "edit_$p", 'edit_posts' => "edit_$p", 'publish_posts' => "publish_$p" ),
+				'name'  => $post_type,
+				'label' => ucfirst( $p ),
+				'cap'   => (object) array( 'create_posts' => "edit_$p", 'edit_posts' => "edit_$p", 'publish_posts' => "publish_$p" ),
 			);
 		}
 	}
