@@ -304,6 +304,8 @@ class ShareNow extends AbilityBase {
 		);
 
 		$previous_get = $_GET;
+		// With wp_doing_ajax on (below), the handler reads $_GET instead of copying $params into it.
+		$_GET         = $params;
 		$halt_message = '';
 
 		$handler = function () {
@@ -329,6 +331,8 @@ class ShareNow extends AbilityBase {
 		foreach ( $filters as $filter ) {
 			add_filter( $filter, $handler, PHP_INT_MAX );
 		}
+		// Outside AJAX, wp_send_json() ends in a plain die() that skips wp_die(); this routes it through the handler above.
+		add_filter( 'wp_doing_ajax', '__return_true', PHP_INT_MAX );
 
 		// The routine echoes JSON on failure; keep that out of our response.
 		ob_start();
@@ -341,6 +345,7 @@ class ShareNow extends AbilityBase {
 		}
 		$echoed = (string) ob_get_clean();
 
+		remove_filter( 'wp_doing_ajax', '__return_true', PHP_INT_MAX );
 		foreach ( $filters as $filter ) {
 			remove_filter( $filter, $handler, PHP_INT_MAX );
 		}

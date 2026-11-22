@@ -77,6 +77,17 @@ class SettingsAllowListTest extends TestCase {
 	 * Nothing declared read-only may also be writable, or the read-only
 	 * marking would be decorative.
 	 */
+	/**
+	 * The AI client must not be able to switch its own gates (#109 review, item 2).
+	 */
+	public function test_mcp_gates_are_not_writable() {
+		$writable = array_keys( $this->settings_map() );
+		foreach ( array( 'enable_mcp', 'enable_mcp_social_publish' ) as $key ) {
+			$this->assertNotContains( $key, $writable, "{$key} protects the site from the client and must not be writable over MCP" );
+			$this->assertArrayHasKey( $key, $this->read_only_settings(), "{$key} should stay readable" );
+		}
+	}
+
 	public function test_read_only_settings_are_not_also_writable() {
 		$overlap = array_intersect_key( $this->read_only_settings(), $this->settings_map() );
 		$this->assertSame( array(), $overlap );
