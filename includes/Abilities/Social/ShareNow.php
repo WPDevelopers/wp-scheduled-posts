@@ -307,6 +307,18 @@ class ShareNow extends AbilityBase {
 	 * @return array|\WP_Error
 	 */
 	protected function dispatch_share( $post, $platform, $platform_key, array $profile ) {
+		// InstantShare loads at init, before MCP sets the user, so it is not there yet on an MCP request.
+		if ( ! has_action( 'wpsp_instant_social_single_profile_share' ) && function_exists( 'WPSP_Start' ) ) {
+			WPSP_Start()->getSocial()->instant_social_share();
+		}
+		if ( ! has_action( 'wpsp_instant_social_single_profile_share' ) ) {
+			return new \WP_Error(
+				'wpsp_share_unavailable',
+				__( 'Sharing is not available for this user. Check that the granting user\'s role is in SchedulePress Settings > General > Allow users.', 'wp-scheduled-posts' ),
+				array( 'status' => 503 )
+			);
+		}
+
 		$params = array(
 			'nonce'            => wp_create_nonce( 'wpscp-pro-social-profile' ),
 			'postid'           => (int) $post->ID,
@@ -364,10 +376,15 @@ class ShareNow extends AbilityBase {
 		}
 		$_GET = $previous_get;
 
-		// The share log is the authority on whether the post actually went out:
-		// the routine reports success by writing it, not by returning anything.
-		$log    = get_post_meta( (int) $post->ID, $this->share_log_meta_key( $platform ), true );
-		$shared = is_array( $log ) && isset( $log[ $platform_key ] );
+		// Every platform ends with wp_send_json_success/error, the same result the editor popup shows.
+		// The share log is only a fallback for no reply; Pinterest and Google Business do not write it.
+		$reply = $this->decode_reply( $echoed );
+		if ( null !== $reply ) {
+			$shared = true === $reply['success'];
+		} else {
+			$log    = get_post_meta( (int) $post->ID, $this->share_log_meta_key( $platform ), true );
+			$shared = is_array( $log ) && isset( $log[ $platform_key ] );
+		}
 
 		if ( ! $shared ) {
 			$detail = '' !== $halt_message ? $halt_message : $this->extract_error( $echoed );
@@ -409,10 +426,38 @@ class ShareNow extends AbilityBase {
 		if ( '' === $echoed ) {
 			return '';
 		}
-		$decoded = json_decode( $echoed, true );
-		if ( is_array( $decoded ) && isset( $decoded['data']['message'] ) ) {
-			return (string) $decoded['data']['message'];
+		$reply = $this->decode_reply( $echoed );
+		if ( null !== $reply ) {
+			$data = $reply['data'];
+			if ( is_string( $data ) ) {
+				return wp_strip_all_tags( $data );
+			}
+			if ( is_array( $data ) && isset( $data['message'] ) && is_string( $data['message'] ) ) {
+				return wp_strip_all_tags( $data['message'] );
+			}
 		}
 		return wp_strip_all_tags( $echoed );
+	}
+
+	/**
+	 * Read the wp_send_json_success/error reply out of the buffered output.
+	 *
+	 * @param string $echoed Buffered output (may hold PHP notices before the JSON).
+	 * @return array|null ['success' => bool, 'data' => mixed], or null when there is no reply.
+	 */
+	protected function decode_reply( $echoed ) {
+		$echoed = trim( (string) $echoed );
+		$start  = strpos( $echoed, '{"success":' );
+		if ( false === $start ) {
+			return null;
+		}
+		$decoded = json_decode( substr( $echoed, $start ), true );
+		if ( ! is_array( $decoded ) || ! isset( $decoded['success'] ) || ! is_bool( $decoded['success'] ) ) {
+			return null;
+		}
+		return array(
+			'success' => $decoded['success'],
+			'data'    => isset( $decoded['data'] ) ? $decoded['data'] : null,
+		);
 	}
 }
