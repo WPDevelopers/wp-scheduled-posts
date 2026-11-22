@@ -149,6 +149,37 @@ class UpdateSettings extends AbilityBase {
 			}
 		}
 
+		// Only the post types "Show Post Types" offers in wp-admin; an empty list would make the MCP fall back to every public type.
+		if ( array_key_exists( 'allow_post_types', $incoming ) ) {
+			$offered = array_values( \WPSP\Helper::get_all_post_type() );
+			$types   = $this->cast_setting( $incoming['allow_post_types'], 'string[]' );
+			$refused = array_diff( $types, $offered );
+			if ( empty( $types ) || ! empty( $refused ) ) {
+				return new \WP_Error(
+					'wpsp_invalid_post_type',
+					sprintf(
+						/* translators: 1: the rejected post types, 2: the post types that can be chosen. */
+						__( 'Choose at least one post type that exists on this site. Not accepted: %1$s. Post types you can choose: %2$s.', 'wp-scheduled-posts' ),
+						empty( $refused ) ? __( '(none given)', 'wp-scheduled-posts' ) : implode( ', ', $refused ),
+						implode( ', ', $offered )
+					),
+					array( 'status' => 400 )
+				);
+			}
+		}
+
+		// The Calendar's default time is HH:MM (24 h), as the wp-admin time picker saves it.
+		if ( array_key_exists( 'calendar_schedule_time', $incoming ) ) {
+			$time = $this->cast_setting( $incoming['calendar_schedule_time'], 'string' );
+			if ( ! is_string( $time ) || ! preg_match( '/^([01]\d|2[0-3]):[0-5]\d$/', $time ) ) {
+				return new \WP_Error(
+					'wpsp_invalid_time',
+					__( 'calendar_schedule_time must be a 24-hour time from 00:00 to 23:59, for example 09:30.', 'wp-scheduled-posts' ),
+					array( 'status' => 400 )
+				);
+			}
+		}
+
 		$previous = array();
 		$updated  = array();
 		$applied  = array();

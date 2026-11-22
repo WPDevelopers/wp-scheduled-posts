@@ -25,7 +25,7 @@ class ReschedulePost extends AbilityBase {
 	public function __construct() {
 		$this->id          = 'schedulepress/reschedule-post';
 		$this->label       = __( 'Reschedule a Post', 'wp-scheduled-posts' );
-		$this->description = __( 'Move a scheduled post to a new date and time. Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied.', 'wp-scheduled-posts' );
+		$this->description = __( 'Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied.', 'wp-scheduled-posts' );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class ReschedulePost extends AbilityBase {
 			'properties'           => array(
 				'post_id'    => array(
 					'type'        => 'integer',
-					'description' => 'ID of the scheduled post to move.',
+					'description' => 'ID of the post to move: scheduled, draft or pending.',
 				),
 				'publish_at' => array(
 					'type'        => 'string',
