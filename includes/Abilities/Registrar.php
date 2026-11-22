@@ -21,6 +21,7 @@ use WPSP\Abilities\Content\ListContentTypes;
 use WPSP\Abilities\Social\ListSocialProfiles;
 use WPSP\Abilities\Social\GetSocialTemplate;
 use WPSP\Abilities\Social\UpdateSocialTemplate;
+use WPSP\Abilities\Social\SuggestCaption;
 use WPSP\Abilities\Social\GetShareStatus;
 use WPSP\Abilities\Social\ShareNow;
 use WPSP\Abilities\Settings\GetSettings;
@@ -299,6 +300,7 @@ class Registrar {
 			new ListSocialProfiles(),
 			new GetSocialTemplate(),
 			new UpdateSocialTemplate(),
+			new SuggestCaption(),
 			new GetShareStatus(),
 			new ShareNow(),
 			// Settings + diagnostics.

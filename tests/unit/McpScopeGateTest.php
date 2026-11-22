@@ -57,6 +57,7 @@ class McpScopeGateTest extends TestCase {
 			array( 'publish-now' ),
 			array( 'share-now' ),
 			array( 'update-social-template' ),
+			array( 'suggest-caption' ),
 			array( 'update-settings' ),
 		);
 	}
