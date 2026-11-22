@@ -9,6 +9,8 @@ const initialState = {
   scheduleType: '',
   scheduleDate: '',
   scheduleDateSource: '',
+  // True while an already scheduled post has not had its Publish On date changed (85063).
+  scheduleDateLocked: false,
   unpublishOn: '',
   republishOn: '',
   advancedSchedule: false,

@@ -20,13 +20,16 @@
           gap: 2px;
         }
         .wprf-tab-nav-item {
-          padding: 12px 20px 16px !important;
+          // Horizontal padding is deliberately tight: the tab row gained the
+          // AI (MCP) tab, and at 20px the full set wrapped to a second line on
+          // common admin widths.
+          padding: 12px 16px 16px !important;
           font-size: 16px !important;
           font-weight: 500;
           line-height: 1.2em !important;
           background-color: transparent !important;
           color: #6e6e8d !important;
-          border-top: 0px !important;
+          border-top: 0 !important;
           @media screen and (max-width: 1439px) {
             font-size: 14px !important;
             padding: 10px 16px 12px !important;

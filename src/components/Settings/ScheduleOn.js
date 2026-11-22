@@ -230,6 +230,11 @@ const ScheduleOn = () => {
             ? !!scheduleDate
             : effectivePostStatus === 'future';
         dispatch({ type: 'SET_IS_SCHEDULED', payload: nextIsScheduled });
+        // A scheduled post keeps its date until Publish On changes (85063).
+        dispatch({
+            type: 'SET_SCHEDULE_DATE_LOCKED',
+            payload: !userInteracted.current && effectivePostStatus === 'future',
+        });
     }, [scheduleDate, effectivePostStatus, dispatch]);
 
     // ─── Render ───────────────────────────────────────────────────────────

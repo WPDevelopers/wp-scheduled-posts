@@ -40,6 +40,46 @@ class ShareUrl
     }
 
     /**
+     * Characters the UTM tags added to the post's own permalink; 0 for any other link,
+     * with the setting off, or when the permalink already carried its own utm_ tags.
+     *
+     * @param string $share_url
+     * @param int    $post_id
+     * @return int
+     */
+    public static function added_length($share_url, $post_id)
+    {
+        $share_url = (string) $share_url;
+        if (empty($post_id) || '' === $share_url || !self::is_enabled()) {
+            return 0;
+        }
+        $permalink = esc_url_raw(get_permalink($post_id));
+        $next      = substr($share_url, strlen($permalink), 1);
+        if ('' === $permalink || 0 !== strpos($share_url, $permalink) || ('?' !== $next && '&' !== $next)) {
+            return 0;
+        }
+        return \WPSP\Helper::mb_strlen($share_url) - \WPSP\Helper::mb_strlen($permalink);
+    }
+
+    /**
+     * The network's own message limit, where the UTM tags may go past the user's
+     * limit without the share being refused; 0 for the other networks.
+     *
+     * @param string $platform
+     * @return int
+     */
+    public static function network_max_length($platform)
+    {
+        $max = array(
+            'facebook'        => 63206,
+            'linkedin'        => 3000,
+            'instagram'       => 2200,
+            'google_business' => 1500,
+        );
+        return isset($max[$platform]) ? $max[$platform] : 0;
+    }
+
+    /**
      * @param string $platform
      * @return array<string,string>
      */

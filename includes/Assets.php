@@ -23,6 +23,10 @@ class Assets
             if (!Helper::is_user_allow()) {
                 return;
             }
+            // Like classic and Gutenberg: no button or panel for post types outside Show Post Types (85074).
+            if (!self::is_elementor_post_type_allowed()) {
+                return;
+            }
             $post_id = isset($_GET['post']) ? absint($_GET['post']) : get_the_ID();
             $post = get_post($post_id);
             $post_type = $post ? $post->post_type : get_post_type(get_the_ID());
@@ -97,6 +101,20 @@ class Assets
         });
 
 
+    }
+
+    /**
+     * Whether the post open in the Elementor editor is a type SchedulePress manages.
+     *
+     * @return bool
+     */
+    public static function is_elementor_post_type_allowed()
+    {
+        $allow_post_types = \WPSP\Helper::get_all_allowed_post_type();
+        $allow_post_types = (!empty($allow_post_types) ? $allow_post_types : array('post'));
+        $post_id = isset($_GET['post']) ? absint($_GET['post']) : get_the_ID();
+        $post_type = $post_id ? get_post_type($post_id) : get_post_type();
+        return in_array($post_type, $allow_post_types, true);
     }
 
     /**

@@ -280,12 +280,10 @@ class Linkedin
                     $this->save_metabox_social_share($post_id, $shareInfo, $profile_key, $getPersonID);
                     $errorFlag = true;
                     $response = $shareInfo;
-                } else if (!empty($result) && property_exists($result, 'serviceErrorCode') && $result->serviceErrorCode != "") {
+                } else {
+                    // Any answer without a post id is a failure; say why instead of leaving the log empty.
                     $errorFlag = false;
-                    $response = $result->message;
-                } else if (isset($result->code, $result->message) && $result->code === 'INVALID_STRING_FORMAT') {
-                    $errorFlag = false;
-                    $response = $result->message;
+                    $response = self::error_message($results);
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;
@@ -297,6 +295,48 @@ class Linkedin
             );
         }
         return;
+    }
+
+    /**
+     * Error text for a failed post: LinkedIn's own reason, and what to do for the common cases.
+     *
+     * @param mixed $raw Raw response body from the LinkedIn SDK (JSON string, other text, or false).
+     * @return string
+     */
+    public static function error_message($raw)
+    {
+        if ($raw === false || $raw === null || $raw === '') {
+            return __('LinkedIn sent no answer (network error or timeout). Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        $body   = is_string($raw) ? json_decode($raw) : null;
+        $status = (is_object($body) && isset($body->status)) ? (int) $body->status : 0;
+        $code   = (is_object($body) && !empty($body->code) && is_string($body->code)) ? $body->code : '';
+        $reason = (is_object($body) && !empty($body->message) && is_string($body->message)) ? sanitize_text_field($body->message) : '';
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+
+        $message = __('LinkedIn did not publish the post.', 'wp-scheduled-posts');
+        if ($status) {
+            /* translators: %d: HTTP status code from LinkedIn. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $status);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('LinkedIn returned an unexpected response.', 'wp-scheduled-posts'));
+
+        if (401 === $status || in_array($code, array('REVOKED_ACCESS_TOKEN', 'EXPIRED_ACCESS_TOKEN', 'INVALID_ACCESS_TOKEN'), true)) {
+            $message .= ' ' . __('The LinkedIn connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (403 === $status || 'ACCESS_DENIED' === $code) {
+            $message .= ' ' . __('LinkedIn did not allow this post. Reconnect the profile; for a page, check that your LinkedIn account is an admin of it.', 'wp-scheduled-posts');
+        } elseif (426 === $status || 'NONEXISTENT_VERSION' === $code) {
+            $message .= ' ' . __('LinkedIn no longer supports the API version this plugin uses. Please update SchedulePress.', 'wp-scheduled-posts');
+        } elseif (429 === $status) {
+            $message .= ' ' . __('LinkedIn\'s daily limit was reached. Please try again later.', 'wp-scheduled-posts');
+        } elseif (422 === $status && stripos($reason, 'duplicate') !== false) {
+            $message .= ' ' . __('LinkedIn does not accept the same post twice. Change the text, then share again.', 'wp-scheduled-posts');
+        }
+
+        return $message;
     }
 
     /**

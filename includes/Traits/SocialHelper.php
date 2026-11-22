@@ -143,7 +143,14 @@ trait SocialHelper
         $length = function ($text) use ($is_x) { return $is_x ? \WPSP\Helper::x_strlen($text) : \WPSP\Helper::mb_strlen($text); };
         $cut    = function ($text, $max) use ($is_x) { return $is_x ? \WPSP\Helper::x_substr($text, $max) : \WPSP\Helper::mb_substr($text, 0, $max); };
         if (!empty($post_link) && strpos($template_structure, '{url}') !== false) {
-            $post_content_limit = intval($post_content_limit) - ($url_limit ? $url_limit : ($is_x ? \WPSP\Helper::x_link_length($post_link) : $length($post_link)));
+            $link_length        = $url_limit ? $url_limit : ($is_x ? \WPSP\Helper::x_link_length($post_link) : $length($post_link));
+            $post_content_limit = intval($post_content_limit) - $link_length;
+            $network_max        = \WPSP\Helpers\ShareUrl::network_max_length($platform);
+            if (!$url_limit && $network_max > 0) {
+                // UTM tags must not shorten the text (#142): count the plain permalink, within the network's own limit.
+                $utm_length         = \WPSP\Helpers\ShareUrl::added_length($post_link, $post_id);
+                $post_content_limit = max($post_content_limit, min($post_content_limit + $utm_length, $network_max - $link_length));
+            }
             $template_structure = str_replace('{url}', '::::' . $post_link . '::::', $template_structure);
         }
         else{
