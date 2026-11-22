@@ -207,6 +207,13 @@ class BulkReschedule extends AbilityBase {
 				'error'   => __( 'Not permitted to edit this post.', 'wp-scheduled-posts' ),
 			);
 		}
+		if ( ! in_array( $post->post_type, $this->allowed_post_types(), true ) ) {
+			return array(
+				'post_id' => (int) $post->ID,
+				'title'   => get_the_title( $post ),
+				'error'   => __( 'SchedulePress does not manage this post type on this site.', 'wp-scheduled-posts' ),
+			);
+		}
 
 		// post_date is site-local; read it in the site zone (PHP runs in UTC), as reschedule-post does.
 		try {

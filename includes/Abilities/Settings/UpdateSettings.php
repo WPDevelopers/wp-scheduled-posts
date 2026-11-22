@@ -130,6 +130,25 @@ class UpdateSettings extends AbilityBase {
 			$stored = array();
 		}
 
+		// Only the roles the "Allow users" setting offers in wp-admin (no subscriber).
+		if ( array_key_exists( 'allow_user_by_role', $incoming ) ) {
+			$offered = array_keys( \WPSP\Helper::get_all_roles() );
+			$roles   = $this->cast_setting( $incoming['allow_user_by_role'], 'string[]' );
+			$refused = array_diff( $roles, $offered );
+			if ( ! empty( $refused ) ) {
+				return new \WP_Error(
+					'wpsp_invalid_role',
+					sprintf(
+						/* translators: 1: the rejected roles, 2: the roles that can be chosen. */
+						__( 'These roles cannot be given SchedulePress access: %1$s. Roles you can choose: %2$s.', 'wp-scheduled-posts' ),
+						implode( ', ', $refused ),
+						implode( ', ', $offered )
+					),
+					array( 'status' => 400 )
+				);
+			}
+		}
+
 		$previous = array();
 		$updated  = array();
 		$applied  = array();

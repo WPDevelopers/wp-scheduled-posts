@@ -126,7 +126,7 @@ class GetCalendar extends AbilityBase {
 		if ( is_wp_error( $from ) ) {
 			return $from;
 		}
-		$to = $this->parse_datetime( isset( $input['to'] ) ? $input['to'] : '' );
+		$to = $this->parse_range_end( isset( $input['to'] ) ? $input['to'] : '' );
 		if ( is_wp_error( $to ) ) {
 			return $to;
 		}

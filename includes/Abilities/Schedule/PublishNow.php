@@ -119,6 +119,21 @@ class PublishNow extends AbilityBase {
 			);
 		}
 
+		// Same statuses schedule-post accepts; a private or trashed post stays as it is.
+		$statuses = array( 'draft', 'pending', 'future' );
+		if ( ! in_array( $post->post_status, $statuses, true ) ) {
+			return new \WP_Error(
+				'wpsp_invalid_post_status',
+				sprintf(
+					/* translators: 1: the post's status, 2: the statuses the tool accepts. */
+					__( 'This post is "%1$s". Only %2$s posts can be published with this tool.', 'wp-scheduled-posts' ),
+					$post->post_status,
+					implode( ', ', $statuses )
+				),
+				array( 'status' => 409 )
+			);
+		}
+
 		$previous = $this->describe_post( $post );
 		$now      = new \DateTime( 'now', $this->site_timezone() );
 		$gmt      = clone $now;
