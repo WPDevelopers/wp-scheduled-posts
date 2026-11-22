@@ -275,6 +275,20 @@ abstract class AbilityBase {
 	}
 
 	/**
+	 * Parse the end of a range: a date with no time means the end of that day.
+	 *
+	 * @param string $value Client-supplied date or datetime.
+	 * @return \DateTime|\WP_Error
+	 */
+	protected function parse_range_end( $value ) {
+		$date = $this->parse_datetime( $value );
+		if ( ! is_wp_error( $date ) && preg_match( '/^\d{4}-\d{2}-\d{2}$/', trim( (string) $value ) ) ) {
+			$date->setTime( 23, 59, 59 );
+		}
+		return $date;
+	}
+
+	/**
 	 * A compact, safe summary of a post for schedule-facing tool output.
 	 *
 	 * @param \WP_Post $post Post to describe.
@@ -349,10 +363,25 @@ abstract class AbilityBase {
 		}
 		$requested = array_values( array_unique( array_map( 'strval', $requested ) ) );
 		$unknown   = array();
+		$excluded  = array();
 		foreach ( $requested as $type ) {
 			if ( ! post_type_exists( $type ) ) {
 				$unknown[] = $type;
+			} elseif ( ! in_array( $type, $allowed, true ) ) {
+				$excluded[] = $type;
 			}
+		}
+		if ( ! empty( $excluded ) && empty( $unknown ) ) {
+			return new \WP_Error(
+				'wpsp_post_type_not_allowed',
+				sprintf(
+					/* translators: 1: the post type(s) outside the setting, 2: the post types SchedulePress manages. */
+					__( 'SchedulePress does not manage these post type(s) on this site: %1$s. It manages: %2$s.', 'wp-scheduled-posts' ),
+					implode( ', ', $excluded ),
+					implode( ', ', $allowed )
+				),
+				array( 'status' => 400 )
+			);
 		}
 		if ( ! empty( $unknown ) ) {
 			return new \WP_Error(
@@ -401,6 +430,21 @@ abstract class AbilityBase {
 					/* translators: %d: post ID. */
 					__( 'You do not have permission to modify post %d.', 'wp-scheduled-posts' ),
 					$post_id
+				),
+				array( 'status' => 403 )
+			);
+		}
+		// Same post types the SchedulePress settings allow in wp-admin.
+		$allowed = $this->allowed_post_types();
+		if ( ! in_array( $post->post_type, $allowed, true ) ) {
+			return new \WP_Error(
+				'wpsp_post_type_not_allowed',
+				sprintf(
+					/* translators: 1: post ID, 2: its post type, 3: the post types SchedulePress manages. */
+					__( 'Post %1$d is a "%2$s", which SchedulePress does not manage on this site. It manages: %3$s.', 'wp-scheduled-posts' ),
+					$post_id,
+					$post->post_type,
+					implode( ', ', $allowed )
 				),
 				array( 'status' => 403 )
 			);

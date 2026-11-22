@@ -205,6 +205,19 @@ class ShareNow extends AbilityBase {
 			);
 		}
 
+		// The share text is built from the post content, which the password is meant to keep private.
+		if ( '' !== (string) $post->post_password ) {
+			return new \WP_Error(
+				'wpsp_post_password_protected',
+				sprintf(
+					/* translators: %d: post ID. */
+					__( 'Post %d is password protected, so it is not shared: the share text would show content that needs the password.', 'wp-scheduled-posts' ),
+					(int) $post->ID
+				),
+				array( 'status' => 409 )
+			);
+		}
+
 		if ( get_post_meta( (int) $post->ID, '_wpscppro_dont_share_socialmedia', true ) ) {
 			return new \WP_Error(
 				'wpsp_sharing_disabled',

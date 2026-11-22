@@ -164,7 +164,7 @@ class ListScheduledPosts extends AbilityBase {
 			$clause['after'] = $from->format( 'Y-m-d H:i:s' );
 		}
 		if ( ! empty( $input['to'] ) ) {
-			$to = $this->parse_datetime( $input['to'] );
+			$to = $this->parse_range_end( $input['to'] );
 			if ( is_wp_error( $to ) ) {
 				return $to;
 			}
