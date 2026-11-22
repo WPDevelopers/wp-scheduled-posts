@@ -144,6 +144,14 @@ class BulkReschedule extends AbilityBase {
 		$skipped = 0;
 
 		foreach ( $posts as $post ) {
+			if ( ! $post instanceof \WP_Post ) {
+				$skipped++;
+				$changes[] = array(
+					'post_id' => (int) $post,
+					'error'   => __( 'No post found with this ID.', 'wp-scheduled-posts' ),
+				);
+				continue;
+			}
 			$outcome = $this->plan_move( $post, $shift );
 			if ( isset( $outcome['error'] ) ) {
 				$skipped++;
@@ -214,6 +222,17 @@ class BulkReschedule extends AbilityBase {
 				'error'   => __( 'SchedulePress does not manage this post type on this site.', 'wp-scheduled-posts' ),
 			);
 		}
+		if ( 'future' !== $post->post_status ) {
+			return array(
+				'post_id' => (int) $post->ID,
+				'title'   => get_the_title( $post ),
+				'error'   => sprintf(
+					/* translators: %s: post status, e.g. draft. */
+					__( 'Only scheduled posts are moved; this post is "%s". Use schedule-post for a draft.', 'wp-scheduled-posts' ),
+					$post->post_status
+				),
+			);
+		}
 
 		// post_date is site-local; read it in the site zone (PHP runs in UTC), as reschedule-post does.
 		try {
@@ -247,7 +266,7 @@ class BulkReschedule extends AbilityBase {
 	 * Resolve the selection — explicit IDs or a date range, never both.
 	 *
 	 * @param array $input Ability input.
-	 * @return \WP_Post[]|\WP_Error
+	 * @return array|\WP_Error Posts; for post_ids also the IDs that match no post.
 	 */
 	protected function select_posts( array $input ) {
 		$has_ids   = ! empty( $input['post_ids'] ) && is_array( $input['post_ids'] );
@@ -263,11 +282,10 @@ class BulkReschedule extends AbilityBase {
 
 		if ( $has_ids ) {
 			$posts = array();
-			foreach ( array_map( 'intval', $input['post_ids'] ) as $id ) {
-				$post = get_post( $id );
-				if ( $post && 'future' === $post->post_status ) {
-					$posts[] = $post;
-				}
+			// Every ID is kept so one that cannot move is reported as skipped, not dropped.
+			foreach ( array_unique( array_map( 'intval', $input['post_ids'] ) ) as $id ) {
+				$post    = get_post( $id );
+				$posts[] = $post ? $post : $id;
 			}
 			return $posts;
 		}
