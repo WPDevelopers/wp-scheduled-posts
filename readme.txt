@@ -295,14 +295,12 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 == Changelog ==
 
 = 5.3.9 - 2026-11-22 =
-- Added: Connect an AI assistant such as Claude or ChatGPT through MCP to read the calendar, schedule and reschedule posts, write social captions and share in plain words. Off by default; an administrator turns it on in Settings > AI (MCP).
-- Fixed: Since 5.3.8, the UTM tags added to shared links took characters away from the post text, so Facebook and LinkedIn messages were cut shorter than the character limit allows.
-- Fixed: Saving an already scheduled post could move its date to the next Auto or Manual Schedule slot (Pro). The date now changes only when you change Publish On.
-- Fixed: In Elementor, the SchedulePress button and panel showed for post types outside Show Post Types.
-- Fixed: A Pinterest pin that failed was still counted as shared.
-- Fixed: The social profile chooser could show a blank picture and no name for a connected X or LinkedIn account. It now shows the account, or why it could not be read.
-- Improved: A failed share to LinkedIn, Facebook, Instagram, Threads, Bluesky, Mastodon, Medium or Pinterest now shows the reason the network gave, as plain text, and what to do next.
-- Improved: The Medium connect window now says that Medium no longer issues new integration tokens, so only an account that already has one can connect.
+- Added: Connect AI assistants (Claude, ChatGPT) through MCP.
+- Fixed: UTM tags shortened the social share text.
+- Fixed: Saving a scheduled post could change its date.
+- Fixed: Elementor panel showed for post types outside Show Post Types.
+- Fixed: Missing profile picture and name for X and LinkedIn.
+- Improved: Clearer reasons when a social share fails.
 - Few minor bug fixes & improvements
 
 = 5.3.8 - 2026-11-10 =
