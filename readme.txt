@@ -4,7 +4,7 @@ Tags: social media scheduler, social media auto post, post schedule, schedule ca
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.8
+Stable tag: 5.3.9
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -294,6 +294,15 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 
 == Changelog ==
 
+= 5.3.9 - 2026-11-22 =
+- Added: Connect AI assistants (Claude, ChatGPT) through MCP.
+- Fixed: UTM tags shortened the social share text.
+- Fixed: Saving a scheduled post could change its date.
+- Fixed: Elementor panel showed for post types outside Show Post Types.
+- Fixed: Missing profile picture and name for X and LinkedIn.
+- Improved: Clearer reasons when a social share fails.
+- Few minor bug fixes & improvements
+
 = 5.3.8 - 2026-11-10 =
 - Added: Tools > Site Health now warns when scheduled posts or social shares are running late, and an admin notice shows when something is waiting past its time.
 - Added: UTM tags on shared links, so Google Analytics shows which network sent a visit. On by default; turn it off in Settings > General. Links that already have UTM tags are left as they are.
@@ -561,6 +570,9 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.3.9 - 2026-11-22 =
+* Update SchedulePress Pro to 5.3.8 along with this release.
+
 = 5.3.8 - 2026-11-10 =
 * Update SchedulePress Pro to 5.3.7 along with this release.
 
