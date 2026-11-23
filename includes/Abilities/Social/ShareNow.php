@@ -135,6 +135,39 @@ class ShareNow extends AbilityBase {
 	}
 
 	/**
+	 * While AI posting is blocked, turn sharing off for a post the assistant schedules or moves.
+	 *
+	 * @param int $post_id Post ID.
+	 * @return string|null The old value for restore_sharing(), or null when nothing changed.
+	 */
+	public static function block_sharing_for( $post_id ) {
+		if ( self::is_publishing_allowed() ) {
+			return null;
+		}
+		$old = get_post_meta( (int) $post_id, '_wpscppro_dont_share_socialmedia', true );
+		// The classic box once saved 'on' / 'off', the block editor saves '1'.
+		if ( in_array( $old, array( 'on', '1', 1, true ), true ) ) {
+			return null;
+		}
+		update_post_meta( (int) $post_id, '_wpscppro_dont_share_socialmedia', '1' );
+		return (string) $old;
+	}
+
+	/**
+	 * Undo block_sharing_for() when the schedule change failed.
+	 *
+	 * @param int    $post_id Post ID.
+	 * @param string $old     Value block_sharing_for() returned.
+	 */
+	public static function restore_sharing( $post_id, $old ) {
+		if ( '' === $old ) {
+			delete_post_meta( (int) $post_id, '_wpscppro_dont_share_socialmedia' );
+		} else {
+			update_post_meta( (int) $post_id, '_wpscppro_dont_share_socialmedia', $old );
+		}
+	}
+
+	/**
 	 * Execute ability.
 	 *
 	 * @param array $input Ability input payload.

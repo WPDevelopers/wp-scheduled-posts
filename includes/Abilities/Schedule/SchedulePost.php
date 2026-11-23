@@ -124,14 +124,7 @@ class SchedulePost extends AbilityBase {
 		$previous = $this->describe_post( $post );
 
 		// With AI posting blocked, a post the assistant schedules must not share when it goes live.
-		$share_off  = false;
-		$share_meta = get_post_meta( (int) $post->ID, '_wpscppro_dont_share_socialmedia', true );
-		// The classic box once saved 'on' / 'off', the block editor saves '1'.
-		$already_off = in_array( $share_meta, array( 'on', '1', 1, true ), true );
-		if ( 'future' !== $post->post_status && ! $already_off && ! ShareNow::is_publishing_allowed() ) {
-			update_post_meta( (int) $post->ID, '_wpscppro_dont_share_socialmedia', '1' );
-			$share_off = true;
-		}
+		$old_share = ShareNow::block_sharing_for( $post->ID );
 
 		$gmt = clone $when;
 		$gmt->setTimezone( new \DateTimeZone( 'UTC' ) );
@@ -147,8 +140,8 @@ class SchedulePost extends AbilityBase {
 			true
 		);
 		if ( is_wp_error( $result ) ) {
-			if ( $share_off ) {
-				update_post_meta( (int) $post->ID, '_wpscppro_dont_share_socialmedia', $share_meta );
+			if ( null !== $old_share ) {
+				ShareNow::restore_sharing( $post->ID, $old_share );
 			}
 			return $result;
 		}
@@ -157,7 +150,7 @@ class SchedulePost extends AbilityBase {
 			'post'     => $this->describe_post( get_post( (int) $post->ID ) ),
 			'previous' => $previous,
 		);
-		if ( $share_off ) {
+		if ( null !== $old_share ) {
 			$out['note'] = __( 'Social sharing was turned off for this post because AI posting to social media is blocked in SchedulePress > AI (MCP). Turn sharing back on in the post editor if it should be shared when it goes live.', 'wp-scheduled-posts' );
 		}
 		return $out;
