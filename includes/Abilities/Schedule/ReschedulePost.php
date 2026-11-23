@@ -8,6 +8,7 @@
 namespace WPSP\Abilities\Schedule;
 
 use WPSP\Abilities\AbilityBase;
+use WPSP\Abilities\Social\ShareNow;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -25,7 +26,7 @@ class ReschedulePost extends AbilityBase {
 	public function __construct() {
 		$this->id          = 'schedulepress/reschedule-post';
 		$this->label       = __( 'Reschedule a Post', 'wp-scheduled-posts' );
-		$this->description = __( 'Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied.', 'wp-scheduled-posts' );
+		$this->description = __( 'Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied. A scheduled post keeps its own share settings and is shared when it goes live, also while AI posting to social media is blocked.', 'wp-scheduled-posts' );
 	}
 
 	/**
@@ -81,6 +82,7 @@ class ReschedulePost extends AbilityBase {
 			'properties' => array(
 				'post'     => array( 'type' => 'object' ),
 				'previous' => array( 'type' => 'object' ),
+				'note'     => array( 'type' => 'string' ),
 			),
 		);
 	}
@@ -156,10 +158,16 @@ class ReschedulePost extends AbilityBase {
 			return $result;
 		}
 
-		return array(
+		$out = array(
 			'post'     => $this->describe_post( get_post( (int) $post->ID ) ),
 			'previous' => $previous,
 		);
+		// The switch covers share-now and new schedules; a post already queued shares by its own settings.
+		if ( 'future' === $post->post_status && ! ShareNow::is_publishing_allowed()
+			&& ! in_array( get_post_meta( (int) $post->ID, '_wpscppro_dont_share_socialmedia', true ), array( 'on', '1', 1, true ), true ) ) {
+			$out['note'] = __( 'AI posting to social media is blocked, but a scheduled post keeps its own share settings, so it is shared when it goes live. Turn sharing off in the post editor if it should not be shared.', 'wp-scheduled-posts' );
+		}
+		return $out;
 	}
 
 	/**

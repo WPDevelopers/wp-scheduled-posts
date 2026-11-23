@@ -230,7 +230,8 @@ class GetConnectionStatus extends AbilityBase {
 				'profiles_total'      => $total_profiles,
 				'profiles_needing_attention' => $broken,
 				'expiring_soon'       => $expiring,
-				'share_on_publish'    => (bool) Helper::get_settings( 'is_share_on_post_publish' ),
+				// Pro "Auto-Share upon Publishing": posts published directly, not scheduled ones.
+				'auto_share_direct_publish' => (bool) Helper::get_settings( 'is_share_on_post_publish' ),
 			),
 			'mcp'      => array(
 				'runtime_available' => $runtime_ok,

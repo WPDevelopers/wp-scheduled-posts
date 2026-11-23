@@ -8,6 +8,7 @@
 namespace WPSP\Abilities\Schedule;
 
 use WPSP\Abilities\AbilityBase;
+use WPSP\Abilities\Social\ShareNow;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -28,7 +29,7 @@ class BulkReschedule extends AbilityBase {
 	public function __construct() {
 		$this->id          = 'schedulepress/bulk-reschedule';
 		$this->label       = __( 'Bulk Reschedule Posts', 'wp-scheduled-posts' );
-		$this->description = __( 'Shift several scheduled posts by the same relative amount, selected either by explicit IDs or by a date range. Always preview with dry_run first: it reports exactly which posts would move and where, without changing anything.', 'wp-scheduled-posts' );
+		$this->description = __( 'Shift several scheduled posts by the same relative amount, selected either by explicit IDs or by a date range. Always preview with dry_run first: it reports exactly which posts would move and where, without changing anything. A scheduled post keeps its own share settings and is shared when it goes live, also while AI posting to social media is blocked.', 'wp-scheduled-posts' );
 	}
 
 	/**
@@ -100,6 +101,7 @@ class BulkReschedule extends AbilityBase {
 				'dry_run' => array( 'type' => 'boolean' ),
 				'moved'   => array( 'type' => 'integer' ),
 				'skipped' => array( 'type' => 'integer' ),
+				'note'    => array( 'type' => 'string' ),
 				'changes' => array(
 					'type'  => 'array',
 					'items' => array( 'type' => 'object' ),
@@ -192,12 +194,17 @@ class BulkReschedule extends AbilityBase {
 			);
 		}
 
-		return array(
+		$out = array(
 			'dry_run' => $dry_run,
 			'moved'   => $moved,
 			'skipped' => $skipped,
 			'changes' => $changes,
 		);
+		// Moved posts keep their own share settings, also while AI posting is blocked.
+		if ( $moved > 0 && ! ShareNow::is_publishing_allowed() ) {
+			$out['note'] = __( 'AI posting to social media is blocked, but a scheduled post keeps its own share settings, so it is shared when it goes live. Turn sharing off in the post editor if it should not be shared.', 'wp-scheduled-posts' );
+		}
+		return $out;
 	}
 
 	/**
