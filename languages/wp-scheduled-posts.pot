@@ -1,26 +1,28 @@
 # Copyright (C) 2026 WPDeveloper
-# This file is distributed under the same license as the SchedulePress plugin.
+# This file is distributed under the GPLv3 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: SchedulePress 5.3.5\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-scheduled-posts\n"
+"Project-Id-Version: SchedulePress 5.4.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/release-5.4.0\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-11T05:21:42+00:00\n"
+"POT-Creation-Date: 2026-11-23T11:18:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.13.0-alpha-16cc7a8\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wp-scheduled-posts\n"
 
 #. Plugin Name of the plugin
 #: wp-scheduled-posts.php
-#: includes/Admin.php:67
-#: includes/Admin.php:534
-#: includes/Admin.php:536
-#: includes/Admin.php:540
-#: includes/Admin.php:580
+#: includes/Abilities/Registrar.php:267
+#: includes/Admin.php:72
+#: includes/Admin.php:570
+#: includes/Admin.php:572
+#: includes/Admin.php:576
+#: includes/Admin.php:616
+#: includes/Admin/CronHealth.php:111
 #: includes/Admin/Menu.php:36
 #: assets/js/gutenberg.js:25
 #: assets/js/gutenberg.js:154
@@ -42,238 +44,842 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: includes/Admin.php:122
+#: includes/Abilities/AbilityBase.php:255
+msgid "A date/time is required."
+msgstr ""
+
+#. translators: %s: the datetime value that could not be parsed.
+#: includes/Abilities/AbilityBase.php:266
+#, php-format
+msgid "Could not understand the date/time \"%s\". Use ISO 8601, for example 2026-10-03T14:00:00."
+msgstr ""
+
+#. translators: 1: the post type(s) outside the setting, 2: the post types SchedulePress manages.
+#: includes/Abilities/AbilityBase.php:379
+#, php-format
+msgid "SchedulePress does not manage these post type(s) on this site: %1$s. It manages: %2$s."
+msgstr ""
+
+#. translators: 1: the unknown post type(s), 2: the post types this site supports.
+#: includes/Abilities/AbilityBase.php:391
+#, php-format
+msgid "Unknown post type(s): %1$s. This site supports: %2$s."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/AbilityBase.php:420
+#, php-format
+msgid "No post found with ID %d."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/AbilityBase.php:431
+#, php-format
+msgid "You do not have permission to modify post %d."
+msgstr ""
+
+#. translators: 1: post ID, 2: its post type, 3: the post types SchedulePress manages.
+#: includes/Abilities/AbilityBase.php:444
+#, php-format
+msgid "Post %1$d is a \"%2$s\", which SchedulePress does not manage on this site. It manages: %3$s."
+msgstr ""
+
+#. translators: 1: the post's status, 2: the statuses the tool accepts.
+#: includes/Abilities/AbilityBase.php:469
+#, php-format
+msgid "This post is \"%1$s\". Only %2$s posts can be scheduled with this tool."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/AbilityBase.php:481
+#, php-format
+msgid "You do not have permission to publish post %d, so it cannot be scheduled."
+msgstr ""
+
+#. translators: 1: the requested publish time, 2: minimum minutes ahead.
+#: includes/Abilities/AbilityBase.php:506
+#, php-format
+msgid "The requested time %1$s is in the past or too close to now; WordPress would publish the post immediately. Pick a time at least %2$d minutes ahead, or use publish-now."
+msgstr ""
+
+#: includes/Abilities/Content/ListContentTypes.php:30
+msgid "List Schedulable Content Types"
+msgstr ""
+
+#: includes/Abilities/Content/ListContentTypes.php:31
+msgid "List the post types SchedulePress is configured to schedule, along with the site timezone every scheduling tool uses. Call this first to learn what can be scheduled here."
+msgstr ""
+
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:35
+msgid "Get SchedulePress Status"
+msgstr ""
+
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:36
+msgid "Health check for scheduling on this site: plugin version, site timezone, WP-Cron status, how many posts are queued or stuck as missed schedules, and which social connections are broken or expiring. Start troubleshooting here."
+msgstr ""
+
+#. translators: %d: number of missed schedules.
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:132
+#, php-format
+msgid "%d post has passed its scheduled time but is still waiting to publish."
+msgid_plural "%d posts have passed their scheduled time but are still waiting to publish."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:145
+msgid "WP-Cron is disabled (DISABLE_WP_CRON). Scheduled posts will not publish unless a real cron job calls wp-cron.php."
+msgstr ""
+
+#. translators: %d: number of social profiles needing attention.
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:184
+#, php-format
+msgid "%d social connection is inactive or has an expired token and needs reconnecting."
+msgid_plural "%d social connections are inactive or have expired tokens and need reconnecting."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: comma-separated list of social profiles.
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:196
+#, php-format
+msgid "These social tokens expire within a week: %s."
+msgstr ""
+
+#: includes/Abilities/Diagnostics/GetConnectionStatus.php:204
+msgid "The bundled Abilities runtime is missing, so AI clients connect but see no tools. Reinstall the plugin from an official build."
+msgstr ""
+
+#: includes/Abilities/Registrar.php:268
+msgid "Content scheduling, calendar and social auto-sharing abilities powered by SchedulePress."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:31
+msgid "Bulk Reschedule Posts"
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:32
+msgid "Shift several scheduled posts by the same relative amount, selected either by explicit IDs or by a date range. Always preview with dry_run first: it reports exactly which posts would move and where, without changing anything. While AI posting to social media is blocked, sharing is turned off for every post it moves and the response says so."
+msgstr ""
+
+#. translators: %s: the shift expression that was rejected.
+#: includes/Abilities/Schedule/BulkReschedule.php:128
+#: includes/Abilities/Schedule/ReschedulePost.php:194
+#, php-format
+msgid "Could not understand the shift \"%s\". Use a signed relative value such as \"+1 week\", \"+3 days\" or \"-2 hours\"."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:154
+msgid "No post found with this ID."
+msgstr ""
+
+#. translators: %d: number of posts.
+#: includes/Abilities/Schedule/BulkReschedule.php:217
+#, php-format
+msgid "Social sharing was turned off for %d moved post(s) because AI posting to social media is blocked in SchedulePress > AI (MCP). Turn sharing back on in the post editor for any post that should be shared when it goes live."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:221
+msgid "AI posting to social media is blocked, so applying this move turns social sharing off for the moved posts."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:238
+msgid "Not permitted to edit this post."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:245
+msgid "SchedulePress does not manage this post type on this site."
+msgstr ""
+
+#. translators: %s: post status, e.g. draft.
+#: includes/Abilities/Schedule/BulkReschedule.php:254
+#, php-format
+msgid "Only scheduled posts are moved; this post is \"%s\". Use schedule-post for a draft."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:271
+msgid "Could not apply the shift to this post."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:278
+msgid "The shift would move this post into the past or too close to now, so WordPress would publish it at once."
+msgstr ""
+
+#: includes/Abilities/Schedule/BulkReschedule.php:301
+msgid "Select posts either by post_ids or by a from/to range — exactly one of the two."
+msgstr ""
+
+#: includes/Abilities/Schedule/FindScheduleGaps.php:27
+msgid "Find Schedule Gaps"
+msgstr ""
+
+#: includes/Abilities/Schedule/FindScheduleGaps.php:28
+msgid "Find days in a date range that have fewer scheduled posts than your target cadence, and suggest a publish time for each. Use this to answer \"when should I publish next\" and to fill an empty week."
+msgstr ""
+
+#: includes/Abilities/Schedule/FindScheduleGaps.php:138
+#: includes/Abilities/Schedule/GetCalendar.php:136
+msgid "The \"to\" date must be the same as or later than the \"from\" date."
+msgstr ""
+
+#: includes/Abilities/Schedule/FindScheduleGaps.php:155
+msgid "preferred_time must be a 24-hour HH:MM value, for example 09:00."
+msgstr ""
+
+#: includes/Abilities/Schedule/GetCalendar.php:30
+msgid "Get Schedule Calendar"
+msgstr ""
+
+#: includes/Abilities/Schedule/GetCalendar.php:31
+msgid "Get the editorial calendar for a date range, grouped by day, including scheduled, published and draft posts. Use this for \"what does my calendar look like\" questions and to spot clustering or empty days."
+msgstr ""
+
+#: includes/Abilities/Schedule/GetMissedSchedules.php:27
+msgid "Get Missed Schedules"
+msgstr ""
+
+#: includes/Abilities/Schedule/GetMissedSchedules.php:28
+msgid "List posts whose scheduled publish time has already passed but are still waiting in the future queue — the \"missed schedule\" failure. Includes how late each one is and whether WP-Cron looks healthy."
+msgstr ""
+
+#: includes/Abilities/Schedule/ListDraftPosts.php:27
+msgid "List Draft Posts"
+msgstr ""
+
+#: includes/Abilities/Schedule/ListDraftPosts.php:28
+msgid "List drafts and pending posts that have no publish date yet — the pool to draw from when filling empty calendar slots."
+msgstr ""
+
+#: includes/Abilities/Schedule/ListScheduledPosts.php:27
+msgid "List Scheduled Posts"
+msgstr ""
+
+#: includes/Abilities/Schedule/ListScheduledPosts.php:28
+msgid "List posts that are scheduled to publish in the future, optionally narrowed to a date range or specific post types. Dates are ISO 8601 in the site timezone. Use this to answer \"what is queued?\" questions."
+msgstr ""
+
+#: includes/Abilities/Schedule/PublishNow.php:31
+msgid "Publish a Post Now"
+msgstr ""
+
+#: includes/Abilities/Schedule/PublishNow.php:32
+msgid "Publish a post immediately, ahead of its schedule. This makes the post publicly visible right away and can trigger social auto-sharing, so it requires confirm: true. Prefer reschedule-post unless the user explicitly asked to publish now."
+msgstr ""
+
+#: includes/Abilities/Schedule/PublishNow.php:100
+msgid "Publishing is immediate and publicly visible. Confirm with the user, then call again with confirm: true."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/Schedule/PublishNow.php:115
+#, php-format
+msgid "Post %d is already published."
+msgstr ""
+
+#. translators: 1: the post's status, 2: the statuses the tool accepts.
+#: includes/Abilities/Schedule/PublishNow.php:129
+#, php-format
+msgid "This post is \"%1$s\". Only %2$s posts can be published with this tool."
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:28
+msgid "Reschedule a Post"
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:29
+msgid "Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as \"+3 days\" or \"-2 hours\". Times are site-local unless an offset is supplied. While AI posting to social media is blocked, sharing is turned off for a scheduled post it moves and the response says so."
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:110
+msgid "Provide exactly one of publish_at (absolute) or shift (relative)."
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:172
+#: includes/Abilities/Schedule/SchedulePost.php:154
+msgid "Social sharing was turned off for this post because AI posting to social media is blocked in SchedulePress > AI (MCP). Turn sharing back on in the post editor if it should be shared when it goes live."
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:206
+msgid "That post has no usable publish date to shift from."
+msgstr ""
+
+#: includes/Abilities/Schedule/ReschedulePost.php:215
+msgid "Could not apply that shift to the post's current publish time."
+msgstr ""
+
+#: includes/Abilities/Schedule/SchedulePost.php:27
+msgid "Schedule a Post"
+msgstr ""
+
+#: includes/Abilities/Schedule/SchedulePost.php:28
+msgid "Schedule an existing draft or pending post to publish at a given date and time. The time is interpreted in the site timezone unless the value carries an explicit offset. A post that is already scheduled is moved to the new time (reschedule-post does the same and also takes a relative shift). When it goes live the post is shared to social media by its own share settings; while AI posting to social media is blocked, sharing is turned off for the post and the response says so."
+msgstr ""
+
+#: includes/Abilities/Schedule/SchedulePost.php:107
+msgid "That post is in the trash. Restore it before scheduling."
+msgstr ""
+
+#: includes/Abilities/Schedule/UnschedulePost.php:26
+msgid "Unschedule a Post"
+msgstr ""
+
+#: includes/Abilities/Schedule/UnschedulePost.php:27
+msgid "Take a scheduled post out of the queue and return it to draft. The post is not deleted and its content is untouched; only its status changes."
+msgstr ""
+
+#. translators: 1: post ID, 2: current post status.
+#: includes/Abilities/Schedule/UnschedulePost.php:98
+#, php-format
+msgid "Post %1$d is not scheduled (its status is \"%2$s\"), so there is nothing to unschedule."
+msgstr ""
+
+#: includes/Abilities/Settings/GetSettings.php:29
+msgid "Get SchedulePress Settings"
+msgstr ""
+
+#: includes/Abilities/Settings/GetSettings.php:30
+msgid "Read SchedulePress configuration: which post types and roles it manages, dashboard and admin-bar display, missed-schedule handling, auto-share behaviour and email notification toggles. Credentials are never included."
+msgstr ""
+
+#. translators: 1: the unknown setting keys, 2: the readable keys.
+#: includes/Abilities/Settings/GetSettings.php:105
+#, php-format
+msgid "Unknown or non-readable setting(s): %1$s. Readable settings are: %2$s."
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:32
+msgid "Update SchedulePress Settings"
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:33
+msgid "Change SchedulePress configuration — managed post types and roles, display toggles, missed-schedule handling, auto-share behaviour and email notifications. Only the settings listed by get-settings as writable can be changed."
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:105
+msgid "Provide a settings object with at least one key to change."
+msgstr ""
+
+#. translators: 1: the rejected setting keys, 2: the writable keys.
+#: includes/Abilities/Settings/UpdateSettings.php:117
+#, php-format
+msgid "These settings cannot be changed through this tool: %1$s. Writable settings are: %2$s."
+msgstr ""
+
+#. translators: 1: the rejected roles, 2: the roles that can be chosen.
+#: includes/Abilities/Settings/UpdateSettings.php:143
+#, php-format
+msgid "These roles cannot be given SchedulePress access: %1$s. Roles you can choose: %2$s."
+msgstr ""
+
+#. translators: 1: the rejected post types, 2: the post types that can be chosen.
+#: includes/Abilities/Settings/UpdateSettings.php:162
+#, php-format
+msgid "Choose at least one post type that exists on this site. Not accepted: %1$s. Post types you can choose: %2$s."
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:163
+msgid "(none given)"
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:177
+msgid "calendar_schedule_time must be a 24-hour time from 00:00 to 23:59, for example 09:30."
+msgstr ""
+
+#: includes/Abilities/Settings/UpdateSettings.php:205
+msgid "The settings could not be saved. Another plugin may be filtering this option."
+msgstr ""
+
+#: includes/Abilities/Social/CaptionGenerator.php:210
+msgid "OpenAI request failed. Please verify your API key and try again."
+msgstr ""
+
+#: includes/Abilities/Social/CaptionGenerator.php:219
+#: includes/Abilities/Social/SuggestCaption.php:256
+msgid "OpenAI returned an empty response."
+msgstr ""
+
+#: includes/Abilities/Social/CaptionGenerator.php:258
+#: includes/Abilities/Social/SuggestCaption.php:259
+msgid "Could not parse captions from the AI response."
+msgstr ""
+
+#: includes/Abilities/Social/GetShareStatus.php:29
+msgid "Get Social Share Status"
+msgstr ""
+
+#: includes/Abilities/Social/GetShareStatus.php:30
+msgid "Show whether a post has already been shared to each connected social platform, including the recorded response and whether sharing is disabled for that post. Use this before sharing to avoid duplicate posts."
+msgstr ""
+
+#: includes/Abilities/Social/GetSocialTemplate.php:35
+msgid "Get Social Share Templates"
+msgstr ""
+
+#: includes/Abilities/Social/GetSocialTemplate.php:36
+msgid "Read the per-platform social share captions saved on a post, with each platform's character limit and how much of it the current caption uses. Call this before writing or editing a caption."
+msgstr ""
+
+#: includes/Abilities/Social/ListSocialProfiles.php:29
+msgid "List Social Profiles"
+msgstr ""
+
+#: includes/Abilities/Social/ListSocialProfiles.php:30
+msgid "List the connected social accounts and their health: which are active, which have an access token, and which tokens have expired or are about to. Answers \"which social connections need reconnecting\". Never returns tokens or secrets."
+msgstr ""
+
+#. translators: 1: the unknown platform slug, 2: the supported slugs.
+#: includes/Abilities/Social/PlatformMap.php:138
+#, php-format
+msgid "Unknown platform \"%1$s\". Supported platforms: %2$s."
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:41
+msgid "Share a Post Now"
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:42
+msgid "Immediately share a published post to one connected social profile. This posts publicly to a real account and cannot be undone. It is disabled unless the site has explicitly enabled MCP social publishing, and always requires confirm: true. Call with dry_run: true first to check what would be posted."
+msgstr ""
+
+#. translators: 1: platform key, 2: platform slug.
+#: includes/Abilities/Social/ShareNow.php:197
+#, php-format
+msgid "No connected profile \"%1$s\" for %2$s. Call list-social-profiles to see the available profiles."
+msgstr ""
+
+#. translators: %s: profile name.
+#: includes/Abilities/Social/ShareNow.php:210
+#, php-format
+msgid "The profile \"%s\" is inactive or has no access token. Reconnect it in SchedulePress before sharing."
+msgstr ""
+
+#. translators: %s: profile name.
+#: includes/Abilities/Social/ShareNow.php:221
+#, php-format
+msgid "The access token for \"%s\" has expired. Reconnect the profile in SchedulePress before sharing."
+msgstr ""
+
+#. translators: 1: post ID, 2: post status.
+#: includes/Abilities/Social/ShareNow.php:233
+#, php-format
+msgid "Post %1$d is \"%2$s\", not published. Only published posts can be shared — the share would link to a page the audience cannot open."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/Social/ShareNow.php:247
+#, php-format
+msgid "Post %d is password protected, so it is not shared: the share text would show content that needs the password."
+msgstr ""
+
+#. translators: %d: post ID.
+#: includes/Abilities/Social/ShareNow.php:259
+#, php-format
+msgid "Social sharing is switched off for post %d. Turn it back on in the post editor before sharing."
+msgstr ""
+
+#. translators: 1: post ID, 2: profile name.
+#: includes/Abilities/Social/ShareNow.php:273
+#, php-format
+msgid "Post %1$d has already been shared to \"%2$s\". Sharing again would post a duplicate; use get-share-status to review what was sent."
+msgstr ""
+
+#. translators: 1: post title, 2: profile name.
+#: includes/Abilities/Social/ShareNow.php:292
+#, php-format
+msgid "Preview only — nothing was posted. A real call would share \"%1$s\" to %2$s."
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:302
+msgid "Social publishing over MCP is switched off for this site. An administrator must enable it under SchedulePress → MCP before an AI client can post to your social accounts."
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:310
+msgid "This posts publicly to a real social account and cannot be undone. Confirm with the user, then call again with confirm: true."
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:318
+msgid "This account is not permitted to use the social profiles configured on this site."
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:350
+msgid "Sharing is not available for this user. Check that the granting user's role is in SchedulePress Settings > General > Allow users."
+msgstr ""
+
+#. translators: 1: profile name, 2: reason reported by the platform.
+#: includes/Abilities/Social/ShareNow.php:428
+#, php-format
+msgid "The share to \"%1$s\" did not complete: %2$s"
+msgstr ""
+
+#: includes/Abilities/Social/ShareNow.php:430
+msgid "the platform returned no confirmation."
+msgstr ""
+
+#. translators: 1: post title, 2: profile name.
+#: includes/Abilities/Social/ShareNow.php:444
+#, php-format
+msgid "Shared \"%1$s\" to %2$s."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:38
+msgid "Suggest Social Captions"
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:39
+msgid "Generate a social share caption for one or more platforms from a post, using your configured OpenAI key. Returns suggestions only — it does not save anything; call update-social-template to store a caption. Each suggestion is trimmed to that platform's character limit."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:154
+msgid "Select at least one platform."
+msgstr ""
+
+#. translators: %s: platform slug
+#: includes/Abilities/Social/SuggestCaption.php:170
+#, php-format
+msgid "Captions are not available for platform \"%s\"."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:181
+#: includes/API/AICaption.php:191
+msgid "OpenAI API key is not configured. Add it in SchedulePress → Settings → AI."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:244
+msgid "Could not reach OpenAI. Please try again later."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:248
+msgid "OpenAI rejected the API key. Check it in SchedulePress → Settings → AI."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:250
+msgid "OpenAI rate limit or quota reached. Please try again later."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:252
+msgid "OpenAI request failed. Please try again later."
+msgstr ""
+
+#: includes/Abilities/Social/SuggestCaption.php:263
+msgid "Could not generate captions. Please try again later."
+msgstr ""
+
+#: includes/Abilities/Social/UpdateSocialTemplate.php:37
+msgid "Update a Social Share Template"
+msgstr ""
+
+#: includes/Abilities/Social/UpdateSocialTemplate.php:38
+msgid "Write the social share caption for one platform on one post. The caption is checked against that platform's character limit before saving. This only edits the saved caption — it does not post anything."
+msgstr ""
+
+#. translators: 1: platform slug, 2: character limit, 3: characters supplied.
+#: includes/Abilities/Social/UpdateSocialTemplate.php:136
+#, php-format
+msgid "The caption is too long for %1$s: the limit is %2$d characters and this is %3$d. Shorten it and try again."
+msgstr ""
+
+#: includes/Admin.php:127
 #: includes/Admin/Menu.php:37
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin.php:126
+#: includes/Admin.php:131
 msgid "Go Pro"
 msgstr ""
 
-#: includes/Admin.php:141
+#: includes/Admin.php:146
 msgid "Docs & FAQs"
 msgstr ""
 
-#: includes/Admin.php:170
+#: includes/Admin.php:175
 msgid "We hope you're enjoying SchedulePress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?"
 msgstr ""
 
-#: includes/Admin.php:175
+#: includes/Admin.php:180
 msgid "Ok, you deserve it!"
 msgstr ""
 
-#: includes/Admin.php:179
+#: includes/Admin.php:184
 msgid "I already did"
 msgstr ""
 
-#: includes/Admin.php:186
+#: includes/Admin.php:191
 msgid "Maybe Later"
 msgstr ""
 
-#: includes/Admin.php:194
+#: includes/Admin.php:199
 msgid "I need help"
 msgstr ""
 
-#: includes/Admin.php:198
+#: includes/Admin.php:203
 msgid "Never show again"
 msgstr ""
 
-#: includes/Admin.php:220
+#: includes/Admin.php:225
 msgid "Enjoying <strong>SchedulePress</strong>? Why not check our <strong><a href=\"https://wpdeveloper.com/in/wp-scheduled-posts-pro\" target=\"_blank\">Pro version</a></strong> which will enable auto schedule, multi social account share and many more features! [<strong><a href=\"https://wpdeveloper.com/plugins/wp-scheduled-posts/\" target=\"_blank\">Learn More</a></strong>]"
 msgstr ""
 
-#: includes/Admin.php:413
+#: includes/Admin.php:449
 msgid "WPSP Logo"
 msgstr ""
 
-#: includes/Admin.php:431
+#: includes/Admin.php:467
 #: src/components/modals/ProPopup.js:22
 #: src/components/modals/socialTemplates/AICaptionDrawer.js:525
 msgid "Close"
 msgstr ""
 
 #. translators: 1: Post type name, 2: URL to SchedulePress settings page
-#: includes/Admin.php:445
+#: includes/Admin.php:481
 #, php-format
 msgid "Sorry, you can't schedule this <strong>%1$s</strong>. Please allow this post type from <a href=\"%2$s\" target=\"_blank\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:473
-#: src/components/Settings/ScheduleOn.js:226
+#: includes/Admin.php:509
+#: src/components/Settings/ScheduleOn.js:254
 msgid "Publish On"
 msgstr ""
 
-#: includes/Admin.php:490
+#: includes/Admin.php:526
 msgid "Next"
 msgstr ""
 
-#: includes/Admin.php:493
+#: includes/Admin.php:529
 msgid "Prev"
 msgstr ""
 
-#: includes/Admin.php:503
+#: includes/Admin.php:539
 msgid "Publish Post Immediately"
 msgstr ""
 
-#: includes/Admin.php:505
+#: includes/Admin.php:541
 #: includes/Social/InstantShare.php:370
 msgid "Share Now"
 msgstr ""
 
-#: includes/Admin.php:507
-#: includes/Admin.php:517
+#: includes/Admin.php:543
+#: includes/Admin.php:553
 msgid "Schedule"
 msgstr ""
 
-#: includes/Admin.php:508
-#: includes/Admin.php:510
-#: includes/Admin.php:519
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:401
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:415
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:517
+#: includes/Admin.php:544
+#: includes/Admin.php:546
+#: includes/Admin.php:555
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:405
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:419
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:521
 msgid "Update"
 msgstr ""
 
-#: includes/Admin.php:509
-#: includes/Admin.php:521
+#: includes/Admin.php:545
+#: includes/Admin.php:557
 msgid "Publish"
 msgstr ""
 
-#: includes/Admin.php:589
-#: includes/Admin.php:598
-#: includes/Admin.php:605
+#: includes/Admin.php:625
+#: includes/Admin.php:634
+#: includes/Admin.php:641
 msgid "Pro Feature"
 msgstr ""
 
-#: includes/Admin.php:590
+#: includes/Admin.php:626
 #: src/components/Settings/SchedulingOptions.js:23
 msgid "Unpublish On"
 msgstr ""
 
-#: includes/Admin.php:594
-#: includes/Admin.php:602
-#: includes/Admin.php:609
-#: includes/Social/Platforms.php:255
+#: includes/Admin.php:630
+#: includes/Admin.php:638
+#: includes/Admin.php:645
+#: includes/Social/Platforms.php:291
 msgid "PRO"
 msgstr ""
 
-#: includes/Admin.php:599
+#: includes/Admin.php:635
 #: src/components/Settings/SchedulingOptions.js:39
 msgid "Republish On"
 msgstr ""
 
-#: includes/Admin.php:606
-#: includes/Admin/Settings.php:193
-#: includes/Admin/Settings.php:1822
-#: includes/Admin/Settings.php:1843
+#: includes/Admin.php:642
+#: includes/Admin/Settings.php:194
+#: includes/Admin/Settings.php:1831
+#: includes/Admin/Settings.php:1852
 #: src/components/Settings/SchedulingOptions.js:58
 msgid "Advanced Schedule"
 msgstr ""
 
-#: includes/Admin.php:712
+#: includes/Admin.php:753
 #: includes/Social/InstantShare.php:102
 msgid "Choose Social Share Platform"
 msgstr ""
 
-#: includes/Admin.php:725
-#: includes/Admin.php:768
-#: includes/Admin.php:836
-#: includes/Admin.php:885
-#: includes/Admin.php:942
-#: includes/Admin.php:1005
-#: includes/Admin.php:1046
-#: includes/Admin.php:1086
+#: includes/Admin.php:766
+#: includes/Admin.php:809
+#: includes/Admin.php:875
+#: includes/Admin.php:924
+#: includes/Admin.php:981
+#: includes/Admin.php:1044
+#: includes/Admin.php:1085
+#: includes/Admin.php:1125
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Default"
 msgstr ""
 
-#: includes/Admin.php:727
-#: includes/Admin.php:770
-#: includes/Admin.php:839
-#: includes/Admin.php:888
-#: includes/Admin.php:944
-#: includes/Admin.php:1007
-#: includes/Admin.php:1048
-#: includes/Admin.php:1088
+#: includes/Admin.php:768
+#: includes/Admin.php:811
+#: includes/Admin.php:878
+#: includes/Admin.php:927
+#: includes/Admin.php:983
+#: includes/Admin.php:1046
+#: includes/Admin.php:1087
+#: includes/Admin.php:1127
 msgid "Custom"
 msgstr ""
 
 #. translators: 1: URL to the SchedulePress social profile settings page
 #. translators: %1$s: URL to the SchedulePress social profile settings page
-#: includes/Admin.php:748
 #: includes/Admin.php:789
-#: includes/Admin.php:862
-#: includes/Admin.php:911
-#: includes/Admin.php:924
-#: includes/Admin.php:988
-#: includes/Admin.php:1029
-#: includes/Admin.php:1069
-#: includes/Admin.php:1109
+#: includes/Admin.php:830
+#: includes/Admin.php:901
+#: includes/Admin.php:950
+#: includes/Admin.php:963
+#: includes/Admin.php:1027
+#: includes/Admin.php:1068
+#: includes/Admin.php:1108
+#: includes/Admin.php:1148
 #, php-format
 msgid "It seems you haven't connected any profile/page in your <a href=\"%1$s\">SchedulePress settings</a>."
 msgstr ""
 
-#: includes/Admin.php:809
+#: includes/Admin.php:850
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: src/components/Content/ShareNowStatusModal.js:34
 #: src/components/Content/ShareNowStatusModal.js:36
 msgid "Profile"
 msgstr ""
 
-#: includes/Admin.php:814
+#: includes/Admin.php:855
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: src/components/Content/ShareNowStatusModal.js:34
 msgid "Page"
 msgstr ""
 
-#: includes/Admin.php:851
+#: includes/Admin.php:890
 msgid "(Profile)"
 msgstr ""
 
-#: includes/Admin.php:900
+#: includes/Admin.php:939
 msgid "(Page)"
 msgstr ""
 
-#: includes/Admin.php:1283
+#: includes/Admin.php:1306
+#: includes/API/PostPanel.php:134
+msgid "Your role is not allowed to use SchedulePress."
+msgstr ""
+
+#: includes/Admin.php:1313
+#: includes/API/PostPanel.php:161
+#: includes/API/PostPanel.php:228
+msgid "You do not have permission to publish this post."
+msgstr ""
+
+#: includes/Admin.php:1345
 msgid "Your post successfully updated"
 msgstr ""
 
-#: includes/Admin.php:1461
+#: includes/Admin.php:1523
 msgid "Your post successfully published"
 msgstr ""
 
-#: includes/Admin.php:1472
+#: includes/Admin.php:1531
 msgid "Your post id is empty"
 msgstr ""
 
-#: includes/Admin.php:1499
+#: includes/Admin.php:1558
 msgid "Your post successfully scheduled"
 msgstr ""
 
-#: includes/Admin/Calendar.php:660
-#: includes/Admin/Calendar.php:846
-#: includes/Admin/Calendar.php:874
+#: includes/Admin/Calendar.php:686
+#: includes/Admin/Calendar.php:982
+#: includes/Admin/Calendar.php:1010
 msgid "Post type isn't allowed in Settings page."
 msgstr ""
 
-#: includes/Admin/Calendar.php:803
+#: includes/Admin/Calendar.php:852
 msgid "Type is required."
 msgstr ""
 
-#: includes/Admin/Calendar.php:806
-#: includes/Admin/Calendar.php:828
+#: includes/Admin/Calendar.php:855
+#: includes/Admin/Calendar.php:964
 #: includes/Social/SocialProfile.php:73
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/Admin/Calendar.php:897
+#: includes/Admin/Calendar.php:1033
 msgid "Advanced Schedule needs SchedulePress Pro."
+msgstr ""
+
+#: includes/Admin/CronHealth.php:96
+#: includes/Admin/CronHealth.php:108
+msgid "SchedulePress scheduled posts and shares run on time"
+msgstr ""
+
+#: includes/Admin/CronHealth.php:114
+msgid "Nothing scheduled with SchedulePress is waiting past its time."
+msgstr ""
+
+#: includes/Admin/CronHealth.php:121
+msgid "SchedulePress scheduled posts or shares are late"
+msgstr ""
+
+#: includes/Admin/CronHealth.php:126
+msgid "WP-Cron is turned off for SchedulePress"
+msgstr ""
+
+#: includes/Admin/CronHealth.php:127
+msgid "DISABLE_WP_CRON is on. Scheduled posts and shares only go out if a server cron job runs wp-cron.php. Nothing is late right now."
+msgstr ""
+
+#: includes/Admin/CronHealth.php:152
+msgid "SchedulePress:"
+msgstr ""
+
+#: includes/Admin/CronHealth.php:156
+msgid "Hide for a day"
+msgstr ""
+
+#. translators: %d: number of scheduled posts
+#: includes/Admin/CronHealth.php:185
+#, php-format
+msgid "%d scheduled post is late"
+msgid_plural "%d scheduled posts are late"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of queued social shares
+#: includes/Admin/CronHealth.php:189
+#, php-format
+msgid "%d social share is late"
+msgid_plural "%d social shares are late"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/Admin/CronHealth.php:192
+msgid "and"
+msgstr ""
+
+#: includes/Admin/CronHealth.php:194
+msgid "WP-Cron is turned off here, so check that your server cron job runs wp-cron.php."
+msgstr ""
+
+#: includes/Admin/CronHealth.php:195
+msgid "WP-Cron may not be running. It needs site visits, so a quiet or fully cached site can run late."
+msgstr ""
+
+#: includes/Admin/CronHealth.php:205
+msgid "How to run WP-Cron from the server"
 msgstr ""
 
 #: includes/Admin/Menu.php:61
 #: includes/Admin/Menu.php:64
-#: includes/Admin/Settings.php:426
+#: includes/Admin/Settings.php:435
 msgid "Calendar"
 msgstr ""
 
@@ -291,497 +897,496 @@ msgstr ""
 msgid "Heads up, Please backup before upgrade!"
 msgstr ""
 
-#: includes/Admin/Settings.php:140
+#: includes/Admin/Settings.php:141
 msgid "Layout"
 msgstr ""
 
-#: includes/Admin/Settings.php:162
+#: includes/Admin/Settings.php:163
 msgid "General"
 msgstr ""
 
-#: includes/Admin/Settings.php:178
+#: includes/Admin/Settings.php:179
 msgid "View All Features"
 msgstr ""
 
-#: includes/Admin/Settings.php:183
+#: includes/Admin/Settings.php:184
 msgid "Auto/Manual Scheduler"
 msgstr ""
 
-#: includes/Admin/Settings.php:188
+#: includes/Admin/Settings.php:189
 msgid "Missed Schedule Handler"
 msgstr ""
 
-#: includes/Admin/Settings.php:198
+#: includes/Admin/Settings.php:199
 msgid "Premium Support"
 msgstr ""
 
-#: includes/Admin/Settings.php:203
-#: includes/Admin/Settings.php:220
+#: includes/Admin/Settings.php:204
+#: includes/Admin/Settings.php:221
 msgid "Show Scheduled Posts in Dashboard Widget"
 msgstr ""
 
-#: includes/Admin/Settings.php:211
+#: includes/Admin/Settings.php:212
 msgid "General Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:227
+#: includes/Admin/Settings.php:228
 msgid "Show Scheduled Posts in Sitewide Admin Bar"
 msgstr ""
 
-#: includes/Admin/Settings.php:234
+#: includes/Admin/Settings.php:235
 msgid "Show Scheduled Posts in Admin Bar"
 msgstr ""
 
-#: includes/Admin/Settings.php:240
-#: includes/Admin/Settings.php:405
+#: includes/Admin/Settings.php:241
+#: includes/Admin/Settings.php:414
 msgid "Show Post Types:"
 msgstr ""
 
-#: includes/Admin/Settings.php:250
+#: includes/Admin/Settings.php:251
 msgid "Allow Taxonomy as Tags:"
 msgstr ""
 
-#: includes/Admin/Settings.php:260
+#: includes/Admin/Settings.php:261
 msgid "Show Categories:"
 msgstr ""
 
-#: includes/Admin/Settings.php:269
+#: includes/Admin/Settings.php:270
 msgid "Allow users:"
 msgstr ""
 
-#: includes/Admin/Settings.php:280
+#: includes/Admin/Settings.php:281
 msgid "Calendar Default Schedule Time:"
 msgstr ""
 
-#: includes/Admin/Settings.php:288
+#: includes/Admin/Settings.php:289
 msgid "Custom item template for scheduled posts list in the admin bar:"
 msgstr ""
 
-#: includes/Admin/Settings.php:299
+#: includes/Admin/Settings.php:300
 msgid "Item template:"
 msgstr ""
 
-#: includes/Admin/Settings.php:301
+#: includes/Admin/Settings.php:302
 msgid "For item template use %TITLE% for the post title, %AUTHOR% for post author, and %DATE% for post scheduled date-time. You can use HTML tags with styles also."
 msgstr ""
 
-#: includes/Admin/Settings.php:308
+#: includes/Admin/Settings.php:309
 msgid "Title length:"
 msgstr ""
 
-#: includes/Admin/Settings.php:316
+#: includes/Admin/Settings.php:317
 msgid "Date format:"
 msgstr ""
 
-#: includes/Admin/Settings.php:325
+#: includes/Admin/Settings.php:326
 msgid "Show Publish Post Immediately Button"
 msgstr ""
 
-#: includes/Admin/Settings.php:327
+#: includes/Admin/Settings.php:328
 msgid "Immediately Publish Button only shows for Scheduled Post, after Enabling this option"
 msgstr ""
 
-#: includes/Admin/Settings.php:333
+#: includes/Admin/Settings.php:334
+msgid "Add UTM Tags to Shared Links"
+msgstr ""
+
+#: includes/Admin/Settings.php:336
+msgid "Adds utm_source (the network), utm_medium=social and utm_campaign=schedulepress to the link of each social share, so Google Analytics shows which network sent the visit. A link that already has UTM tags is left as it is."
+msgstr ""
+
+#: includes/Admin/Settings.php:342
 msgid "Show Scheduled Posts in Elementor"
 msgstr ""
 
-#: includes/Admin/Settings.php:340
+#: includes/Admin/Settings.php:349
 msgid "Show Elementor Section Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:343
+#: includes/Admin/Settings.php:352
 msgid "Schedule any Section of a Page/Post in Elementor with SchedulePress"
 msgstr ""
 
-#: includes/Admin/Settings.php:344
-#: includes/Admin/Settings.php:352
-#: includes/Admin/Settings.php:360
-#: includes/Admin/Settings.php:388
-#: includes/Admin/Settings.php:398
+#: includes/Admin/Settings.php:353
+#: includes/Admin/Settings.php:361
+#: includes/Admin/Settings.php:369
+#: includes/Admin/Settings.php:397
+#: includes/Admin/Settings.php:407
 msgid "Upgrade to Premium"
 msgstr ""
 
-#: includes/Admin/Settings.php:350
+#: includes/Admin/Settings.php:359
 msgid "Post Republish and Unpublish"
 msgstr ""
 
-#: includes/Admin/Settings.php:359
+#: includes/Admin/Settings.php:368
 msgid "Active Republish Social Share"
 msgstr ""
 
-#: includes/Admin/Settings.php:377
+#: includes/Admin/Settings.php:386
 msgid "Enhanced Post Publishing and Sharing Options:"
 msgstr ""
 
-#: includes/Admin/Settings.php:387
+#: includes/Admin/Settings.php:396
 msgid "Publish Now with Future Date"
 msgstr ""
 
-#: includes/Admin/Settings.php:389
+#: includes/Admin/Settings.php:398
 msgid "Toggle to enable the option to publish the post now while showing your selected future date."
 msgstr ""
 
-#: includes/Admin/Settings.php:397
+#: includes/Admin/Settings.php:406
 msgid "Auto-Share upon Publishing"
 msgstr ""
 
-#: includes/Admin/Settings.php:453
-#: includes/Admin/Settings.php:459
+#: includes/Admin/Settings.php:462
+#: includes/Admin/Settings.php:468
 msgid "Email Notify"
 msgstr ""
 
-#: includes/Admin/Settings.php:460
+#: includes/Admin/Settings.php:469
 msgid "To configure Email Notify Settings, check out this <a href=\"https://wpdeveloper.com/docs/email-notification-wordpress\" target=\"_blank\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:474
+#: includes/Admin/Settings.php:483
 msgid "Notify User when a post is \"Under Review\""
 msgstr ""
 
-#: includes/Admin/Settings.php:480
-#: includes/Admin/Settings.php:544
+#: includes/Admin/Settings.php:489
+#: includes/Admin/Settings.php:553
 msgid "Role:"
 msgstr ""
 
-#: includes/Admin/Settings.php:493
-#: includes/Admin/Settings.php:558
+#: includes/Admin/Settings.php:502
+#: includes/Admin/Settings.php:567
 msgid "Username:"
 msgstr ""
 
-#: includes/Admin/Settings.php:506
-#: includes/Admin/Settings.php:572
+#: includes/Admin/Settings.php:515
+#: includes/Admin/Settings.php:581
 msgid "Email:"
 msgstr ""
 
-#: includes/Admin/Settings.php:522
+#: includes/Admin/Settings.php:531
 msgid "Notify Author when a post is \"Rejected\""
 msgstr ""
 
-#: includes/Admin/Settings.php:537
+#: includes/Admin/Settings.php:546
 msgid "Notify User when a post is \"Scheduled\""
 msgstr ""
 
-#: includes/Admin/Settings.php:588
+#: includes/Admin/Settings.php:597
 msgid "Notify Author when a Scheduled Post is \"Published\""
 msgstr ""
 
-#: includes/Admin/Settings.php:595
+#: includes/Admin/Settings.php:604
 msgid "Notify Author when a post is \"Published\""
 msgstr ""
 
-#: includes/Admin/Settings.php:606
-#: includes/Admin/Settings.php:613
+#: includes/Admin/Settings.php:615
+#: includes/Admin/Settings.php:622
 msgid "Social Profile"
 msgstr ""
 
-#: includes/Admin/Settings.php:621
-#: includes/Admin/Settings.php:843
+#: includes/Admin/Settings.php:630
+#: includes/Admin/Settings.php:852
+#: includes/Social/Facebook.php:485
 #: includes/Social/InstantShare.php:113
 msgid "Facebook"
 msgstr ""
 
 #. translators: %s is the URL of the documentation page for configuring Facebook Social Profile.
-#: includes/Admin/Settings.php:625
+#: includes/Admin/Settings.php:634
 #, php-format
 msgid "You can enable/disable Facebook social share. To configure Facebook Social Profile, check out this <a target=\"_blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:628
+#: includes/Admin/Settings.php:637
 msgid "Copy this and paste it in your facebook app Callback url field."
 msgstr ""
 
 #. translators: 1: URL of the documentation page for Facebook configuration. 2: URL of the Facebook Developers page to retrieve API keys.
-#: includes/Admin/Settings.php:634
+#: includes/Admin/Settings.php:643
 #, php-format
 msgid "For details on Facebook configuration, check out this <a target=\"_blank\" href=\"%1$s\">Doc</a>.<br> <a target=\"_blank\" href=\"%2$s\">Click here</a> to Retrieve Your API Keys from your Facebook account."
 msgstr ""
 
-#: includes/Admin/Settings.php:645
-#: includes/Admin/Settings.php:964
+#: includes/Admin/Settings.php:654
+#: includes/Admin/Settings.php:973
 #: includes/Social/InstantShare.php:131
 msgid "Twitter"
 msgstr ""
 
 #. translators: %s is the URL of the documentation page for configuring Twitter Social Profile.
-#: includes/Admin/Settings.php:650
+#: includes/Admin/Settings.php:659
 #, php-format
 msgid "You can enable/disable Twitter social share. To configure Twitter Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:655
+#: includes/Admin/Settings.php:664
 msgid "Copy this and paste it in your twitter app Callback url field."
 msgstr ""
 
 #. translators: 1: URL of the documentation page for Twitter configuration. 2: URL of the Twitter Developers page to retrieve API keys.
-#: includes/Admin/Settings.php:661
+#: includes/Admin/Settings.php:670
 #, php-format
 msgid "For details on Twitter configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Twitter account."
 msgstr ""
 
-#: includes/Admin/Settings.php:672
-#: includes/Admin/Settings.php:1062
+#: includes/Admin/Settings.php:681
+#: includes/Admin/Settings.php:1071
 msgid "LinkedIn"
 msgstr ""
 
 #. translators: %s: Link to documentation for LinkedIn social share
-#: includes/Admin/Settings.php:676
+#: includes/Admin/Settings.php:685
 #, php-format
 msgid "You can enable/disable LinkedIn social share. To configure LinkedIn Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:679
+#: includes/Admin/Settings.php:688
 msgid "Copy this and paste it in your linkedin app Callback url field."
 msgstr ""
 
 #. translators: 1: Link to documentation for LinkedIn configuration, 2: Link to LinkedIn developer portal
-#: includes/Admin/Settings.php:681
+#: includes/Admin/Settings.php:690
 #, php-format
 msgid "For details on LinkedIn configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your LinkedIn account."
 msgstr ""
 
-#: includes/Admin/Settings.php:689
-#: includes/Admin/Settings.php:1173
+#: includes/Admin/Settings.php:698
+#: includes/Admin/Settings.php:1182
 #: includes/Social/InstantShare.php:176
 msgid "Pinterest"
 msgstr ""
 
 #. translators: %s: Link to documentation for Pinterest social share
-#: includes/Admin/Settings.php:693
+#: includes/Admin/Settings.php:702
 #, php-format
 msgid "You can enable/disable Pinterest social share. To configure Pinterest Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:696
+#: includes/Admin/Settings.php:705
 msgid "Add this URL in the Redirect URLs field of your Pinterest app."
 msgstr ""
 
 #. translators: 1: Link to documentation for Pinterest configuration, 2: Link to Pinterest developer portal
-#: includes/Admin/Settings.php:698
+#: includes/Admin/Settings.php:707
 #, php-format
 msgid "For details on Pinterest configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Pinterest account."
 msgstr ""
 
-#: includes/Admin/Settings.php:706
-#: includes/Admin/Settings.php:1272
+#: includes/Admin/Settings.php:715
+#: includes/Admin/Settings.php:1281
+#: includes/Social/Facebook.php:485
 #: includes/Social/InstantShare.php:227
 msgid "Instagram"
 msgstr ""
 
 #. translators: %s: Link to documentation for Instagram social share
-#: includes/Admin/Settings.php:710
+#: includes/Admin/Settings.php:719
 #, php-format
 msgid "You can enable/disable Instagram social share. To configure Instagram Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:713
-msgid "Add this URL in the Redirect URLs field of your Instagram app."
+#: includes/Admin/Settings.php:722
+msgid "Add this URL as the redirect URL of your Meta app's Unified Login configuration, and to Facebook Login for Business › Valid OAuth Redirect URIs."
 msgstr ""
 
 #. translators: 1: Link to documentation for Instagram configuration, 2: Link to Facebook developer portal
-#: includes/Admin/Settings.php:715
+#: includes/Admin/Settings.php:724
 #, php-format
 msgid "For details on Instagram configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Instagram account."
 msgstr ""
 
-#: includes/Admin/Settings.php:723
-#: includes/Admin/Settings.php:1362
+#: includes/Admin/Settings.php:732
+#: includes/Admin/Settings.php:1371
 #: includes/Social/InstantShare.php:248
 msgid "Medium"
 msgstr ""
 
 #. translators: %s: Link to documentation for Medium social share
-#: includes/Admin/Settings.php:727
+#: includes/Admin/Settings.php:736
 #, php-format
 msgid "You can enable/disable Medium social share. To configure Medium Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:730
-#: includes/Admin/Settings.php:747
+#: includes/Admin/Settings.php:739
+#: includes/Admin/Settings.php:756
 msgid "Add this URL in the Redirect URLs field of your Medium app."
 msgstr ""
 
 #. translators: 1: Link to documentation for Medium configuration, 2: Link to Medium settings
-#: includes/Admin/Settings.php:732
+#: includes/Admin/Settings.php:741
 #, php-format
-msgid "For details on Medium configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Medium account."
+msgid "Medium no longer issues new integration tokens, so only an account that already has one can connect. For details on Medium configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to find your existing integration token in your Medium settings."
 msgstr ""
 
-#: includes/Admin/Settings.php:740
-#: includes/Admin/Settings.php:1452
+#: includes/Admin/Settings.php:749
+#: includes/Admin/Settings.php:1461
 #: includes/Social/InstantShare.php:268
 msgid "Threads"
 msgstr ""
 
 #. translators: %s: Link to documentation for Threads social share
-#: includes/Admin/Settings.php:744
+#: includes/Admin/Settings.php:753
 #, php-format
 msgid "You can enable/disable Threads social share. To configure Threads Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
 #. translators: 1: Link to documentation for Threads configuration, 2: Link to Facebook developer portal
-#: includes/Admin/Settings.php:749
+#: includes/Admin/Settings.php:758
 #, php-format
 msgid "For details on Threads configuration, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to Retrieve Your API Keys from your Threads account."
 msgstr ""
 
-#: includes/Admin/Settings.php:762
-#: includes/Social/Platforms.php:273
+#: includes/Admin/Settings.php:771
+#: includes/Social/Platforms.php:309
 msgid "Google Business Profile"
 msgstr ""
 
 #. translators: %s: Link to documentation for Google Business Profile social share
-#: includes/Admin/Settings.php:767
+#: includes/Admin/Settings.php:776
 #, php-format
 msgid "Share your posts to Google Business Profile automatically with SchedulePress Pro. <a target=\"__blank\" href=\"%s\">Learn more</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:774
-#: includes/Admin/Settings.php:1541
+#: includes/Admin/Settings.php:783
+#: includes/Admin/Settings.php:1550
 #: includes/Social/InstantShare.php:288
 msgid "Bluesky"
 msgstr ""
 
 #. translators: %s: Link to documentation for Bluesky social share
-#: includes/Admin/Settings.php:778
+#: includes/Admin/Settings.php:787
 #, php-format
 msgid "You can enable/disable Bluesky social share. To configure your Bluesky Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:781
+#: includes/Admin/Settings.php:790
 msgid "Connect using your Bluesky handle and an App Password."
 msgstr ""
 
 #. translators: 1: Link to documentation for Bluesky configuration, 2: Link to Bluesky App Passwords settings
-#: includes/Admin/Settings.php:783
+#: includes/Admin/Settings.php:792
 #, php-format
 msgid "Enter your Bluesky handle (e.g. <strong>name.bsky.social</strong>) and an <strong>App Password</strong>. For details, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to create an App Password from your Bluesky account settings."
 msgstr ""
 
-#: includes/Admin/Settings.php:791
-#: includes/Admin/Settings.php:1631
+#: includes/Admin/Settings.php:800
+#: includes/Admin/Settings.php:1640
 #: includes/Social/InstantShare.php:308
 msgid "Mastodon"
 msgstr ""
 
 #. translators: %s: Link to documentation for Mastodon social share
-#: includes/Admin/Settings.php:795
+#: includes/Admin/Settings.php:804
 #, php-format
 msgid "You can enable/disable Mastodon social share. To configure your Mastodon Social Profile, check out this <a target=\"__blank\" href=\"%s\">Doc</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:798
+#: includes/Admin/Settings.php:807
 msgid "Copy this and paste it in your mastodon app Callback url field."
 msgstr ""
 
 #. translators: 1: Link to documentation for Mastodon configuration, 2: Link to the Mastodon docs on creating an access token
-#: includes/Admin/Settings.php:800
+#: includes/Admin/Settings.php:809
 #, php-format
 msgid "Enter your Mastodon instance URL (e.g. <strong>https://mastodon.social</strong>) and an <strong>access token</strong>. For details, check out this <a href=\"%1$s\" target=\"_blank\">Doc</a>.<br> <a href=\"%2$s\" target=\"_blank\">Click here</a> to create a token from <strong>Preferences &rarr; Development</strong>."
 msgstr ""
 
-#: includes/Admin/Settings.php:813
-#: includes/Admin/Settings.php:820
+#: includes/Admin/Settings.php:822
+#: includes/Admin/Settings.php:829
 msgid "Social Templates"
 msgstr ""
 
-#: includes/Admin/Settings.php:850
+#: includes/Admin/Settings.php:859
 msgid "Facebook Status Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Facebook configuration
-#: includes/Admin/Settings.php:853
+#: includes/Admin/Settings.php:862
 #, php-format
 msgid "To configure the Facebook Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:866
+#: includes/Admin/Settings.php:875
 msgid "Facebook Meta Data"
 msgstr ""
 
-#: includes/Admin/Settings.php:867
+#: includes/Admin/Settings.php:876
 msgid "Add Open Graph metadata to your site head section and other social networks use this data when your pages are shared."
 msgstr ""
 
-#: includes/Admin/Settings.php:872
-#: includes/Admin/Settings.php:1081
+#: includes/Admin/Settings.php:881
+#: includes/Admin/Settings.php:1090
 msgid "Content Type:"
 msgstr ""
 
-#: includes/Admin/Settings.php:879
-#: includes/Admin/Settings.php:1088
+#: includes/Admin/Settings.php:888
+#: includes/Admin/Settings.php:1097
 msgid "Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:883
-#: includes/Admin/Settings.php:1092
+#: includes/Admin/Settings.php:892
+#: includes/Admin/Settings.php:1101
 msgid "Status"
 msgstr ""
 
-#: includes/Admin/Settings.php:887
+#: includes/Admin/Settings.php:896
 msgid "Status + Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:896
-#: includes/Admin/Settings.php:995
-#: includes/Admin/Settings.php:1105
-#: includes/Admin/Settings.php:1205
-#: includes/Admin/Settings.php:1295
-#: includes/Admin/Settings.php:1385
-#: includes/Admin/Settings.php:1475
-#: includes/Admin/Settings.php:1564
-#: includes/Admin/Settings.php:1654
+#: includes/Admin/Settings.php:905
+#: includes/Admin/Settings.php:1004
+#: includes/Admin/Settings.php:1114
+#: includes/Admin/Settings.php:1214
+#: includes/Admin/Settings.php:1304
+#: includes/Admin/Settings.php:1394
+#: includes/Admin/Settings.php:1484
+#: includes/Admin/Settings.php:1573
+#: includes/Admin/Settings.php:1663
 msgid "The categories you select will be used as tags."
 msgstr ""
 
-#: includes/Admin/Settings.php:897
-#: includes/Admin/Settings.php:996
-#: includes/Admin/Settings.php:1106
-#: includes/Admin/Settings.php:1204
-#: includes/Admin/Settings.php:1294
-#: includes/Admin/Settings.php:1384
-#: includes/Admin/Settings.php:1474
-#: includes/Admin/Settings.php:1563
-#: includes/Admin/Settings.php:1653
+#: includes/Admin/Settings.php:906
+#: includes/Admin/Settings.php:1005
+#: includes/Admin/Settings.php:1115
+#: includes/Admin/Settings.php:1213
+#: includes/Admin/Settings.php:1303
+#: includes/Admin/Settings.php:1393
+#: includes/Admin/Settings.php:1483
+#: includes/Admin/Settings.php:1572
+#: includes/Admin/Settings.php:1662
 msgid "Add Category as tags"
 msgstr ""
 
-#: includes/Admin/Settings.php:902
-#: includes/Admin/Settings.php:1009
-#: includes/Admin/Settings.php:1111
-#: includes/Admin/Settings.php:1210
-#: includes/Admin/Settings.php:1300
-#: includes/Admin/Settings.php:1390
-#: includes/Admin/Settings.php:1480
-#: includes/Admin/Settings.php:1578
-#: includes/Admin/Settings.php:1668
+#: includes/Admin/Settings.php:911
+#: includes/Admin/Settings.php:1018
+#: includes/Admin/Settings.php:1120
+#: includes/Admin/Settings.php:1219
+#: includes/Admin/Settings.php:1309
+#: includes/Admin/Settings.php:1399
+#: includes/Admin/Settings.php:1489
+#: includes/Admin/Settings.php:1587
+#: includes/Admin/Settings.php:1677
 msgid "Content Source:"
 msgstr ""
 
-#: includes/Admin/Settings.php:909
-#: includes/Admin/Settings.php:1016
-#: includes/Admin/Settings.php:1118
-#: includes/Admin/Settings.php:1217
-#: includes/Admin/Settings.php:1307
-#: includes/Admin/Settings.php:1397
-#: includes/Admin/Settings.php:1487
-#: includes/Admin/Settings.php:1585
-#: includes/Admin/Settings.php:1675
+#: includes/Admin/Settings.php:918
+#: includes/Admin/Settings.php:1025
+#: includes/Admin/Settings.php:1127
+#: includes/Admin/Settings.php:1226
+#: includes/Admin/Settings.php:1316
+#: includes/Admin/Settings.php:1406
+#: includes/Admin/Settings.php:1496
+#: includes/Admin/Settings.php:1594
+#: includes/Admin/Settings.php:1684
 msgid "Excerpt"
 msgstr ""
 
-#: includes/Admin/Settings.php:913
-#: includes/Admin/Settings.php:1020
-#: includes/Admin/Settings.php:1122
-#: includes/Admin/Settings.php:1221
-#: includes/Admin/Settings.php:1311
-#: includes/Admin/Settings.php:1401
-#: includes/Admin/Settings.php:1491
-#: includes/Admin/Settings.php:1589
-#: includes/Admin/Settings.php:1679
-msgid "Content"
-msgstr ""
-
 #: includes/Admin/Settings.php:922
+#: includes/Admin/Settings.php:1029
 #: includes/Admin/Settings.php:1131
 #: includes/Admin/Settings.php:1230
 #: includes/Admin/Settings.php:1320
@@ -789,7 +1394,7 @@ msgstr ""
 #: includes/Admin/Settings.php:1500
 #: includes/Admin/Settings.php:1598
 #: includes/Admin/Settings.php:1688
-msgid "Status Template Settings"
+msgid "Content"
 msgstr ""
 
 #: includes/Admin/Settings.php:931
@@ -800,301 +1405,312 @@ msgstr ""
 #: includes/Admin/Settings.php:1509
 #: includes/Admin/Settings.php:1607
 #: includes/Admin/Settings.php:1697
+msgid "Status Template Settings"
+msgstr ""
+
+#: includes/Admin/Settings.php:940
+#: includes/Admin/Settings.php:1149
+#: includes/Admin/Settings.php:1248
+#: includes/Admin/Settings.php:1338
+#: includes/Admin/Settings.php:1428
+#: includes/Admin/Settings.php:1518
+#: includes/Admin/Settings.php:1616
+#: includes/Admin/Settings.php:1706
 msgid "Status Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:935
+#: includes/Admin/Settings.php:944
 msgid "Max: 63206"
 msgstr ""
 
-#: includes/Admin/Settings.php:941
-#: includes/Admin/Settings.php:1039
-#: includes/Admin/Settings.php:1150
-#: includes/Admin/Settings.php:1249
-#: includes/Admin/Settings.php:1339
-#: includes/Admin/Settings.php:1429
-#: includes/Admin/Settings.php:1519
-#: includes/Admin/Settings.php:1617
-#: includes/Admin/Settings.php:1707
+#: includes/Admin/Settings.php:950
+#: includes/Admin/Settings.php:1048
+#: includes/Admin/Settings.php:1159
+#: includes/Admin/Settings.php:1258
+#: includes/Admin/Settings.php:1348
+#: includes/Admin/Settings.php:1438
+#: includes/Admin/Settings.php:1528
+#: includes/Admin/Settings.php:1626
+#: includes/Admin/Settings.php:1716
 msgid "How often to share a post?"
 msgstr ""
 
-#: includes/Admin/Settings.php:944
-#: includes/Admin/Settings.php:1042
-#: includes/Admin/Settings.php:1153
-#: includes/Admin/Settings.php:1252
-#: includes/Admin/Settings.php:1342
-#: includes/Admin/Settings.php:1432
-#: includes/Admin/Settings.php:1522
-#: includes/Admin/Settings.php:1620
-#: includes/Admin/Settings.php:1710
+#: includes/Admin/Settings.php:953
+#: includes/Admin/Settings.php:1051
+#: includes/Admin/Settings.php:1162
+#: includes/Admin/Settings.php:1261
+#: includes/Admin/Settings.php:1351
+#: includes/Admin/Settings.php:1441
+#: includes/Admin/Settings.php:1531
+#: includes/Admin/Settings.php:1629
+#: includes/Admin/Settings.php:1719
 msgid "Keep zero for no limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:950
-#: includes/Admin/Settings.php:1348
+#: includes/Admin/Settings.php:959
+#: includes/Admin/Settings.php:1357
 msgid "Remove CSS from content"
 msgstr ""
 
 #. translators: %s: Link to documentation for Twitter configuration
-#: includes/Admin/Settings.php:973
+#: includes/Admin/Settings.php:982
 #, php-format
 msgid "To configure the Twitter Tweet Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:974
+#: includes/Admin/Settings.php:983
 msgid "Twitter Tweet Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:986
+#: includes/Admin/Settings.php:995
 msgid "Tweet Template Settings"
 msgstr ""
 
-#: includes/Admin/Settings.php:987
+#: includes/Admin/Settings.php:996
 msgid "Define how to share the content on Twitter by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1004
+#: includes/Admin/Settings.php:1013
 msgid "Show Post Thumbnail"
 msgstr ""
 
-#: includes/Admin/Settings.php:1029
+#: includes/Admin/Settings.php:1038
 msgid "Tweet Limit"
 msgstr ""
 
-#: includes/Admin/Settings.php:1033
+#: includes/Admin/Settings.php:1042
 msgid "Max: 280"
 msgstr ""
 
-#: includes/Admin/Settings.php:1069
+#: includes/Admin/Settings.php:1078
 msgid "LinkedIn Status Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for LinkedIn configuration
-#: includes/Admin/Settings.php:1071
+#: includes/Admin/Settings.php:1080
 #, php-format
 msgid "To configure the LinkedIn Status Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1096
+#: includes/Admin/Settings.php:1105
 msgid "Media"
 msgstr ""
 
-#: includes/Admin/Settings.php:1133
+#: includes/Admin/Settings.php:1142
 msgid "Define how to share the content on LinkedIn by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1144
+#: includes/Admin/Settings.php:1153
 msgid "Max: 1300"
 msgstr ""
 
-#: includes/Admin/Settings.php:1180
+#: includes/Admin/Settings.php:1189
 msgid "Pinterest Pin Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Pinterest configuration
-#: includes/Admin/Settings.php:1182
+#: includes/Admin/Settings.php:1191
 #, php-format
 msgid "To configure the Pinterest Pin Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1195
+#: includes/Admin/Settings.php:1204
 msgid "Add Image Link"
 msgstr ""
 
-#: includes/Admin/Settings.php:1196
+#: includes/Admin/Settings.php:1205
 msgid "Enable if you want to add the Image link on Pinterest. "
 msgstr ""
 
-#: includes/Admin/Settings.php:1231
+#: includes/Admin/Settings.php:1240
 msgid "Define how to share the content on Pinterest by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1243
-#: includes/Admin/Settings.php:1701
+#: includes/Admin/Settings.php:1252
+#: includes/Admin/Settings.php:1710
 msgid "Max: 500"
 msgstr ""
 
-#: includes/Admin/Settings.php:1279
+#: includes/Admin/Settings.php:1288
 msgid "Instagram Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Instagram configuration
-#: includes/Admin/Settings.php:1281
+#: includes/Admin/Settings.php:1290
 #, php-format
 msgid "To configure the Instagram Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1321
-#: includes/Admin/Settings.php:1411
-#: includes/Admin/Settings.php:1501
+#: includes/Admin/Settings.php:1330
+#: includes/Admin/Settings.php:1420
+#: includes/Admin/Settings.php:1510
 msgid "Define how to share the content on Instagram by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1333
+#: includes/Admin/Settings.php:1342
 msgid "Max: 2100"
 msgstr ""
 
-#: includes/Admin/Settings.php:1369
+#: includes/Admin/Settings.php:1378
 msgid "Medium Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Medium configuration
-#: includes/Admin/Settings.php:1371
+#: includes/Admin/Settings.php:1380
 #, php-format
 msgid "To configure the Medium Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1423
+#: includes/Admin/Settings.php:1432
 msgid "Max: 45000"
 msgstr ""
 
-#: includes/Admin/Settings.php:1459
+#: includes/Admin/Settings.php:1468
 msgid "Threads Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Threads configuration
-#: includes/Admin/Settings.php:1461
+#: includes/Admin/Settings.php:1470
 #, php-format
 msgid "To configure the Threads Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1513
+#: includes/Admin/Settings.php:1522
 msgid "Max: 480"
 msgstr ""
 
-#: includes/Admin/Settings.php:1548
+#: includes/Admin/Settings.php:1557
 msgid "Bluesky Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Bluesky configuration
-#: includes/Admin/Settings.php:1550
+#: includes/Admin/Settings.php:1559
 #, php-format
 msgid "To configure the Bluesky Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1572
-#: includes/Admin/Settings.php:1662
+#: includes/Admin/Settings.php:1581
+#: includes/Admin/Settings.php:1671
 msgid "Show Featured Image"
 msgstr ""
 
-#: includes/Admin/Settings.php:1573
+#: includes/Admin/Settings.php:1582
 msgid "Attach the featured image to the Bluesky post."
 msgstr ""
 
-#: includes/Admin/Settings.php:1599
+#: includes/Admin/Settings.php:1608
 msgid "Define how to share the content on Bluesky by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1611
+#: includes/Admin/Settings.php:1620
 msgid "Max: 300"
 msgstr ""
 
-#: includes/Admin/Settings.php:1638
+#: includes/Admin/Settings.php:1647
 msgid "Mastodon Settings"
 msgstr ""
 
 #. translators: %s: Link to documentation for Mastodon configuration
-#: includes/Admin/Settings.php:1640
+#: includes/Admin/Settings.php:1649
 #, php-format
 msgid "To configure the Mastodon Settings, check out this <a target=\"_blank\" href=\"%s\">Doc.</a>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1663
+#: includes/Admin/Settings.php:1672
 msgid "Attach the featured image to the Mastodon post."
 msgstr ""
 
-#: includes/Admin/Settings.php:1689
+#: includes/Admin/Settings.php:1698
 msgid "Define how to share the content on Mastodon by setting the template. <strong>Default Structure: {title}{content}{url}{tags}</strong>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1721
+#: includes/Admin/Settings.php:1730
 msgid "Google Business"
 msgstr ""
 
-#: includes/Admin/Settings.php:1732
+#: includes/Admin/Settings.php:1741
 msgid "Google Business Settings"
 msgstr ""
 
 #. translators: %s: SchedulePress pricing page
-#: includes/Admin/Settings.php:1741
+#: includes/Admin/Settings.php:1750
 #, php-format
 msgid "<p>Google Business Profile templates are part of SchedulePress Pro. <a target=\"_blank\" href=\"%s\">Check pricing plans</a> to share your posts there automatically.</p>"
 msgstr ""
 
-#: includes/Admin/Settings.php:1756
+#: includes/Admin/Settings.php:1765
 msgid "Write With AI"
 msgstr ""
 
-#: includes/Admin/Settings.php:1763
+#: includes/Admin/Settings.php:1772
 msgid "AI Caption Writing"
 msgstr ""
 
-#: includes/Admin/Settings.php:1764
+#: includes/Admin/Settings.php:1773
 msgid "Connect your OpenAI account to instantly generate highly engaging social media captions right from your editor."
 msgstr ""
 
-#: includes/Admin/Settings.php:1772
+#: includes/Admin/Settings.php:1781
 msgid "OpenAI API Key"
 msgstr ""
 
-#: includes/Admin/Settings.php:1783
+#: includes/Admin/Settings.php:1792
 msgid "Scheduling Hub"
 msgstr ""
 
-#: includes/Admin/Settings.php:1844
+#: includes/Admin/Settings.php:1853
 msgid "Enable to get options of scheduling a published post while updating it."
 msgstr ""
 
-#: includes/Admin/Settings.php:1854
+#: includes/Admin/Settings.php:1863
 msgid "Get options to set the published post status when scheduling it. Keep the post published and the updated content will be published according to schedule, or move the post to Draft until it is published."
 msgstr ""
 
-#: includes/Admin/Settings.php:1862
-#: includes/Admin/Settings.php:2000
+#: includes/Admin/Settings.php:1871
+#: includes/Admin/Settings.php:2009
 msgid "Read Detailed Documentation:"
 msgstr ""
 
-#: includes/Admin/Settings.php:1866
+#: includes/Admin/Settings.php:1875
 msgid "How To Configure SchedulerPress Advanced Schedule In Elementor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1871
+#: includes/Admin/Settings.php:1880
 msgid "How To Configure SchedulerPress Advanced Schedule In Gutenberg?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1876
+#: includes/Admin/Settings.php:1885
 msgid "How to Configure SchedulePress Advanced Schedule in Classic Editor?"
 msgstr ""
 
-#: includes/Admin/Settings.php:1894
-#: includes/Admin/Settings.php:2025
+#: includes/Admin/Settings.php:1903
+#: includes/Admin/Settings.php:2034
 msgid "Watch The Video Walkthrough"
 msgstr ""
 
-#: includes/Admin/Settings.php:1910
+#: includes/Admin/Settings.php:1919
 #: src/components/Settings/ManageSchedule.js:12
 msgid "Manage Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1958
-#: includes/Admin/Settings.php:1980
+#: includes/Admin/Settings.php:1967
+#: includes/Admin/Settings.php:1989
 msgid "Missed Schedule"
 msgstr ""
 
-#: includes/Admin/Settings.php:1981
+#: includes/Admin/Settings.php:1990
 msgid "Enable to publish posts randomly"
 msgstr ""
 
-#: includes/Admin/Settings.php:1992
+#: includes/Admin/Settings.php:2001
 msgid "WordPress might miss the schedule for a post for various reasons. Turn on this option to let SchedulePress take care of this and publish the missed schedule."
 msgstr ""
 
-#: includes/Admin/Settings.php:2004
+#: includes/Admin/Settings.php:2013
 msgid "How To Manage The Missed Schedule Error In WordPress?"
 msgstr ""
 
-#: includes/Admin/Settings.php:2008
+#: includes/Admin/Settings.php:2017
 msgid "How To Configure SchedulePress To Handle Missed Schedule Errors?"
 msgstr ""
 
@@ -1102,89 +1718,89 @@ msgstr ""
 msgid "We can't detect any plugin information. This is most probably because you have not included the code in the plugin main file."
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:709
+#: includes/Admin/WPDev/PluginUsageTracker.php:733
 msgid "Thank you for installing our plugin. We would like to track its usage on your site. We don't record any sensitive data, only information regarding the WordPress environment and plugin settings, which we will use to help us make improvements to the plugin. Tracking is completely optional."
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:712
+#: includes/Admin/WPDev/PluginUsageTracker.php:736
 msgid "Want to help make <strong>SchedulePress</strong> even more awesome? You can get a <strong>10% discount coupon</strong> for Pro upgrade if you allow. <a class=\"insights-data-we-collect\" href=\"#\">What we collect.</a>"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:721
+#: includes/Admin/WPDev/PluginUsageTracker.php:745
 msgid "We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise."
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:725
+#: includes/Admin/WPDev/PluginUsageTracker.php:749
 msgid "Sure, I'd like to help"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:726
+#: includes/Admin/WPDev/PluginUsageTracker.php:750
 msgid "No Thanks"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:766
+#: includes/Admin/WPDev/PluginUsageTracker.php:790
 msgid "Thank you for opting in to tracking. Would you like to receive occasional news about this plugin, including details of new features and special offers?"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:774
+#: includes/Admin/WPDev/PluginUsageTracker.php:798
 msgid "Yes Please"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:777
+#: includes/Admin/WPDev/PluginUsageTracker.php:801
 msgid "No Thank You"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:810
+#: includes/Admin/WPDev/PluginUsageTracker.php:834
 msgid "Sorry to see you go"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:811
+#: includes/Admin/WPDev/PluginUsageTracker.php:835
 msgid "Before you deactivate the plugin, would you quickly give us your reason for doing so?"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:814
+#: includes/Admin/WPDev/PluginUsageTracker.php:838
 msgid "I no longer need the plugin"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:816
+#: includes/Admin/WPDev/PluginUsageTracker.php:840
 msgid "I found a better plugin"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:817
+#: includes/Admin/WPDev/PluginUsageTracker.php:841
 msgid "Please share which plugin"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:819
+#: includes/Admin/WPDev/PluginUsageTracker.php:843
 msgid "I couldn't get the plugin to work"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:820
+#: includes/Admin/WPDev/PluginUsageTracker.php:844
 msgid "It's a temporary deactivation"
 msgstr ""
 
 #. translators: %s: Pro plugin name
-#: includes/Admin/WPDev/PluginUsageTracker.php:823
+#: includes/Admin/WPDev/PluginUsageTracker.php:847
 #, php-format
 msgid "I have %s"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:827
+#: includes/Admin/WPDev/PluginUsageTracker.php:851
 msgid "Other"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:828
+#: includes/Admin/WPDev/PluginUsageTracker.php:852
 msgid "Please share the reason"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:889
+#: includes/Admin/WPDev/PluginUsageTracker.php:913
 msgid "Submitting form"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:1035
+#: includes/Admin/WPDev/PluginUsageTracker.php:1059
 msgid "Submit and Deactivate"
 msgstr ""
 
-#: includes/Admin/WPDev/PluginUsageTracker.php:1035
+#: includes/Admin/WPDev/PluginUsageTracker.php:1059
 msgid "Just Deactivate"
 msgstr ""
 
@@ -1196,19 +1812,19 @@ msgstr ""
 msgid "You don't have set any slug and file name to install the plugins"
 msgstr ""
 
-#: includes/API/AICaption.php:128
+#: includes/API/AICaption.php:130
 msgid "Please enter an API key before testing the connection."
 msgstr ""
 
-#: includes/API/AICaption.php:151
+#: includes/API/AICaption.php:153
 msgid "Connection successful. Your API key is valid."
 msgstr ""
 
-#: includes/API/AICaption.php:158
+#: includes/API/AICaption.php:160
 msgid "Connection failed. Please verify your API key and try again."
 msgstr ""
 
-#: includes/API/AICaption.php:179
+#: includes/API/AICaption.php:181
 #: includes/API/CustomSocialTemplates.php:401
 #: includes/API/CustomSocialTemplates.php:436
 #: includes/API/CustomSocialTemplates.php:596
@@ -1216,24 +1832,8 @@ msgstr ""
 msgid "Post not found or insufficient permissions."
 msgstr ""
 
-#: includes/API/AICaption.php:189
-msgid "OpenAI API key is not configured. Add it in SchedulePress → Settings → AI."
-msgstr ""
-
-#: includes/API/AICaption.php:203
+#: includes/API/AICaption.php:205
 msgid "Please select at least one social platform."
-msgstr ""
-
-#: includes/API/AICaption.php:355
-msgid "OpenAI request failed. Please verify your API key and try again."
-msgstr ""
-
-#: includes/API/AICaption.php:364
-msgid "OpenAI returned an empty response."
-msgstr ""
-
-#: includes/API/AICaption.php:392
-msgid "Could not parse captions from the AI response."
 msgstr ""
 
 #: includes/API/CustomSocialTemplates.php:469
@@ -1317,71 +1917,75 @@ msgstr ""
 msgid "You do not have permission to edit this post."
 msgstr ""
 
-#: includes/API/PostPanel.php:130
-#: includes/API/PostPanel.php:167
-#: includes/API/PostPanel.php:223
-#: includes/API/PostPanel.php:292
-#: includes/API/PostPanel.php:396
-#: includes/API/PostPanel.php:427
-#: includes/API/PostPanel.php:435
+#: includes/API/PostPanel.php:181
+#: includes/API/PostPanel.php:218
+#: includes/API/PostPanel.php:305
+#: includes/API/PostPanel.php:403
+#: includes/API/PostPanel.php:507
+#: includes/API/PostPanel.php:543
+#: includes/API/PostPanel.php:551
 msgid "Post not found."
 msgstr ""
 
-#: includes/API/PostPanel.php:203
+#: includes/API/PostPanel.php:285
 msgid "Settings saved successfully."
 msgstr ""
 
-#: includes/API/PostPanel.php:236
+#: includes/API/PostPanel.php:318
 msgid "Choose exactly one of publish_immediately_current_date or publish_immediately_future_date."
 msgstr ""
 
-#: includes/API/PostPanel.php:254
+#: includes/API/PostPanel.php:337
 msgid "Post published successfully."
 msgstr ""
 
-#: includes/API/PostPanel.php:309
-#: includes/API/PostPanel.php:328
+#: includes/API/PostPanel.php:420
+#: includes/API/PostPanel.php:439
 msgid "Could not clear the stored publishing intent."
 msgstr ""
 
-#: includes/API/PostPanel.php:316
+#: includes/API/PostPanel.php:427
 msgid "Immediate publishing was not active for this post."
 msgstr ""
 
-#: includes/API/PostPanel.php:347
+#: includes/API/PostPanel.php:458
 msgid "WordPress did not update the post."
 msgstr ""
 
 #. translators: %s is the post update error returned by WordPress.
-#: includes/API/PostPanel.php:355
+#: includes/API/PostPanel.php:466
 #, php-format
 msgid "Could not reschedule the post, and could not restore the stored publishing intent. WordPress reported: %s"
 msgstr ""
 
-#: includes/API/PostPanel.php:376
+#: includes/API/PostPanel.php:487
 msgid "Post returned to its schedule."
 msgstr ""
 
-#: includes/API/PostPanel.php:377
+#: includes/API/PostPanel.php:488
 msgid "Immediate publishing turned off."
 msgstr ""
 
-#: includes/API/PostPanel.php:446
+#: includes/API/PostPanel.php:567
 msgid "This post is not dated in the future."
 msgstr ""
 
-#: includes/API/PostPanel.php:510
+#: includes/API/PostPanel.php:631
 msgid "WordPress did not restore the post."
 msgstr ""
 
 #. translators: %s is the post rollback error returned by WordPress.
-#: includes/API/PostPanel.php:516
+#: includes/API/PostPanel.php:637
 #, php-format
 msgid "The publishing intent could not be saved, and the post could not be restored. WordPress reported: %s"
 msgstr ""
 
-#: includes/API/PostPanel.php:524
+#: includes/API/PostPanel.php:645
 msgid "The publishing intent could not be saved. The post was restored to its previous schedule."
+msgstr ""
+
+#: includes/API/PostPanel.php:663
+msgid "Only a scheduled post can be published immediately."
 msgstr ""
 
 #: includes/API/Settings.php:200
@@ -1401,22 +2005,22 @@ msgid "Could not reconnect this profile."
 msgstr ""
 
 #: includes/API/Settings.php:266
-#: includes/Social/ReconnectHandler.php:682
+#: includes/Social/ReconnectHandler.php:739
 msgid "Reconnect could not be completed."
 msgstr ""
 
-#: includes/Assets.php:59
-#: includes/Assets.php:142
+#: includes/Assets.php:63
+#: includes/Assets.php:161
 msgid "Current Date"
 msgstr ""
 
-#: includes/Assets.php:60
-#: includes/Assets.php:143
+#: includes/Assets.php:64
+#: includes/Assets.php:162
 msgid "Future Date"
 msgstr ""
 
 #: includes/functions.php:215
-#: src/components/Settings/PublishImmediately.js:82
+#: src/components/Settings/PublishImmediately.js:84
 msgid "Publish future post immediately"
 msgstr ""
 
@@ -1424,40 +2028,555 @@ msgstr ""
 msgid "If you choose to publish this future post with the Future Date, it will be published immediately but the post’s date time will not set the current date rather it will be your scheduled future date time."
 msgstr ""
 
-#: includes/Social/Bluesky.php:131
-msgid "Unable to authenticate with Bluesky. Please check your handle and App Password."
+#: includes/Helper.php:22
+msgid "Private posts cannot be scheduled. Change the visibility first."
 msgstr ""
 
-#: includes/Social/Bluesky.php:337
+#: includes/MCP/Manager.php:122
+msgid "SchedulePress MCP: AI assistants will connect but see no tools."
+msgstr ""
+
+#: includes/MCP/Manager.php:123
+msgid "MCP access is enabled, but the bundled Abilities runtime (dependencies/vendor) is missing from this installation — usually a plugin package built without it. Reinstall SchedulePress from wordpress.org or an official build; until then, connected AI clients get an empty tool list."
+msgstr ""
+
+#: includes/MCP/Manager.php:184
+msgid "AI (MCP)"
+msgstr ""
+
+#: includes/MCP/Manager.php:694
+msgid "A client_id is required to revoke an OAuth app."
+msgstr ""
+
+#: includes/MCP/Manager.php:718
+msgid "Unknown user"
+msgstr ""
+
+#: includes/MCP/Manager.php:739
+msgid "MCP is disabled on this site."
+msgstr ""
+
+#: includes/MCP/Manager.php:847
+msgid "You must be an administrator to authorize an AI assistant to manage the schedule on this site."
+msgstr ""
+
+#: includes/MCP/Manager.php:854
+msgid "Security check failed. Please try connecting again."
+msgstr ""
+
+#: includes/MCP/Manager.php:940
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Read-only"
+msgstr ""
+
+#: includes/MCP/Manager.php:940
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Read & write"
+msgstr ""
+
+#: includes/MCP/Manager.php:942
+msgid "Review your content schedule: the calendar, scheduled and missed posts, social connections and sharing history. No changes are made."
+msgstr ""
+
+#: includes/MCP/Manager.php:943
+msgid "Review and manage your content schedule. Schedule and reschedule posts, edit social templates, and share posts to your connected social accounts."
+msgstr ""
+
+#: includes/MCP/Manager.php:944
+msgid "An AI assistant"
+msgstr ""
+
+#: includes/MCP/Manager.php:998
+msgid "Authorize AI access"
+msgstr ""
+
+#: includes/MCP/Manager.php:1029
+msgid "Connect to SchedulePress"
+msgstr ""
+
+#. translators: %s: AI client name, already escaped and wrapped in <strong>.
+#: includes/MCP/Manager.php:1032
+#, php-format
+msgid "%s wants to view the content schedule on this site."
+msgstr ""
+
+#. translators: %s: AI client name, already escaped and wrapped in <strong>.
+#: includes/MCP/Manager.php:1032
+#, php-format
+msgid "%s wants to manage the content schedule on this site."
+msgstr ""
+
+#: includes/MCP/Manager.php:1035
+msgid "The app chose this name itself; check where access is sent below."
+msgstr ""
+
+#: includes/MCP/Manager.php:1038
+msgid "Access is sent to"
+msgstr ""
+
+#: includes/MCP/Manager.php:1039
+msgid "Site"
+msgstr ""
+
+#: includes/MCP/Manager.php:1040
+msgid "Signed in as"
+msgstr ""
+
+#: includes/MCP/Manager.php:1041
+msgid "Access"
+msgstr ""
+
+#: includes/MCP/Manager.php:1046
+msgid "Secured with OAuth. Revoke anytime in SchedulePress → MCP."
+msgstr ""
+
+#: includes/MCP/Manager.php:1052
+msgid "Deny"
+msgstr ""
+
+#: includes/MCP/Manager.php:1053
+msgid "Approve"
+msgstr ""
+
+#: includes/MCP/Manager.php:1068
+msgid "Authorization error"
+msgstr ""
+
+#: includes/MCP/Manager.php:1071
+msgid "Could not authorize"
+msgstr ""
+
+#: includes/MCP/OAuth.php:199
+msgid "At least one valid redirect_uri is required."
+msgstr ""
+
+#: includes/MCP/OAuth.php:249
+msgid "Unknown client_id."
+msgstr ""
+
+#: includes/MCP/OAuth.php:253
+msgid "redirect_uri does not match a registered value."
+msgstr ""
+
+#: includes/MCP/OAuth.php:258
+msgid "Only response_type=code is supported."
+msgstr ""
+
+#: includes/MCP/OAuth.php:269
+msgid "PKCE with code_challenge_method=S256 is required."
+msgstr ""
+
+#: includes/MCP/OAuth.php:543
+msgid "MCP Client"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:83
+msgid "MCP access is turned off, so the endpoint refuses every request. Enable MCP access above and try again."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:89
+msgid "No connection token exists yet. Click Connect to mint one, then run the test again."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:106
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Connection URL"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:107
+msgid "REST fallback URL"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:113
+msgid "OAuth discovery"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:116
+msgid "OAuth challenge"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:122
+msgid "Client access"
+msgstr ""
+
+#: includes/MCP/SelfTest.php:134
+msgid "Client lockouts"
+msgstr ""
+
+#. translators: %d: number of currently locked-out clients.
+#: includes/MCP/SelfTest.php:138
+#, php-format
+msgid "%d client is currently locked out after repeated failed authentications — typically a connector still holding a rotated-away token. Remove and re-add the connector in the AI client; the lockout clears itself within 15 minutes of the retries stopping."
+msgid_plural "%d clients are currently locked out after repeated failed authentications — typically connectors still holding a rotated-away token. Remove and re-add the connector in the AI client; lockouts clear within 15 minutes of the retries stopping."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: pretty MCP endpoint URL, 2: REST fallback URL.
+#: includes/MCP/SelfTest.php:155
+#, php-format
+msgid "The connection URL %1$s did not answer, but the REST fallback %2$s works. Re-save Settings → Permalinks to rebuild the rewrite rules; until then, give your AI client the fallback URL."
+msgstr ""
+
+#. translators: %d: number of MCP tools returned.
+#: includes/MCP/SelfTest.php:178
+#, php-format
+msgid "Connection healthy: the endpoint authenticated, offered OAuth, and returned %d tool."
+msgid_plural "Connection healthy: the endpoint authenticated, offered OAuth, and returned %d tools."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: endpoint URL, 2: underlying transport error.
+#: includes/MCP/SelfTest.php:235
+#, php-format
+msgid "%1$s could not be reached over HTTPS: %2$s. On local/dev sites this is usually a self-signed certificate the AI client must be told to trust."
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: underlying transport error.
+#: includes/MCP/SelfTest.php:237
+#, php-format
+msgid "%1$s could not be reached: %2$s."
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: redirect target URL.
+#: includes/MCP/SelfTest.php:249
+#, php-format
+msgid "%1$s redirected to %2$s instead of answering. A redirect between HTTP and HTTPS usually means the site address and WordPress address schemes disagree."
+msgstr ""
+
+#. translators: %s: endpoint URL.
+#: includes/MCP/SelfTest.php:251
+#, php-format
+msgid "%s redirected instead of answering, which usually means the site address and WordPress address schemes disagree."
+msgstr ""
+
+#. translators: %s: endpoint URL.
+#: includes/MCP/SelfTest.php:259
+#, php-format
+msgid "%s returned 404 — WordPress does not know this URL. Re-save Settings → Permalinks to rebuild the rewrite rules."
+msgstr ""
+
+#. translators: %s: endpoint URL.
+#: includes/MCP/SelfTest.php:269
+#, php-format
+msgid "%s rejected the connection token (authentication failed). Rotate the token and reconnect your AI client."
+msgstr ""
+
+#. translators: %s: endpoint URL.
+#: includes/MCP/SelfTest.php:279
+#, php-format
+msgid "%s is rate-limiting this server after repeated failed tokens. Wait for the lockout to lapse, then rotate the token and reconnect."
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: abilities-registry diagnostic summary.
+#: includes/MCP/SelfTest.php:301
+#, php-format
+msgid "%1$s answered but returned no tool catalog. Confirm the MCP runtime is built and abilities are registered. Diagnostics — %2$s"
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: number of tools.
+#: includes/MCP/SelfTest.php:311
+#, php-format
+msgid "%1$s authenticated and returned %2$d tools."
+msgstr ""
+
+#. translators: 1: discovery document URL, 2: transport error.
+#: includes/MCP/SelfTest.php:357
+#, php-format
+msgid "The OAuth discovery document %1$s could not be fetched: %2$s. Clients that connect by URL alone cannot authenticate without it."
+msgstr ""
+
+#. translators: 1: discovery document URL, 2: HTTP status code.
+#: includes/MCP/SelfTest.php:374
+#, php-format
+msgid "The OAuth discovery document %1$s returned %2$d instead of valid metadata. Re-save Settings → Permalinks; if it persists, another plugin may be claiming the /.well-known/ URLs."
+msgstr ""
+
+#. translators: 1: metadata field name, 2: value found in the document, 3: value it should be, 4: discovery document URL.
+#: includes/MCP/SelfTest.php:388
+#, php-format
+msgid "The discovery document %4$s advertises %1$s \"%2$s\" but this site's MCP endpoint is \"%3$s\". RFC 9728 requires an exact match, so clients reject the metadata and report that the server does not implement OAuth. If the two differ only by scheme, a reverse proxy is terminating TLS without passing X-Forwarded-Proto; otherwise another plugin is serving this URL."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:411
+msgid "Both OAuth discovery documents are served and advertise this site's MCP endpoint exactly."
+msgstr ""
+
+#. translators: 1: http endpoint URL advertised, 2: https endpoint URL that also answers.
+#: includes/MCP/SelfTest.php:441
+#, php-format
+msgid "The discovery documents advertise %1$s, but %2$s answers as well — WordPress is storing an http:// site address behind a proxy that terminates TLS. AI clients connect over https and reject the http identifier as a mismatch. Fix the Site Address in Settings → General, or have the proxy send X-Forwarded-Proto."
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: HTTP status code.
+#: includes/MCP/SelfTest.php:494
+#, php-format
+msgid "An unauthenticated call to %1$s answered %2$d instead of 401. Clients that connect by URL alone need the 401 challenge to start the OAuth flow."
+msgstr ""
+
+#. translators: %s: endpoint URL.
+#: includes/MCP/SelfTest.php:505
+#, php-format
+msgid "%s answered 401 but sent no WWW-Authenticate header — a security plugin or proxy is likely stripping it. Clients that connect by URL alone will report that this server does not implement OAuth."
+msgstr ""
+
+#. translators: 1: endpoint URL, 2: the WWW-Authenticate header value received.
+#: includes/MCP/SelfTest.php:518
+#, php-format
+msgid "%1$s sent a WWW-Authenticate header with no resource_metadata URL (%2$s). Clients have nowhere to look up this site's OAuth metadata."
+msgstr ""
+
+#. translators: 1: resource_metadata URL from the challenge header, 2: endpoint URL.
+#: includes/MCP/SelfTest.php:542
+#, php-format
+msgid "The challenge from %2$s points at %1$s, but that URL does not return OAuth metadata. This is the first thing a client fetches, so the connection fails there. On a subdirectory install the spec-derived URL sits at the domain root, which WordPress cannot serve — a root redirect to this URL is needed."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:557
+msgid "The OAuth challenge could not be checked because the endpoint did not answer. Fix the connection error above and re-run the test."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:563
+msgid "Unauthenticated calls answer with the OAuth challenge, so URL-only clients can authenticate."
+msgstr ""
+
+#. translators: 1: user agent string, 2: HTTP status returned for it, 3: HTTP status returned for WordPress's own user agent.
+#: includes/MCP/SelfTest.php:601
+#, php-format
+msgid "The endpoint answered %3$d for WordPress but %2$d for an AI client's User-Agent (%1$s). A security plugin, firewall or \"block bad bots\" rule is refusing non-browser clients — exempt the MCP and /.well-known/ paths, or no AI client will ever reach this site."
+msgstr ""
+
+#: includes/MCP/SelfTest.php:611
+msgid "The endpoint answers AI-client User-Agents the same way it answers WordPress, so no bot filter is blocking them. This cannot see an IP-level block of the AI vendor."
+msgstr ""
+
+#: includes/MCP/Server.php:74
+msgid "MCP is disabled on this site. Enable it under SchedulePress → MCP."
+msgstr ""
+
+#: includes/MCP/Server.php:87
+msgid "Too many failed attempts. Try again later."
+msgstr ""
+
+#: includes/MCP/Server.php:101
+msgid "Unauthorized: invalid or missing connection token."
+msgstr ""
+
+#. translators: %s: tool name.
+#: includes/MCP/Tools.php:152
+#, php-format
+msgid "Unknown tool: %s"
+msgstr ""
+
+#. translators: %s: tool name.
+#: includes/MCP/Tools.php:166
+#, php-format
+msgid "This MCP connection is read-only; the \"%s\" tool changes state and is not permitted. Reconnect with write access to use it."
+msgstr ""
+
+#: includes/Social/Bluesky.php:147
+msgid "Bluesky sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Bluesky.php:151
+msgid "Please try again."
+msgstr ""
+
+#: includes/Social/Bluesky.php:168
+msgid "Bluesky did not let SchedulePress sign in."
+msgstr ""
+
+#: includes/Social/Bluesky.php:169
+msgid "Bluesky did not publish the post."
+msgstr ""
+
+#. translators: %d: HTTP status code from Bluesky.
+#. translators: %d: HTTP status code from Facebook or Instagram.
+#. translators: %d: HTTP status code from Instagram.
+#. translators: %d: HTTP status code from LinkedIn.
+#. translators: %d: HTTP status code from Mastodon.
+#. translators: %d: HTTP status code from Medium.
+#. translators: %d: HTTP status code from Pinterest.
+#. translators: %d: HTTP status code from Threads.
+#: includes/Social/Bluesky.php:172
+#: includes/Social/Facebook.php:510
+#: includes/Social/Instagram.php:358
+#: includes/Social/Linkedin.php:323
+#: includes/Social/Mastodon.php:369
+#: includes/Social/Medium.php:390
+#: includes/Social/Pinterest.php:326
+#: includes/Social/Threads.php:341
+#, php-format
+msgid "Error code: %d."
+msgstr ""
+
+#: includes/Social/Bluesky.php:174
+msgid "Bluesky returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Bluesky.php:177
+msgid "Bluesky's rate limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/Bluesky.php:179
+msgid "Check the handle and the App Password. If needed, create a new App Password in Bluesky under Settings > Privacy and security > App passwords."
+msgstr ""
+
+#: includes/Social/Bluesky.php:181
+msgid "Please share again. If it keeps failing, reconnect this profile in SchedulePress > Settings > Social Profile."
+msgstr ""
+
+#: includes/Social/Bluesky.php:183
+msgid "Bluesky did not accept the post content. Change the text or image, then share again."
+msgstr ""
+
+#: includes/Social/Bluesky.php:391
 #: includes/Social/Facebook.php:301
 #: includes/Social/Instagram.php:213
 #: includes/Social/Linkedin.php:209
-#: includes/Social/Mastodon.php:368
+#: includes/Social/Mastodon.php:422
 #: includes/Social/Medium.php:242
-#: includes/Social/Pinterest.php:324
+#: includes/Social/Pinterest.php:396
 #: includes/Social/Threads.php:185
 #: includes/Social/Twitter.php:196
 msgid "Your max share post limit has been executed!!"
 msgstr ""
 
-#: includes/Social/Bluesky.php:414
-msgid "Bluesky Connection Problem. error code: "
-msgstr ""
-
-#: includes/Social/Bluesky.php:490
-#: includes/Social/Facebook.php:506
-#: includes/Social/Instagram.php:422
-#: includes/Social/Linkedin.php:372
-#: includes/Social/Mastodon.php:501
-#: includes/Social/Medium.php:370
-#: includes/Social/Pinterest.php:460
-#: includes/Social/Threads.php:402
-#: includes/Social/Twitter.php:367
+#: includes/Social/Bluesky.php:545
+#: includes/Social/Facebook.php:551
+#: includes/Social/Instagram.php:524
+#: includes/Social/Linkedin.php:412
+#: includes/Social/Mastodon.php:556
+#: includes/Social/Medium.php:414
+#: includes/Social/Pinterest.php:534
+#: includes/Social/Threads.php:438
+#: includes/Social/Twitter.php:400
 msgid "Sharing was skipped for this profile. Check the post's social share settings."
 msgstr ""
 
+#: includes/Social/Facebook.php:310
+msgid "Meta shut down its Facebook Groups API on April 22, 2024, so SchedulePress can no longer post to Facebook Groups. Turn this group off or delete it in SchedulePress > Settings > Social Profile."
+msgstr ""
+
+#. translators: %s: social network name (Facebook or Instagram).
+#: includes/Social/Facebook.php:487
+#, php-format
+msgid "%s did not publish the post."
+msgstr ""
+
+#: includes/Social/Facebook.php:491
+msgid "Please try sharing again. If it keeps failing, reconnect this profile in SchedulePress > Settings > Social Profile."
+msgstr ""
+
+#: includes/Social/Facebook.php:512
+msgid "The answer gave no reason."
+msgstr ""
+
+#. translators: %s: social network name (Facebook or Instagram).
+#: includes/Social/Facebook.php:516
+#, php-format
+msgid "The %s connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Facebook.php:519
+#: includes/Social/Instagram.php:371
+msgid "Instagram did not allow this post. Reconnect the profile and allow SchedulePress to publish; the account must be a Business or Creator account."
+msgstr ""
+
+#: includes/Social/Facebook.php:520
+msgid "Facebook did not allow this post. Reconnect the page and allow SchedulePress to publish; you must be an admin of the page."
+msgstr ""
+
+#. translators: %s: social network name (Facebook or Instagram).
+#: includes/Social/Facebook.php:523
+#, php-format
+msgid "%s's rate or posting limit was reached. Please try again later."
+msgstr ""
+
+#. translators: %s: social network name (Facebook or Instagram).
+#: includes/Social/Facebook.php:526
+#, php-format
+msgid "%s does not accept the same post twice. Change the text, then share again."
+msgstr ""
+
+#. translators: %s: social network name (Facebook or Instagram).
+#: includes/Social/Facebook.php:529
+#, php-format
+msgid "%s blocked this post for its rules. Check the post and the link, then try again later."
+msgstr ""
+
+#: includes/Social/Facebook.php:531
+#: includes/Social/Instagram.php:375
+msgid "Instagram could not use the post's image. Check that the featured image is a public JPEG, then share again."
+msgstr ""
+
+#: includes/Social/Instagram.php:244
+#: includes/Social/Instagram.php:355
+#: includes/Social/InstagramUnifiedLogin.php:266
+msgid "Instagram did not publish the post."
+msgstr ""
+
+#: includes/Social/Instagram.php:334
+msgid "Instagram sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Instagram.php:336
+#: includes/Social/Instagram.php:377
+#: includes/Social/Mastodon.php:349
+#: includes/Social/Medium.php:375
+#: includes/Social/Pinterest.php:315
+#: includes/Social/Threads.php:319
+#: includes/Social/Threads.php:360
+msgid "Please try sharing again."
+msgstr ""
+
+#: includes/Social/Instagram.php:363
+msgid "Instagram did not return a post ID."
+msgstr ""
+
+#: includes/Social/Instagram.php:365
+msgid "Instagram returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Instagram.php:369
+msgid "The Instagram connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Instagram.php:373
+msgid "Instagram's rate or posting limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:115
+msgid "Instagram did not return an access token."
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:196
+msgid "Could not load the Instagram accounts for this login."
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:238
+msgid "Instagram needs an image. Add a featured image or a social share image to this post."
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:250
+msgid "Instagram did not accept the image."
+msgstr ""
+
+#. translators: %s: Instagram's reason for rejecting the media
+#: includes/Social/InstagramUnifiedLogin.php:300
+#, php-format
+msgid "Instagram could not process the image: %s"
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:303
+msgid "Could not check the image upload on Instagram."
+msgstr ""
+
+#: includes/Social/InstagramUnifiedLogin.php:307
+msgid "Instagram is still processing the image. Try sharing again in a few minutes."
+msgstr ""
+
 #: includes/Social/InstantShare.php:69
-#: src/components/Content/SocialShare.js:425
+#: src/components/Content/SocialShare.js:422
 msgid "Disable Social Share"
 msgstr ""
 
@@ -1480,18 +2599,18 @@ msgid "It seems you haven't connected any profile/page in your <a href=\"%s\">Sc
 msgstr ""
 
 #: includes/Social/InstantShare.php:538
-#: includes/Social/InstantShare.php:692
-#: includes/Social/SocialProfile.php:359
-#: includes/Social/SocialProfile.php:436
-#: includes/Social/SocialProfile.php:895
+#: includes/Social/InstantShare.php:704
+#: includes/Social/SocialProfile.php:342
+#: includes/Social/SocialProfile.php:419
+#: includes/Social/SocialProfile.php:970
 msgid "Invalid nonce."
 msgstr ""
 
 #: includes/Social/InstantShare.php:543
-#: includes/Social/InstantShare.php:698
-#: includes/Social/SocialProfile.php:363
-#: includes/Social/SocialProfile.php:442
-#: includes/Social/SocialProfile.php:901
+#: includes/Social/InstantShare.php:710
+#: includes/Social/SocialProfile.php:346
+#: includes/Social/SocialProfile.php:425
+#: includes/Social/SocialProfile.php:976
 msgid "You are unauthorized to access social profiles."
 msgstr ""
 
@@ -1499,12 +2618,48 @@ msgstr ""
 msgid "Failed!, You didn't select any social media."
 msgstr ""
 
-#: includes/Social/InstantShare.php:950
+#: includes/Social/InstantShare.php:717
+msgid "You are not allowed to share this post."
+msgstr ""
+
+#: includes/Social/InstantShare.php:967
 msgid "This platform needs the latest version of SchedulePress Pro."
 msgstr ""
 
-#: includes/Social/InstantShare.php:973
+#: includes/Social/InstantShare.php:990
 msgid "Sorry, your requested platform integration is not added."
+msgstr ""
+
+#: includes/Social/Linkedin.php:309
+msgid "LinkedIn sent no answer (network error or timeout). Please try sharing again."
+msgstr ""
+
+#: includes/Social/Linkedin.php:320
+msgid "LinkedIn did not publish the post."
+msgstr ""
+
+#: includes/Social/Linkedin.php:325
+msgid "LinkedIn returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Linkedin.php:328
+msgid "The LinkedIn connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Linkedin.php:330
+msgid "LinkedIn did not allow this post. Reconnect the profile; for a page, check that your LinkedIn account is an admin of it."
+msgstr ""
+
+#: includes/Social/Linkedin.php:332
+msgid "LinkedIn no longer supports the API version this plugin uses. Please update SchedulePress."
+msgstr ""
+
+#: includes/Social/Linkedin.php:334
+msgid "LinkedIn's daily limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/Linkedin.php:336
+msgid "LinkedIn does not accept the same post twice. Change the text, then share again."
 msgstr ""
 
 #: includes/Social/Mastodon.php:159
@@ -1515,12 +2670,64 @@ msgstr ""
 msgid "Unable to authenticate with Mastodon. Please check your instance URL and access token."
 msgstr ""
 
-#: includes/Social/Mastodon.php:381
+#: includes/Social/Mastodon.php:345
+msgid "Mastodon sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Mastodon.php:366
+msgid "Mastodon did not publish the post."
+msgstr ""
+
+#: includes/Social/Mastodon.php:371
+msgid "Mastodon returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Mastodon.php:374
+msgid "The Mastodon connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Mastodon.php:376
+msgid "Mastodon did not allow this post. Reconnect the profile, and check that the account can post on its server."
+msgstr ""
+
+#: includes/Social/Mastodon.php:378
+msgid "The Mastodon server was not found at this address. Check the server URL and reconnect the profile."
+msgstr ""
+
+#: includes/Social/Mastodon.php:380
+msgid "Mastodon did not accept the post content. Change the text or image, then share again."
+msgstr ""
+
+#: includes/Social/Mastodon.php:382
+msgid "Mastodon's rate limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/Mastodon.php:435
 msgid "This Mastodon profile has no valid instance URL. Please reconnect the account."
 msgstr ""
 
-#: includes/Social/Mastodon.php:426
-msgid "Mastodon Connection Problem. error code: "
+#: includes/Social/Medium.php:371
+msgid "Medium sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Medium.php:387
+msgid "Medium did not publish the post."
+msgstr ""
+
+#: includes/Social/Medium.php:392
+msgid "Medium returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Medium.php:395
+msgid "The Medium token is invalid or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Medium.php:397
+msgid "Medium did not allow this post. Check that the token can publish to this account, then share again."
+msgstr ""
+
+#: includes/Social/Medium.php:399
+msgid "Medium's rate limit was reached. Please try again later."
 msgstr ""
 
 #: includes/Social/OAuthPopup.php:133
@@ -1528,29 +2735,67 @@ msgstr ""
 msgid "Finishing authorisation…"
 msgstr ""
 
-#: includes/Social/Pinterest.php:236
+#: includes/Social/Pinterest.php:251
 msgid "Rate limit exceeded: Maximum 3 posts per minute allowed for Pinterest."
 msgstr ""
 
-#: includes/Social/Pinterest.php:371
+#. translators: %s: Pinterest board name.
+#: includes/Social/Pinterest.php:303
+#, php-format
+msgid "Pinterest did not publish the pin to the board \"%s\"."
+msgstr ""
+
+#: includes/Social/Pinterest.php:304
+msgid "Pinterest did not publish the pin."
+msgstr ""
+
+#: includes/Social/Pinterest.php:307
+msgid "Pinterest did not return a pin. The board or its section may no longer exist. Check the board in the post's Pinterest settings, then share again."
+msgstr ""
+
+#: includes/Social/Pinterest.php:314
+msgid "Pinterest sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Pinterest.php:328
+msgid "Pinterest returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Pinterest.php:331
+msgid "The Pinterest connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Pinterest.php:333
+msgid "Pinterest did not allow this pin. Reconnect the account, and check that it can save pins to this board."
+msgstr ""
+
+#: includes/Social/Pinterest.php:335
+msgid "Pinterest's rate limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/Pinterest.php:337
+msgid "Pinterest did not accept the pin. Check the image, title and link, then share again."
+msgstr ""
+
+#: includes/Social/Pinterest.php:444
 msgid "Your post has been successfully shared!"
 msgstr ""
 
-#: includes/Social/Platforms.php:243
+#: includes/Social/Platforms.php:279
 msgid "UPDATE"
 msgstr ""
 
 #. translators: %s: minimum required SchedulePress Pro version
-#: includes/Social/Platforms.php:246
+#: includes/Social/Platforms.php:282
 #, php-format
 msgid "Update SchedulePress Pro to %s or newer to share here."
 msgstr ""
 
-#: includes/Social/Platforms.php:256
+#: includes/Social/Platforms.php:292
 msgid "Upgrade to SchedulePress Pro to share here."
 msgstr ""
 
-#: includes/Social/Platforms.php:274
+#: includes/Social/Platforms.php:310
 msgid "Share your posts to Google Business Profile automatically."
 msgstr ""
 
@@ -1559,112 +2804,162 @@ msgid "That profile is not connected."
 msgstr ""
 
 #. translators: %s: social platform name
-#: includes/Social/ReconnectHandler.php:222
+#: includes/Social/ReconnectHandler.php:225
 #, php-format
 msgid "Reconnect is not supported for %s."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:232
-#: includes/Social/ReconnectHandler.php:1052
+#: includes/Social/ReconnectHandler.php:235
+#: includes/Social/ReconnectHandler.php:1137
 msgid "No profile was identified in the request."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:248
+#: includes/Social/ReconnectHandler.php:256
 msgid "This platform has no automatic renewal."
 msgstr ""
 
 #. translators: %d: HTTP status code
-#: includes/Social/ReconnectHandler.php:281
-#: includes/Social/ReconnectHandler.php:480
+#: includes/Social/ReconnectHandler.php:289
+#: includes/Social/ReconnectHandler.php:492
 #, php-format
 msgid "The token service answered %d. Will try again later."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:322
-#: includes/Social/ReconnectHandler.php:517
-#: includes/Social/ReconnectHandler.php:727
+#: includes/Social/ReconnectHandler.php:334
+#: includes/Social/ReconnectHandler.php:533
+#: includes/Social/ReconnectHandler.php:784
 msgid "Could not save the renewed connection."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:331
-#: includes/Social/ReconnectHandler.php:525
-#: includes/Social/ReconnectHandler.php:735
+#: includes/Social/ReconnectHandler.php:343
+#: includes/Social/ReconnectHandler.php:541
+#: includes/Social/ReconnectHandler.php:792
 msgid "Connection renewed."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:553
+#: includes/Social/ReconnectHandler.php:571
 msgid "This connection has to be authorised again."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:695
+#. translators: %s: seconds to wait before retrying
+#: includes/Social/ReconnectHandler.php:603
+#, php-format
+msgid "The token service is rate limiting (retry after %s seconds). Will try again later."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:604
+msgid "The token service is rate limiting. Will try again later."
+msgstr ""
+
+#: includes/Social/ReconnectHandler.php:752
 msgid "That authorisation was for a different account. Reconnect the profile with the same account it was added with."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:711
+#: includes/Social/ReconnectHandler.php:768
 msgid "The authorisation returned no usable credentials."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1043
+#: includes/Social/ReconnectHandler.php:1128
 msgid "Invalid profile payload."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1061
+#: includes/Social/ReconnectHandler.php:1146
 msgid "No long-lived access token provided."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1096
+#: includes/Social/ReconnectHandler.php:1181
 msgid "Instagram rejected the reconnect request."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1122
+#: includes/Social/ReconnectHandler.php:1207
 msgid "Access token refreshed successfully."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1131
+#: includes/Social/ReconnectHandler.php:1216
 msgid "Unexpected response from Instagram API."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1150
+#: includes/Social/ReconnectHandler.php:1236
 msgid "No token was supplied to save."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1159
+#: includes/Social/ReconnectHandler.php:1245
 msgid "Plugin settings could not be read."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1170
-#: includes/Social/ReconnectHandler.php:1178
+#: includes/Social/ReconnectHandler.php:1256
+#: includes/Social/ReconnectHandler.php:1264
 msgid "Plugin settings are not in the expected format."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1206
+#: includes/Social/ReconnectHandler.php:1292
 msgid "That profile is no longer in the saved settings."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1216
+#: includes/Social/ReconnectHandler.php:1302
 msgid "Updated settings could not be encoded."
 msgstr ""
 
-#: includes/Social/ReconnectHandler.php:1233
+#: includes/Social/ReconnectHandler.php:1319
 msgid "The refreshed token could not be saved."
 msgstr ""
 
 #: includes/Social/SocialProfile.php:26
-msgid "Multi Profile is a Premium Feature. To use this feature, Upgrade to Pro."
+msgid "SchedulePress connects one profile per network. Remove the connected profile to add a different one."
 msgstr ""
 
-#: includes/Social/Twitter.php:271
+#: includes/Social/SocialProfile.php:622
+msgid "Could not read your X account. Please try again."
+msgstr ""
+
+#: includes/Social/Threads.php:317
+msgid "Threads sent no answer (network error or timeout)."
+msgstr ""
+
+#: includes/Social/Threads.php:338
+msgid "Threads did not publish the post."
+msgstr ""
+
+#: includes/Social/Threads.php:346
+msgid "Threads did not return a post ID."
+msgstr ""
+
+#: includes/Social/Threads.php:348
+msgid "Threads returned an unexpected response."
+msgstr ""
+
+#: includes/Social/Threads.php:352
+msgid "The Threads connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again."
+msgstr ""
+
+#: includes/Social/Threads.php:354
+msgid "Threads did not allow this post. Reconnect the profile and allow SchedulePress to publish."
+msgstr ""
+
+#: includes/Social/Threads.php:356
+msgid "Threads' rate or posting limit was reached. Please try again later."
+msgstr ""
+
+#: includes/Social/Threads.php:358
+msgid "Threads did not accept the post content. Check the text and that the featured image is public, then share again."
+msgstr ""
+
+#: includes/Social/Twitter.php:294
 msgid "Twitter Connection Problem. error code: "
 msgstr ""
 
+#: includes/Social/Twitter.php:312
+msgid "X answered 402 Payment Required: the X developer account behind this profile needs API credits. Add credits at console.x.com, then share again."
+msgstr ""
+
 #. translators: 1: free plugin version, 2: minimum Pro version, 3: installed Pro version, 4: URL to the WordPress updates screen, 5: URL to the SchedulePress support page
-#: wp-scheduled-posts.php:179
+#: wp-scheduled-posts.php:186
 #, php-format
 msgid "SchedulePress %1$s needs SchedulePress Pro %2$s or newer, and you are running Pro %3$s. Some Pro features stay unavailable until you <a href=\"%4$s\">update SchedulePress Pro</a>. Contact our <a href=\"%5$s\" target=\"_blank\">Support</a> if you need any assistance."
 msgstr ""
 
 #. translators: 1: `<h3>` opening tag, 2: `</h3>` closing tag, 3: PHP version. 4: Link opening tag, 5: Link closing tag.
-#: wp-scheduled-posts.php:371
+#: wp-scheduled-posts.php:380
 #, php-format
 msgid "%1$sSchedulePress isn’t running because PHP is outdated.%2$s Update to PHP version %3$s and get back to creating!"
 msgstr ""
@@ -1684,9 +2979,9 @@ msgstr ""
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/admin.js:2
 #: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:138
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:415
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:533
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:142
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:419
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:537
 msgid "Save"
 msgstr ""
 
@@ -1709,20 +3004,20 @@ msgstr ""
 msgid "Pro feature"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:119
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:118
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/admin.js:2
 #: includes/Admin/Settings/assets/js/calendar.js:1
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:120
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:119
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Enabling this profile will deactivate other profile automatically."
 msgstr ""
 
-#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:129
+#: includes/Admin/Settings/app/Settings/fields/SocialPlatform.jsx:128
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Yes, Enable it!"
@@ -1892,6 +3187,7 @@ msgid "Redirect URI"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
+#: includes/Admin/Settings/assets/js/admin.js:2
 msgid "Copied"
 msgstr ""
 
@@ -1933,6 +3229,18 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "App Secret"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Configuration ID:"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Configuration ID"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "From your Meta app: Use cases › Manage messaging & content on Instagram › API setup with Unified login › Configure your app. Leave it empty only for an app that still uses Instagram Login."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -1984,11 +3292,7 @@ msgid "Your Mastodon access token"
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Multi Profile is a Premium Feature. To use this feature,"
-msgstr ""
-
-#: includes/Admin/Settings/assets/js/admin.js:1
-msgid "Upgrade to PRO."
+msgid "SchedulePress connects one profile per network."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -2009,6 +3313,10 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "It seems that there are no Instagram accounts associated to your Facebook profile."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "Could not read the account. Please try again."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -2055,6 +3363,10 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 msgid "Delete"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:1
+msgid "LinkedIn Pages can't be turned on with one profile per network."
 msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
@@ -2169,7 +3481,7 @@ msgstr ""
 
 #: includes/Admin/Settings/assets/js/admin.js:1
 #: includes/Admin/Settings/assets/js/calendar.js:1
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:347
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:351
 msgid "Saving..."
 msgstr ""
 
@@ -2286,6 +3598,269 @@ msgstr ""
 msgid "Your API key is stored securely on your website. It is strictly used to generate captions for your social posts and nothing else."
 msgstr ""
 
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Copy to clipboard"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Copy"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t load the MCP connection status."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t save the MCP setting."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t copy to the clipboard. Select the text and copy it manually."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Loading…"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Read the editorial calendar and the scheduled queue"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Find missed schedules and empty slots in the calendar"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Schedule, reschedule and bulk-move posts"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Unschedule a post or publish it immediately"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Review connected social accounts and expiring tokens"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Read and edit per-post social share captions"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Check what has already been shared, and share a post"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Read and change SchedulePress settings"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Diagnose scheduling health (cron, timezone, tokens)"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Claude (web, mobile & desktop)"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "In Claude, open Settings → Connectors → Add custom connector."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Paste the connection URL above and name it SchedulePress."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Click Add, then approve access when Claude asks you to sign in."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "In ChatGPT, open Settings → Connectors → Add."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Enter a name (e.g. SchedulePress)."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Paste the connection URL above."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Save, then approve access when ChatGPT asks you to sign in."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "CLI"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Command"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Copy the command above."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Run it in your terminal from your project directory."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Add to Cursor"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Click the button above — Cursor opens with the server prefilled."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Confirm the install in Cursor."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Add to VS Code"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Click the button above — VS Code opens with the server prefilled."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Confirm the install in VS Code."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "AI assistant access"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Active"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Inactive"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Connect an AI assistant to your content schedule. Ask it what is queued, move a week of posts, or find which social connections need reconnecting, all in plain language."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "The bundled AI runtime is missing from this installation, so assistants would connect but see no tools. Reinstall SchedulePress from an official build."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "What a connected assistant can do"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+#, js-format
+msgid "%d tools"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Turn on AI assistant access to generate a connection URL."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Connect an AI client"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Sign in (OAuth)"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Editors & CLI"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "These clients need only the URL above. They sign in through a one-time approval, so the token below never leaves this screen."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "These clients authenticate with the connection token. Treat it like a password anyone holding it can manage this site’s schedule."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Manual setup"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Token"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Fallback URL (plain permalinks)"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Resetting disconnects every client using the token. Continue?"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t reset the connection token."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Reset"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+#: src/components/Content/SocialShare.js:442
+#: src/components/modals/socialTemplates/AICaptionDrawer.js:698
+msgid "Cancel"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Reset token"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Connection health"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t run the connection test."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Run test"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Calls this site the way an AI client would and reports exactly where it breaks."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Allow posting to social media"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Allowed"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Blocked"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Off by default. Sharing publishes to a real audience and cannot be undone, so an assistant can only do it when this is on, and even then it must confirm each share. Reading the schedule and rescheduling posts do not need this."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Connected AI apps"
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Couldn’t revoke that app."
+msgstr ""
+
+#: includes/Admin/Settings/assets/js/admin.js:2
+msgid "Revoke"
+msgstr ""
+
 #: src/components/Content/ShareNowStatusModal.js:62
 #: src/components/Content/ShareNowStatusModal.js:86
 msgid "Request Sending..."
@@ -2299,61 +3874,56 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:414
+#: src/components/Content/SocialShare.js:411
 msgid "Social Share Settings"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:433
+#: src/components/Content/SocialShare.js:430
 msgid "The featured image will be used by default"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:442
+#: src/components/Content/SocialShare.js:439
 msgid "Remove Social Banner?"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:443
+#: src/components/Content/SocialShare.js:440
 msgid "Delete this banner image? The featured image will be used when sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:445
-#: src/components/modals/socialTemplates/AICaptionDrawer.js:698
-msgid "Cancel"
-msgstr ""
-
-#: src/components/Content/SocialShare.js:446
+#: src/components/Content/SocialShare.js:443
 msgid "Yes, Remove"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:450
+#: src/components/Content/SocialShare.js:447
 msgid "Update Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:451
+#: src/components/Content/SocialShare.js:448
 msgid "Remove Banner"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:456
+#: src/components/Content/SocialShare.js:453
 msgid "Add message for target platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:460
-#: src/components/Content/SocialShare.js:510
+#: src/components/Content/SocialShare.js:457
+#: src/components/Content/SocialShare.js:507
 msgid "Manage Social Sharing"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:464
+#: src/components/Content/SocialShare.js:461
 msgid "Selected Social Platforms"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:467
+#: src/components/Content/SocialShare.js:464
 msgid "Loading selected profiles..."
 msgstr ""
 
-#: src/components/Content/SocialShare.js:527
+#: src/components/Content/SocialShare.js:524
 msgid "Social sharing is disabled"
 msgstr ""
 
-#: src/components/Content/SocialShare.js:528
+#: src/components/Content/SocialShare.js:525
 msgid "Enable it to manage platforms."
 msgstr ""
 
@@ -2507,117 +4077,123 @@ msgstr ""
 msgid "Generate Captions"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:289
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
 msgid "Today"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:290
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:294
 msgid "Tomorrow"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:291
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:295
 msgid "Next week"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:292
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:296
 msgid "Next month"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:293
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:297
 msgid "In __ days"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:294
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:303
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:298
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:307
 msgid "Choose a custom date..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:298
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
 msgid "Same day as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:299
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:303
 msgid "The day after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:300
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:304
 msgid "A week after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:301
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:305
 msgid "A month after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:302
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:306
 msgid "__ days after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:313
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:317
 msgid "In one hour"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:314
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:318
 msgid "In three hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:315
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:319
 msgid "In five hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:316
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:320
 msgid "In __ hours"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:317
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:326
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:321
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:330
 msgid "Choose a custom time..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:321
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:325
 msgid "Same time as publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:322
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:326
 msgid "One hour after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:323
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:327
 msgid "Three hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:324
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:328
 msgid "Five hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:325
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:329
 msgid "__ hours after publication"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:347
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:351
 msgid "Updating..."
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:398
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:402
 msgid "Updated Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:398
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:402
 msgid "Saved Successfully"
 msgstr ""
 
-#: src/components/modals/socialTemplates/CustomTemplateModal.js:414
+#: src/components/modals/socialTemplates/CustomTemplateModal.js:418
 msgid "Save Failed"
 msgstr ""
 
-#: src/components/modals/socialTemplates/PreviewCard.js:47
+#: src/components/modals/socialTemplates/PreviewCard.js:60
 msgid "Preview not available"
 msgstr ""
 
-#: src/components/modals/socialTemplates/PreviewCard.js:48
-msgid "Please make sure you select a social profile first."
+#. translators: %s: social platform name, e.g. Instagram
+#: src/components/modals/socialTemplates/PreviewCard.js:63
+#, js-format
+msgid "No %s profile is selected for this post. Select one to see the preview; the post is only shared to the profiles you select."
 msgstr ""
 
-#: src/components/modals/socialTemplates/PreviewCard.js:114
+#: src/components/modals/socialTemplates/PreviewCard.js:105
+msgid "Instagram only shares posts that have an image. Add a featured image or a social banner, or sharing this post to Instagram will fail."
+msgstr ""
+
+#: src/components/modals/socialTemplates/PreviewCard.js:141
 msgid "No image selected"
 msgstr ""
 
@@ -2673,48 +4249,52 @@ msgstr ""
 msgid "Manual Schedule"
 msgstr ""
 
-#: src/components/Settings/PublishImmediately.js:88
-#: src/components/Settings/PublishImmediately.js:91
+#: src/components/Settings/PublishImmediately.js:90
+#: src/components/Settings/PublishImmediately.js:93
 msgid "Publishing..."
 msgstr ""
 
-#: src/components/Settings/PublishImmediately.js:127
+#: src/components/Settings/PublishImmediately.js:129
 msgid "This post was published ahead of its scheduled date. It stays published on every save until you turn this off."
 msgstr ""
 
-#: src/components/Settings/PublishImmediately.js:136
+#: src/components/Settings/PublishImmediately.js:138
 msgid "Turning off..."
 msgstr ""
 
-#: src/components/Settings/PublishImmediately.js:137
+#: src/components/Settings/PublishImmediately.js:139
 msgid "Turn off & restore schedule"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:170
+#: src/components/Settings/ScheduleOn.js:176
+msgid "The post was published, but this editor could not refresh its state. Reload this editor before continuing."
+msgstr ""
+
+#: src/components/Settings/ScheduleOn.js:193
 msgid "The schedule was restored, but the server did not return the current post status. Reload this editor before continuing."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:185
+#: src/components/Settings/ScheduleOn.js:208
 msgid "The schedule was restored, but this editor could not refresh its post status. Reload this editor before continuing."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:217
+#: src/components/Settings/ScheduleOn.js:245
 msgid "Default Schedule"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:236
+#: src/components/Settings/ScheduleOn.js:264
 msgid "Set the date and time to publish or schedule this post."
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:249
+#: src/components/Settings/ScheduleOn.js:277
 msgid "Select date & time"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:263
+#: src/components/Settings/ScheduleOn.js:291
 msgid "Clear date"
 msgstr ""
 
-#: src/components/Settings/ScheduleOn.js:290
+#: src/components/Settings/ScheduleOn.js:317
 msgid "Now"
 msgstr ""
 
