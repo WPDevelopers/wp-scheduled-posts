@@ -8,6 +8,7 @@
 namespace WPSP\Abilities\Schedule;
 
 use WPSP\Abilities\AbilityBase;
+use WPSP\Abilities\Social\ShareNow;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -25,7 +26,7 @@ class ReschedulePost extends AbilityBase {
 	public function __construct() {
 		$this->id          = 'schedulepress/reschedule-post';
 		$this->label       = __( 'Reschedule a Post', 'wp-scheduled-posts' );
-		$this->description = __( 'Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied.', 'wp-scheduled-posts' );
+		$this->description = __( 'Move a scheduled post to a new date and time, or set the date of a draft or pending post (it stays unpublished; use schedule-post to queue it). Give either an absolute publish_at, or a relative shift such as "+3 days" or "-2 hours". Times are site-local unless an offset is supplied. While AI posting to social media is blocked, sharing is turned off for a scheduled post it moves and the response says so.', 'wp-scheduled-posts' );
 	}
 
 	/**
@@ -81,6 +82,7 @@ class ReschedulePost extends AbilityBase {
 			'properties' => array(
 				'post'     => array( 'type' => 'object' ),
 				'previous' => array( 'type' => 'object' ),
+				'note'     => array( 'type' => 'string' ),
 			),
 		);
 	}
@@ -139,6 +141,9 @@ class ReschedulePost extends AbilityBase {
 		}
 		$status = $post->post_status;
 
+		// With AI posting blocked, a scheduled post the assistant moves must not share when it goes live.
+		$old_share = 'future' === $status ? ShareNow::block_sharing_for( $post->ID ) : null;
+
 		$gmt = clone $when;
 		$gmt->setTimezone( new \DateTimeZone( 'UTC' ) );
 
@@ -153,13 +158,20 @@ class ReschedulePost extends AbilityBase {
 			true
 		);
 		if ( is_wp_error( $result ) ) {
+			if ( null !== $old_share ) {
+				ShareNow::restore_sharing( $post->ID, $old_share );
+			}
 			return $result;
 		}
 
-		return array(
+		$out = array(
 			'post'     => $this->describe_post( get_post( (int) $post->ID ) ),
 			'previous' => $previous,
 		);
+		if ( null !== $old_share ) {
+			$out['note'] = __( 'Social sharing was turned off for this post because AI posting to social media is blocked in SchedulePress > AI (MCP). Turn sharing back on in the post editor if it should be shared when it goes live.', 'wp-scheduled-posts' );
+		}
+		return $out;
 	}
 
 	/**

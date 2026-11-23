@@ -8,6 +8,7 @@
 namespace WPSP\Abilities\Schedule;
 
 use WPSP\Abilities\AbilityBase;
+use WPSP\Abilities\Social\ShareNow;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -28,7 +29,7 @@ class BulkReschedule extends AbilityBase {
 	public function __construct() {
 		$this->id          = 'schedulepress/bulk-reschedule';
 		$this->label       = __( 'Bulk Reschedule Posts', 'wp-scheduled-posts' );
-		$this->description = __( 'Shift several scheduled posts by the same relative amount, selected either by explicit IDs or by a date range. Always preview with dry_run first: it reports exactly which posts would move and where, without changing anything.', 'wp-scheduled-posts' );
+		$this->description = __( 'Shift several scheduled posts by the same relative amount, selected either by explicit IDs or by a date range. Always preview with dry_run first: it reports exactly which posts would move and where, without changing anything. While AI posting to social media is blocked, sharing is turned off for every post it moves and the response says so.', 'wp-scheduled-posts' );
 	}
 
 	/**
@@ -100,6 +101,7 @@ class BulkReschedule extends AbilityBase {
 				'dry_run' => array( 'type' => 'boolean' ),
 				'moved'   => array( 'type' => 'integer' ),
 				'skipped' => array( 'type' => 'integer' ),
+				'note'    => array( 'type' => 'string' ),
 				'changes' => array(
 					'type'  => 'array',
 					'items' => array( 'type' => 'object' ),
@@ -139,9 +141,10 @@ class BulkReschedule extends AbilityBase {
 		// caller omitted the flag is exactly the accident worth designing out.
 		$dry_run = array_key_exists( 'dry_run', $input ) ? (bool) $input['dry_run'] : true;
 
-		$changes = array();
-		$moved   = 0;
-		$skipped = 0;
+		$changes    = array();
+		$moved      = 0;
+		$skipped    = 0;
+		$turned_off = 0;
 
 		foreach ( $posts as $post ) {
 			if ( ! $post instanceof \WP_Post ) {
@@ -159,7 +162,11 @@ class BulkReschedule extends AbilityBase {
 				continue;
 			}
 
+			$share_off = false;
 			if ( ! $dry_run ) {
+				// With AI posting blocked, a post the assistant moves must not share when it goes live.
+				$old_share = ShareNow::block_sharing_for( $post->ID );
+				$share_off = null !== $old_share;
 				$gmt = clone $outcome['when'];
 				$gmt->setTimezone( new \DateTimeZone( 'UTC' ) );
 				$result = wp_update_post(
@@ -173,6 +180,9 @@ class BulkReschedule extends AbilityBase {
 					true
 				);
 				if ( is_wp_error( $result ) ) {
+					if ( $share_off ) {
+						ShareNow::restore_sharing( $post->ID, $old_share );
+					}
 					$skipped++;
 					$changes[] = array(
 						'post_id' => (int) $post->ID,
@@ -190,14 +200,27 @@ class BulkReschedule extends AbilityBase {
 				'from'    => $this->to_iso( $post->post_date ),
 				'to'      => $outcome['when']->format( 'c' ),
 			);
+			if ( $share_off ) {
+				$turned_off++;
+			}
 		}
 
-		return array(
+		$out = array(
 			'dry_run' => $dry_run,
 			'moved'   => $moved,
 			'skipped' => $skipped,
 			'changes' => $changes,
 		);
+		if ( $turned_off > 0 ) {
+			$out['note'] = sprintf(
+				/* translators: %d: number of posts. */
+				__( 'Social sharing was turned off for %d moved post(s) because AI posting to social media is blocked in SchedulePress > AI (MCP). Turn sharing back on in the post editor for any post that should be shared when it goes live.', 'wp-scheduled-posts' ),
+				$turned_off
+			);
+		} elseif ( $dry_run && $moved > 0 && ! ShareNow::is_publishing_allowed() ) {
+			$out['note'] = __( 'AI posting to social media is blocked, so applying this move turns social sharing off for the moved posts.', 'wp-scheduled-posts' );
+		}
+		return $out;
 	}
 
 	/**
