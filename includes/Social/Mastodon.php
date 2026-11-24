@@ -331,6 +331,60 @@ class Mastodon
      *
      * @return array|void { success: bool, log: mixed }
      */
+    /**
+     * Error text for a failed post: Mastodon's own reason, and what to do for the common cases.
+     *
+     * @param array $http Return value of Helper::wpsp_curl(): 'result' (body or false), 'code', optional 'error'.
+     * @return string
+     */
+    public static function error_message($http)
+    {
+        $code = isset($http['code']) ? (int) $http['code'] : 0;
+        $raw  = isset($http['result']) ? $http['result'] : false;
+        if ($raw === false || $raw === null || ($raw === '' && $code === 0)) {
+            $message = __('Mastodon sent no answer (network error or timeout).', 'wp-scheduled-posts');
+            if (!empty($http['error']) && is_string($http['error'])) {
+                $message .= ' ' . rtrim(sanitize_text_field($http['error']), '.') . '.';
+            }
+            return $message . ' ' . __('Please try sharing again.', 'wp-scheduled-posts');
+        }
+
+        // Mastodon errors are {"error": "..."}; OAuth ones add a readable "error_description".
+        $body   = is_string($raw) ? json_decode($raw) : null;
+        $reason = '';
+        if (is_object($body)) {
+            if (!empty($body->error_description) && is_string($body->error_description)) {
+                $reason = sanitize_text_field($body->error_description);
+            } elseif (!empty($body->error) && is_string($body->error)) {
+                $reason = sanitize_text_field($body->error);
+            }
+        }
+        if ($reason !== '' && !preg_match('/[.!?]$/', $reason)) {
+            $reason .= '.';
+        }
+
+        $message = __('Mastodon did not publish the post.', 'wp-scheduled-posts');
+        if ($code) {
+            /* translators: %d: HTTP status code from Mastodon. */
+            $message .= ' ' . sprintf(__('Error code: %d.', 'wp-scheduled-posts'), $code);
+        }
+        $message .= ' ' . ($reason !== '' ? $reason : __('Mastodon returned an unexpected response.', 'wp-scheduled-posts'));
+
+        if (401 === $code) {
+            $message .= ' ' . __('The Mastodon connection has expired or was revoked. Reconnect this profile in SchedulePress > Settings > Social Profile, then share again.', 'wp-scheduled-posts');
+        } elseif (403 === $code) {
+            $message .= ' ' . __('Mastodon did not allow this post. Reconnect the profile, and check that the account can post on its server.', 'wp-scheduled-posts');
+        } elseif (404 === $code) {
+            $message .= ' ' . __('The Mastodon server was not found at this address. Check the server URL and reconnect the profile.', 'wp-scheduled-posts');
+        } elseif (422 === $code) {
+            $message .= ' ' . __('Mastodon did not accept the post content. Change the text or image, then share again.', 'wp-scheduled-posts');
+        } elseif (429 === $code) {
+            $message .= ' ' . __('Mastodon\'s rate limit was reached. Please try again later.', 'wp-scheduled-posts');
+        }
+
+        return $message;
+    }
+
     public function remote_post($access_token, $post_id, $profile_key, $account_id = '', $ID = '', $force_share = false, $instance_url = '')
     {
         $profile = \WPSP\Helper::get_profile('mastodon', $profile_key);
@@ -422,8 +476,9 @@ class Mastodon
                     $errorFlag = true;
                     $response  = $shareInfo;
                 } else {
+                    // Say why, including a network error, instead of "error code: 0".
                     $errorFlag = false;
-                    $response  = !empty($result->error) ? $result->error : (__('Mastodon Connection Problem. error code: ', 'wp-scheduled-posts') . $create['code']);
+                    $response  = self::error_message($create);
                 }
             } catch (\Exception $e) {
                 $errorFlag = false;

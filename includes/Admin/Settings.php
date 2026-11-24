@@ -738,7 +738,7 @@ class Settings
                                         'logo' => WPSP_ASSETS_URI . 'images/medium.svg',
                                         'redirect_url_desc' => __('Add this URL in the Redirect URLs field of your Medium app.', 'wp-scheduled-posts'),
                                         /* translators: 1: Link to documentation for Medium configuration, 2: Link to Medium settings */
-                                        'desc' => sprintf(__('For details on Medium configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to Retrieve Your API Keys from your Medium account.', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/', 'https://medium.com/me/settings/security/'),
+                                        'desc' => sprintf(__('Medium no longer issues new integration tokens, so only an account that already has one can connect. For details on Medium configuration, check out this <a href="%1$s" target="_blank">Doc</a>.<br> <a href="%2$s" target="_blank">Click here</a> to find your existing integration token in your Medium settings.', 'wp-scheduled-posts'), 'https://wpdeveloper.com/docs/automatically-share-wordpress-posts-on-medium/', 'https://medium.com/me/settings/security/'),
                                     ],
                                     'priority' => 30,
                                 ],

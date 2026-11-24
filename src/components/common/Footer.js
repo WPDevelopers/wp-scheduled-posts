@@ -27,9 +27,10 @@ const showCustomToast = (type, message) => {
 const Footer = () => {
     const { state } = useContext(AppContext);
     const { socialShareSettings } = state;
-    const { unpublishOn, republishOn, advancedSchedule, advancedScheduleDate, isScheduled, scheduleDate } = state;
+    const { unpublishOn, republishOn, advancedSchedule, advancedScheduleDate, isScheduled, scheduleDate, scheduleDateLocked } = state;
     const [isSaving, setIsSaving] = useState(false);
-    const shouldSchedulePost = !!isScheduled && !!scheduleDate;
+    // A post that is already scheduled keeps its date unless Publish On was changed (85063).
+    const shouldSchedulePost = !!isScheduled && !!scheduleDate && !scheduleDateLocked;
 
     const getCurrentPostId = () => {
         // Gutenberg

@@ -2,7 +2,7 @@
 /*
  * Plugin Name: SchedulePress
  * Description: Automate your content workflow with SchedulePress. Take a quick glance at your content planning with Schedule Calendar, Dashboard widget & Sitewide admin bar. Instantly share your posts on social media platforms such as Facebook, Twitter & many more.
- * Version: 5.3.8
+ * Version: 5.4.0
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
  * License: GPLv3 or later
@@ -26,6 +26,28 @@ else {
 	// PHPUnit binary, where functions.php hit its `exit` guard and killed the
 	// run before PHPUnit printed anything -- a green exit 0 with zero tests.
 	require_once dirname(__FILE__) . '/includes/functions.php';
+
+	/**
+	 * Bundled AI building blocks (the WordPress Abilities API).
+	 *
+	 * Loaded through the Jetpack Autoloader so that if the same library is also
+	 * shipped by another plugin — or lands in WordPress core — the newest copy
+	 * wins and loads once, with no fatal class collisions. This lets
+	 * SchedulePress serve its MCP endpoint out of the box, without requiring the
+	 * standalone Abilities API plugin.
+	 *
+	 * Guarded on PHP 7.4: the Abilities API requires it, while this plugin still
+	 * boots on 7.2. On an older PHP the MCP layer simply never loads and the
+	 * rest of the plugin is unaffected.
+	 */
+	if (version_compare(PHP_VERSION, '7.4', '>=')) {
+		$wpsp_mcp_runtime = dirname(__FILE__) . '/dependencies/vendor/autoload_packages.php';
+		if (is_readable($wpsp_mcp_runtime)) {
+			require_once $wpsp_mcp_runtime;
+		}
+		unset($wpsp_mcp_runtime);
+	}
+
 	// Plugin Start
 	WPSP_Start();
 }
@@ -39,6 +61,8 @@ final class WPSP
 	private $email;
 	private $social;
 	private $api;
+	private $mcp;
+	private $abilities;
 	private $basename = 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php';
 
 	private function __construct()
@@ -65,6 +89,7 @@ final class WPSP
 		register_activation_hook(__FILE__, [$this, 'activate']);
 		register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 		$this->installer = new WPSP\Installer();
+		$this->getMCP();
 		add_action('init', [$this, 'init_plugin']);
 		add_action('wp_loaded', [$this, 'run_migrator']);
 		add_action('init', [$this, 'load_calendar']);
@@ -86,7 +111,7 @@ final class WPSP
 		/**
 		 * Defines CONSTANTS for Whole plugins.
 		 */
-		define('WPSP_VERSION', '5.3.8');
+		define('WPSP_VERSION', '5.4.0');
 		/**
 		 * Oldest SchedulePress Pro this release can hand its Pro-only features to.
 		 *
@@ -229,6 +254,39 @@ final class WPSP
 			$this->api = new WPSP\API();
 		}
 		return $this->api;
+	}
+
+	/**
+	 * Boot the MCP server and the abilities registry.
+	 *
+	 * Wired from the constructor rather than init_plugin() because both
+	 * components attach to `init` themselves (rewrite rules and the abilities
+	 * hook), and a callback added while `init` is already running would never
+	 * fire.
+	 *
+	 * Abilities are registered unconditionally: each carries its own capability
+	 * check, so registering exposes nothing on its own, and it makes
+	 * SchedulePress discoverable to generic Abilities clients. Only the MCP
+	 * endpoint itself is gated behind the `enable_mcp` setting, inside
+	 * WPSP\MCP\Manager.
+	 *
+	 * @return void
+	 */
+	public function getMCP() {
+		// The Abilities API ships in dependencies/ and needs PHP 7.4+; on an
+		// older PHP, or an incomplete build, the whole MCP layer stays dormant.
+		if (version_compare(PHP_VERSION, '7.4', '<')) {
+			return;
+		}
+		if (!$this->abilities) {
+			$this->abilities = new WPSP\Abilities\Registrar();
+			$this->abilities->init();
+		}
+		if (!$this->mcp) {
+			$this->mcp = new WPSP\MCP\Manager();
+			$this->mcp->init();
+		}
+		return $this->mcp;
 	}
 
 	public function load_textdomain()

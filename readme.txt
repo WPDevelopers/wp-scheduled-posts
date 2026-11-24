@@ -4,7 +4,7 @@ Tags: social media scheduler, social media auto post, post schedule, schedule ca
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.3.8
+Stable tag: 5.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,25 @@ https://youtu.be/1ohEsDzTJkA
 
 https://youtu.be/y80iDuolrRU
 
+
+### 🤖 Manage Your Schedule With AI Assistants (MCP)
+
+Connect Claude, ChatGPT, Claude Code, Cursor or VS Code to SchedulePress through the Model Context Protocol (MCP). Then ask in plain words what is queued, which posts missed their schedule, or move a week of posts.
+
+-   Read the editorial calendar and the scheduled, draft and missed posts
+-   Find empty days in the calendar and suggested posting times
+-   Schedule, reschedule, bulk-move or unschedule posts, or publish one now
+-   Review connected social accounts and expiring tokens
+-   Read and edit per-post social captions, check what was shared, and share a post
+-   Read and change SchedulePress settings, and diagnose scheduling health
+
+You stay in control:
+
+-   Off by default. An administrator turns it on under SchedulePress → Settings → AI (MCP).
+-   Claude and ChatGPT sign in with OAuth: an administrator approves each app and can revoke it at any time.
+-   Sharing to social media stays blocked until you allow it, and every share must be confirmed.
+-   An assistant can't switch AI access on or off, and API keys and social tokens are never sent to it.
+-   Needs PHP 7.4 or newer. No extra plugin is required.
 
 ## SchedulePress has been featured by renowned WordPress Publications:
 
@@ -247,6 +266,21 @@ Or if you want to see the live demonstration for all exclusive features of this 
 No, SchedulePress doesn’t require any additional plugin. All you have to do is to install and activate [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) on your WordPress website and you are ready to go. You can check out the video below to know how to install this plugin.
 
 
+= How Do I Connect An AI Assistant To SchedulePress? =
+
+Go to SchedulePress → Settings → AI (MCP), turn on "AI assistant access" and copy the Connection URL. In Claude or ChatGPT, add that URL as a custom connector (MCP server) and approve access when you are asked to sign in. For Claude Code, Cursor and VS Code, the same tab gives a ready command or a one-click install button. Claude and ChatGPT connect from the internet, so your site must be publicly reachable over HTTPS. If a client can't connect, click "Run test" under Connection health to see where it fails.
+
+
+= What Can A Connected AI Assistant Change? =
+
+It can schedule, reschedule, unschedule and publish posts, edit social captions and change SchedulePress settings, with the rights of the administrator who approved it. It can't turn AI access on or off. It can share to social media only after you turn on "Allow posting to social media", and it must confirm each share. A connection approved as read-only can only read.
+
+
+= How Do I Disconnect An AI Assistant? =
+
+Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in Connected AI apps. Clients that use the connection token (Claude Code, Cursor, VS Code) are cut off with "Reset token". Turning off "AI assistant access" blocks every client at once.
+
+
 == Screenshots ==
 
 1. General Options Page
@@ -259,6 +293,15 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 8. Social Templates
 
 == Changelog ==
+
+= 5.4.0 - 2026-11-24 =
+- Added: Connect AI assistants (Claude, ChatGPT) through MCP.
+- Fixed: UTM tags shortened the social share text.
+- Fixed: Saving a scheduled post could change its date.
+- Fixed: Elementor panel showed for post types outside Show Post Types.
+- Fixed: Missing profile picture and name for X and LinkedIn.
+- Improved: Clearer reasons when a social share fails.
+- Few minor bug fixes & improvements
 
 = 5.3.8 - 2026-11-10 =
 - Added: Tools > Site Health now warns when scheduled posts or social shares are running late, and an admin notice shows when something is waiting past its time.
@@ -527,6 +570,9 @@ No, SchedulePress doesn’t require any additional plugin. All you have to do is
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.4.0 - 2026-11-24 =
+* Update SchedulePress Pro to 5.4.0 along with this release.
+
 = 5.3.8 - 2026-11-10 =
 * Update SchedulePress Pro to 5.3.7 along with this release.
 

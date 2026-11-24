@@ -45,6 +45,11 @@ const AppReducer = (state, action) => {
         ...state,
         isScheduled: action.payload,
       };
+    case 'SET_SCHEDULE_DATE_LOCKED':
+      return {
+        ...state,
+        scheduleDateLocked: action.payload,
+      };
     case 'SET_SCHEDULE_TYPE':
       return {
         ...state,
