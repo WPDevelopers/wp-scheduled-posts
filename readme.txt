@@ -294,7 +294,7 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 
 == Changelog ==
 
-= 5.4.0 - 2026-11-23 =
+= 5.4.0 - 2026-11-24 =
 - Added: Connect AI assistants (Claude, ChatGPT) through MCP.
 - Fixed: UTM tags shortened the social share text.
 - Fixed: Saving a scheduled post could change its date.
@@ -570,7 +570,7 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
-= 5.4.0 - 2026-11-23 =
+= 5.4.0 - 2026-11-24 =
 * Update SchedulePress Pro to 5.4.0 along with this release.
 
 = 5.3.8 - 2026-11-10 =
