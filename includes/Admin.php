@@ -385,6 +385,30 @@ class Admin
             ]
         );
 
+        // wpsp_black_friday_2026 notice (dates and link follow the company's BFCM 2026 campaign)
+        $notice_text = "<p>🛍️ <strong>Black Friday Sale:</strong> Optimize your content workflow. Schedule, auto-share &amp; write captions with AI – <strong>now up to 40% OFF!</strong></p>
+                        <div class='wpsp-notice-action-button' style='display: inline-flex;column-gap:5px;'>
+                            <a class='button button-primary' href='https://schedulepress.com/bfcm2026/admin-notice' target='_blank'>Upgrade To Pro Now</a> <button class='wpsp-notice-action-dismiss dismiss-btn' data-dismiss='true'>I Want To Pay Full Price</button>
+                        </div>";
+        $_wpsp_black_friday_2026 = [
+            'thumbnail' => $_asset_url . 'images/wpsp-logo-full.svg',
+            'html'      => $notice_text,
+        ];
+        $notices->add(
+            'wpsp_black_friday_2026',
+            $_wpsp_black_friday_2026,
+            [
+                // Early on purpose: the library shows the earliest-start notice, so an old undismissed review notice would hide this one.
+                'start'       => strtotime( '2020-01-01 00:00:00' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'refresh'     => WPSP_VERSION,
+                'screens'     => [ 'dashboard' ],
+                "expire"      => strtotime( '2026-12-14 23:59:59' ),
+                'display_if'  => !is_array( $notices->is_installed( 'wp-scheduled-posts-pro/wp-scheduled-posts-pro.php' ) )
+            ]
+        );
+
         self::$cache_bank->create_account( $notices );
         self::$cache_bank->calculate_deposits( $notices );
     }
