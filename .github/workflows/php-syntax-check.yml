@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-24.04
     name: PHP Syntax Check (7.4, 8.2, 8.5)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Find PHP files
         id: find
