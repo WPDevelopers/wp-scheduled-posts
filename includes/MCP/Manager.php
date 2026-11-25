@@ -64,6 +64,11 @@ final class Manager {
 	const AUTHORIZE_QUERY_VAR = 'wpsp_mcp_authorize';
 
 	/**
+	 * Bare /.well-known/oauth-* URL only; a path after it belongs to another plugin (#153).
+	 */
+	const ROOT_DISCOVERY_RULE = '^\.well-known/oauth-(protected-resource|authorization-server)/?$';
+
+	/**
 	 * The REST namespace shared with the rest of the plugin.
 	 *
 	 * @return string
@@ -233,23 +238,20 @@ final class Manager {
 		// The OAuth issuer is the path-based identifier
 		// home_url('/schedulepress/mcp') (see OAuth::issuer), so spec-compliant
 		// clients derive exactly these URLs — and the rule stays specific to OUR
-		// path. That matters for coexistence: another plugin serving its own MCP
-		// OAuth surface claims the generic `(?:/.*)?` root rule, and rewrite
-		// rules are keyed by regex, so a shared broad rule would be silently
-		// overwritten by whichever plugin registers last.
+		// path, so other plugins' MCP discovery URLs on this site stay theirs.
 		add_rewrite_rule(
 			'^\.well-known/oauth-(protected-resource|authorization-server)/schedulepress/mcp/?$',
 			'index.php?' . self::WELLKNOWN_QUERY_VAR . '=$matches[1]',
 			'top'
 		);
-		// Root-form fallback for clients that only try the bare well-known URL.
-		// Harmless when another plugin also registers this exact regex — last
-		// registrant wins, and our clients use the path-suffixed form.
-		add_rewrite_rule(
-			'^\.well-known/oauth-(protected-resource|authorization-server)(?:/.*)?/?$',
-			'index.php?' . self::WELLKNOWN_QUERY_VAR . '=$matches[1]',
-			'top'
-		);
+		// Bare-URL fallback for older clients; only while MCP is on, so a disabled SchedulePress claims no shared URL (#153).
+		if ( self::serves_root_discovery() ) {
+			add_rewrite_rule(
+				self::ROOT_DISCOVERY_RULE,
+				'index.php?' . self::WELLKNOWN_QUERY_VAR . '=$matches[1]',
+				'top'
+			);
+		}
 		// Suffix form: <issuer>/.well-known/... . RFC 8414 specifies the
 		// path-INSERT form above, but the older OpenID Connect Discovery
 		// convention appends instead, and clients built on an OIDC library try
@@ -282,15 +284,65 @@ final class Manager {
 			'^schedulepress/mcp/\.well-known/openid-configuration/?$',
 			'^schedulepress/authorize/?$',
 		);
+		$registered = $expected;
+		if ( self::serves_root_discovery() ) {
+			$registered[] = self::ROOT_DISCOVERY_RULE;
+		}
+
 		$rules = get_option( 'rewrite_rules' );
-		if ( is_array( $rules ) ) {
-			foreach ( $expected as $rule ) {
-				if ( ! isset( $rules[ $rule ] ) ) {
-					flush_rewrite_rules( false );
-					break;
-				}
+		if ( ! is_array( $rules ) ) {
+			return;
+		}
+		// Bare rule: only a missing key counts; another plugin may own the same key, and that must not flush on every request.
+		foreach ( $registered as $rule ) {
+			if ( ! isset( $rules[ $rule ] ) ) {
+				flush_rewrite_rules( false );
+				return;
 			}
 		}
+		// Retire stored rules that route to us but are no longer registered (5.4.0's broad rule, the bare rule after MCP is off).
+		foreach ( $rules as $regex => $query ) {
+			if ( in_array( $regex, $registered, true ) || ! self::is_own_rewrite_query( $query ) ) {
+				continue;
+			}
+			flush_rewrite_rules( false );
+			return;
+		}
+	}
+
+	/**
+	 * Whether we answer the bare /.well-known/oauth-* URLs: only with MCP on, and a site can opt out by filter.
+	 *
+	 * @return bool
+	 */
+	public static function serves_root_discovery() {
+		if ( ! self::is_enabled() ) {
+			return false;
+		}
+		/**
+		 * Filter whether SchedulePress answers the bare /.well-known/oauth-* URLs while MCP is on.
+		 *
+		 * @param bool $serve Default true.
+		 */
+		return (bool) apply_filters( 'wpsp_mcp_serve_root_discovery', true );
+	}
+
+	/**
+	 * Whether a stored rewrite query string routes to one of our query vars.
+	 *
+	 * @param mixed $query Rewrite rule query string.
+	 * @return bool
+	 */
+	private static function is_own_rewrite_query( $query ) {
+		if ( ! is_string( $query ) ) {
+			return false;
+		}
+		foreach ( array( self::QUERY_VAR, self::WELLKNOWN_QUERY_VAR, self::AUTHORIZE_QUERY_VAR ) as $var ) {
+			if ( false !== strpos( $query, '?' . $var . '=' ) || false !== strpos( $query, '&' . $var . '=' ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
