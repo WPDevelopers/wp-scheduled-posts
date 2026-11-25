@@ -296,6 +296,7 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 
 = 5.4.1 - 2026-11-26 =
 - Fixed: Social connect errors were not shown.
+- Fixed: MCP blocked other plugins' MCP sign-in.
 - Few minor bug fixes & improvements
 
 = 5.4.0 - 2026-11-24 =
