@@ -65,8 +65,19 @@ final class Manager {
 
 	/**
 	 * Bare /.well-known/oauth-* URL only; a path after it belongs to another plugin (#153).
+	 * Alternation order differs from ThinkRank's key, so its clean-up of that key never removes ours.
 	 */
-	const ROOT_DISCOVERY_RULE = '^\.well-known/oauth-(protected-resource|authorization-server)/?$';
+	const ROOT_DISCOVERY_RULE = '^\.well-known/oauth-(authorization-server|protected-resource)/?$';
+
+	/**
+	 * Option holding the last rewrite problem the self-heal flushed for, and when.
+	 */
+	const REWRITE_STATE_OPTION = 'wpsp_mcp_rewrite_state';
+
+	/**
+	 * The self-heal flushes for the same problem at most this often; a new problem (update, MCP on/off) flushes at once.
+	 */
+	const REWRITE_HEAL_INTERVAL = 6 * HOUR_IN_SECONDS;
 
 	/**
 	 * The REST namespace shared with the rest of the plugin.
@@ -89,6 +100,7 @@ final class Manager {
 		add_action( 'init', array( $this, 'add_rewrite' ) );
 		add_filter( 'query_vars', array( $this, 'register_query_var' ) );
 		add_action( 'parse_request', array( $this, 'maybe_handle_pretty_endpoint' ) );
+		add_action( 'wpsp_run_deactivate_installer', array( $this, 'on_deactivate' ) );
 
 		// The MCP tab in SchedulePress → Settings. Added through the settings
 		// app's own filter rather than by editing the field tree, so the whole
@@ -273,9 +285,7 @@ final class Manager {
 		// (is_user_logged_in) works after the wp-login round-trip.
 		add_rewrite_rule( '^schedulepress/authorize/?$', 'index.php?' . self::AUTHORIZE_QUERY_VAR . '=1', 'top' );
 
-		// Self-heal: flush once if ANY of our rules is missing from the stored
-		// rewrite table, so the endpoints work without a manual permalink
-		// re-save (and newly added rules trigger a re-flush on upgrade).
+		// Self-heal: flush when one of our rules is missing or a stale one routes to us; rate-limited, since a flush another plugin undoes would otherwise run on every request (#153).
 		$expected = array(
 			'^schedulepress/mcp/([a-f0-9]{64})/?$',
 			'^schedulepress/mcp/?$',
@@ -293,21 +303,47 @@ final class Manager {
 		if ( ! is_array( $rules ) ) {
 			return;
 		}
-		// Bare rule: only a missing key counts; another plugin may own the same key, and that must not flush on every request.
-		foreach ( $registered as $rule ) {
-			if ( ! isset( $rules[ $rule ] ) ) {
-				flush_rewrite_rules( false );
-				return;
+
+		$missing = array_diff( $registered, array_keys( $rules ) );
+		// Stale: stored rules that route to us but are no longer registered (5.4.0's broad rule, the bare rule after MCP is off).
+		$stale = array();
+		foreach ( $rules as $regex => $query ) {
+			if ( ! in_array( $regex, $registered, true ) && self::is_own_rewrite_query( $query ) ) {
+				$stale[] = $regex;
 			}
 		}
-		// Retire stored rules that route to us but are no longer registered (5.4.0's broad rule, the bare rule after MCP is off).
-		foreach ( $rules as $regex => $query ) {
-			if ( in_array( $regex, $registered, true ) || ! self::is_own_rewrite_query( $query ) ) {
-				continue;
-			}
-			flush_rewrite_rules( false );
+		if ( empty( $missing ) && empty( $stale ) ) {
 			return;
 		}
+
+		// Same problem flushed lately: the flush didn't stick (another plugin undoes it), so don't repeat it on every request.
+		$problem = md5( implode( "\n", $missing ) . "\n--\n" . implode( "\n", $stale ) );
+		$state   = get_option( self::REWRITE_STATE_OPTION );
+		if ( is_array( $state ) && isset( $state['problem'], $state['flushed'] ) && $state['problem'] === $problem
+			&& ( time() - (int) $state['flushed'] ) < self::REWRITE_HEAL_INTERVAL ) {
+			return;
+		}
+
+		flush_rewrite_rules( false );
+		update_option( self::REWRITE_STATE_OPTION, array( 'problem' => $problem, 'flushed' => time() ), false );
+	}
+
+	/**
+	 * On deactivation, rebuild the rewrite table without our rules, so they stop routing URLs.
+	 *
+	 * @return void
+	 */
+	public function on_deactivate() {
+		global $wp_rewrite;
+		if ( $wp_rewrite instanceof \WP_Rewrite ) {
+			foreach ( (array) $wp_rewrite->extra_rules_top as $regex => $query ) {
+				if ( self::is_own_rewrite_query( $query ) ) {
+					unset( $wp_rewrite->extra_rules_top[ $regex ] );
+				}
+			}
+			flush_rewrite_rules( false );
+		}
+		delete_option( self::REWRITE_STATE_OPTION );
 	}
 
 	/**
