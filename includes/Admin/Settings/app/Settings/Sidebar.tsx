@@ -22,7 +22,7 @@ const Sidebar = ({ props }) => {
                     <img src={`${wpspSettingsGlobal?.image_path}upgrade-pro-new.png`} alt={__('upgrade-pro-img','wp-scheduled-posts')} />
                     <div className="content">
                         <h3>{__('Manage License','wp-scheduled-posts')}</h3>
-                        <p>{ __('Supercharge your content schedule and ave a peace in mind','wp-scheduled-posts') }</p>
+                        <p>{ __('Supercharge your content schedule and have a peace in mind','wp-scheduled-posts') }</p>
                         <a target='_blank' href='https://store.wpdeveloper.com/'>{__('Manage License','wp-scheduled-posts')}</a>
                     </div>
                 </div>

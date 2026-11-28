@@ -53,10 +53,19 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
             }
             const params = new URLSearchParams(query);
             const error = params.get('error_message');
+            const isCallback = params.get('action') === 'wpsp_social_add_social_profile' && params.get("type") == type;
             if( error ) {
-                setError(error);
+                // Show a failed connect like a successful one: this platform's window on Social Profile (#149).
+                if( isCallback ) {
+                    setError(error);
+                    setProfileDataModal(true);
+                    if (history.pushState) {
+                        generateTabURL();
+                        builderContext.setActiveTab('layout_social_profile');
+                    }
+                }
             }else{
-                if( params.get('action') === 'wpsp_social_add_social_profile' && params.get("type") == type ) {
+                if( isCallback ) {
                     setProfileDataModal(true);
                     setRequestSending(true);
                     // remove unnecessary query string and active social profile tab
@@ -105,6 +114,8 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
             setProfileEditModal(false);
         }
         setProfileDataModal(false);
+        // Otherwise the next time this window opens (e.g. editing a board) it shows the old error.
+        setError("");
     };
     // Add linkedin profile
     const addProfileToggle = (item, index, e) => {
@@ -360,8 +371,9 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                     {error && (
                         <p className="wpsp-modal-error">{error}</p>
                     )}
+                    {/* A failed connect has no accounts to list; the empty list would add a Save button and a "no boards" line. */}
                     {/* @ts-ignore */}
-                    {
+                    { !error && (
                         {
                             facebook: (
                                 <Facebook
@@ -425,7 +437,7 @@ function SocialModal({setSelectedProfile,props, type, profileItem = '', isProfil
                                 savedProfile={addSavedProfile}
                             />
                         )
-                    }
+                    )}
                 </div>
             </>
         )}

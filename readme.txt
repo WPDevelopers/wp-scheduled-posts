@@ -4,7 +4,7 @@ Tags: social media scheduler, social media auto post, post schedule, schedule ca
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 5.4.0
+Stable tag: 5.4.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -294,6 +294,11 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 
 == Changelog ==
 
+= 5.4.1 - 2026-11-26 =
+- Fixed: Social connect errors were not shown.
+- Fixed: MCP blocked other plugins' MCP sign-in.
+- Few minor bug fixes & improvements
+
 = 5.4.0 - 2026-11-24 =
 - Added: Connect AI assistants (Claude, ChatGPT) through MCP.
 - Fixed: UTM tags shortened the social share text.
@@ -570,6 +575,9 @@ Under SchedulePress → Settings → AI (MCP), click "Revoke" next to the app in
 [See changelog for all versions](https://schedulepress.com/changelog)
 
 == Upgrade Notice ==
+= 5.4.1 - 2026-11-26 =
+* Update SchedulePress Pro to 5.4.0 along with this release.
+
 = 5.4.0 - 2026-11-24 =
 * Update SchedulePress Pro to 5.4.0 along with this release.
 
